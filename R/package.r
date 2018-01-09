@@ -4,8 +4,7 @@
 #'
 #' @name teproj
 #' @docType package
-#' @importFrom dplyr %>%
-#' @importFrom rlang !! !!! :=
+#' @import rio
 NULL
 
 utils::globalVariables(c("."))

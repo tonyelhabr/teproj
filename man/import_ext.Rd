@@ -5,11 +5,10 @@
 \alias{import_ext_csv}
 \alias{import_ext_xlsx}
 \alias{import_excel}
-\alias{import_ext_rda}
 \alias{import_ext_rdata}
 \alias{import_ext_RData}
+\alias{import_ext_rda}
 \alias{import_ext_rds}
-\alias{import_ext_feather}
 \title{Import an object.}
 \usage{
 import_ext(x = NULL, filename = deparse(substitute(x)),
@@ -22,15 +21,13 @@ import_ext_xlsx(...)
 
 import_excel(...)
 
-import_ext_rda(...)
-
 import_ext_rdata(...)
 
 import_ext_RData(...)
 
-import_ext_rds(...)
+import_ext_rda(...)
 
-import_ext_feather(...)
+import_ext_rds(...)
 }
 \arguments{
 \item{x}{Data.frame (or matrix) for most formats. Default: NULL.}

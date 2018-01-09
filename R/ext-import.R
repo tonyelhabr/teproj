@@ -5,6 +5,8 @@
 #' @inheritParams export_ext
 #' @export
 #' @importFrom rio import
+#' @importFrom session restore.session
+#' @importFrom utils capture.output
 import_ext <-
   function(x = NULL,
            filename = deparse(substitute(x)),
@@ -17,8 +19,13 @@ import_ext <-
     filepath <-
       .get_filepath(filename, dir, ext, filepath)
 
-    # out <- .import_ext(filepath, x, ...)
-    out <- rio::import(filepath, x, ...)
+    if(grepl("rda", tolower(ext))) {
+      # browser()
+      # x <- ls(parent.frame())
+      out <- suppressWarnings(utils::capture.output(session::restore.session(filepath)))
+    } else {
+      out <- rio::import(filepath, ...)
+    }
     invisible(out)
   }
 
@@ -36,10 +43,6 @@ import_excel <- import_ext_xlsx
 
 #' @export
 #' @rdname import_ext
-import_ext_rda <- function(...) import_ext(ext = "rda", ...)
-
-#' @export
-#' @rdname import_ext
 import_ext_rdata <- function(...) import_ext(ext = "RData", ...)
 
 #' @export
@@ -48,8 +51,9 @@ import_ext_RData <- import_ext_rdata
 
 #' @export
 #' @rdname import_ext
-import_ext_rds <- function(...) import_ext(ext = "rds", ...)
+import_ext_rda <- import_ext_rdata
 
 #' @export
 #' @rdname import_ext
-import_ext_feather <- function(...) import_ext(ext = "feather", ...)
+import_ext_rds <- function(...) import_ext(ext = "rds", ...)
+

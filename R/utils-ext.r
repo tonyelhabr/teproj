@@ -21,7 +21,6 @@ set_pkg_print_opts <- function(msg = getOption("teproj.print_msg"),
 #' @param overwrite Boolean. Default: FALSE.
 #' @param backup Boolean. Only relevant if `dir` \code{dir} exists and `overwrite == TRUE` \code{overwrite == TRUE}. Default: TRUE.
 #' @param create Boolean. Intended to be used with a global `keep_*` parameter. Default: TRUE.
-#' @param pkg_print_opts List with print settings. Default: get_pkg_print_opts().
 #' @param ... Dots. Additional parameters to pass to `dir.create()`.
 #' @return Character. Filepath.
 #' @export

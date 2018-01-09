@@ -1,4 +1,5 @@
 
+# Because this is used in more than one place...
 .print_export_msg <- function(filepath) {
   if (getOption("teproj.print_msg"))
     message("Saved ", basename(filepath), " as ", filepath, ".")
@@ -21,8 +22,7 @@
     invisible(filepath_backup)
   }
 
-.export_backup <- function(
-                           filename,
+.export_backup <- function(filename,
                            dir,
                            ext,
                            filepath,
@@ -35,13 +35,11 @@
   }
 
   filepath_backup <-
-    .get_filepath_backup(
-                         filename,
+    .get_filepath_backup(filename,
                          dir,
                          ext,
                          filepath_backup,
-                         backup,
-                         pkg_print_opts)
+                         backup)
   if (file.exists(filepath_backup) & !overwrite) {
     .print_argfalse_msg("overwrite")
     return(invisible())
@@ -81,6 +79,9 @@
 #' @export
 #' @rdname export_ext
 #' @importFrom rio export
+#' @importFrom ggplot2 ggsave
+#' @importFrom session save.session
+#' @importFrom utils capture.output
 export_ext <-
   function(x = NULL,
            filename = deparse(substitute(x)),
@@ -105,12 +106,32 @@ export_ext <-
       return(invisible())
     }
 
-    create_dir(dir, overwrite, export)
+    # Don't overwrite the directory, even if overwrite == TRUE for this function.
+    create_dir(dir, overwrite = FALSE, backup = backup)
 
-    rio::export(filepath, x, ...)
+    if (ext %in% c("png")) {
+      units <- getOption("teproj.ggsave_units")
+      width <- getOption("teproj.ggsave_width")
+      height <- getOption("teproj.ggsave_height")
+      ggplot2::ggsave(
+        filename = filepath,
+        units = units,
+        width = width,
+        height = height,
+        ...
+      )
+    } else if(grepl("rda", tolower(ext))) {
+      # browser()
+      # x <- ls(parent.frame())
+      # filepath <- gsub(ext, "rdata", filepath)
+      # rio::export(x, filepath, ...)
+      suppressWarnings(utils::capture.output(session::save.session(filepath)))
+    } else {
+      rio::export(x, filepath, ...)
+    }
+
     .print_export_msg(filepath)
-    .export_backup(
-                   filename,
+    .export_backup(filename,
                    dir,
                    ext,
                    filepath,
@@ -136,11 +157,6 @@ export_excel <- export_ext_xlsx
 
 #' @export
 #' @rdname export_ext
-export_ext_rda <- function(...)
-  export_ext(ext = "rda", ...)
-
-#' @export
-#' @rdname export_ext
 export_ext_rdata <- function(...)
   export_ext(ext = "RData", ...)
 
@@ -150,14 +166,12 @@ export_ext_RData <- export_ext_rdata
 
 #' @export
 #' @rdname export_ext
-export_ext_rds <- function(...)
-  export_ext(ext = "rds", ...)
+export_ext_rda <- export_ext_rdata
 
 #' @export
 #' @rdname export_ext
-export_ext_feather <- function(...)
-  export_ext(ext = "feather", ...)
-
+export_ext_rds <- function(...)
+  export_ext(ext = "rds", ...)
 
 #' @export
 #' @rdname export_ext

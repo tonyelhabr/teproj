@@ -11,13 +11,19 @@
 
 pkg_knit_opts <- list(teproj.fig_width = 10)
 
+pkg_ggsave_opts <- list(
+  teproj.ggsave_units = "in",
+  teproj.ggsave_width = 11,
+  teproj.ggsave_height = 7
+)
+
 pkg_print_opts <- list(
   teproj.print_msg = TRUE,
   teproj.print_wrn = TRUE,
   teproj.print_err = TRUE
 )
 
-pkg_default_opts <- c(pkg_print_opts, pkg_knit_opts)
+pkg_default_opts <- c(pkg_print_opts, pkg_ggsave_opts, pkg_knit_opts)
 
 .onLoad <- function(libname, pkgname) {
   op <- options()

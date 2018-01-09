@@ -5,11 +5,10 @@
 \alias{export_ext_csv}
 \alias{export_ext_xlsx}
 \alias{export_excel}
-\alias{export_ext_rda}
 \alias{export_ext_rdata}
 \alias{export_ext_RData}
+\alias{export_ext_rda}
 \alias{export_ext_rds}
-\alias{export_ext_feather}
 \alias{export_ext_png}
 \alias{export_fig}
 \alias{export_viz}
@@ -26,15 +25,13 @@ export_ext_xlsx(...)
 
 export_excel(...)
 
-export_ext_rda(...)
-
 export_ext_rdata(...)
 
 export_ext_RData(...)
 
-export_ext_rds(...)
+export_ext_rda(...)
 
-export_ext_feather(...)
+export_ext_rds(...)
 
 export_ext_png(...)
 

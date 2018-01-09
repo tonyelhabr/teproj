@@ -1,4 +1,4 @@
-library(testthat)
-library(teproj)
+library("testthat")
+library("teproj")
 
 test_check("teproj")

@@ -17,8 +17,6 @@ create_dir(dir = paste0(getwd(), "/"), overwrite = FALSE, backup = TRUE,
 \item{create}{Boolean. Intended to be used with a global `keep_*` parameter. Default: TRUE.}
 
 \item{...}{Dots. Additional parameters to pass to `dir.create()`.}
-
-\item{pkg_print_opts}{List with print settings. Default: get_pkg_print_opts().}
 }
 \value{
 Character. Filepath.

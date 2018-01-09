@@ -7,13 +7,10 @@ require("dplyr")
 test_that("parse_proj_io", {
   dir <- file.path("tests", "project-parse")
   filename <- "script.R"
-  if (interactive()) {
-    dir <- file.path("tests", "project-parse")
-    dir.exists(dir)
-    filepath <-
-      system.file(dir, filename, package = "teproj", mustWork = TRUE)
-    file.exists(filepath)
-  }
+  dir.exists(dir)
+  filepath <-
+    system.file(dir, filename, package = "teproj", mustWork = TRUE)
+  file.exists(filepath)
 
   actual_df <- parse_proj_io(filepath)
   if (interactive()) {
@@ -34,13 +31,10 @@ test_that("parse_proj_io", {
 test_that("render_proj_io", {
   dir <- file.path("tests", "project-render")
   filename <- "default_template_rmd2r.R"
-  if (interactive()) {
-    # dir <- file.path("inst", "tests", "project-render")
-    dir.exists(dir)
-    filepath <-
-      system.file(dir, filename, package = "teproj", mustWork = TRUE)
-    file.exists(filepath)
-  }
+  dir.exists(dir)
+  filepath <-
+    system.file(dir, filename, package = "teproj", mustWork = TRUE)
+  file.exists(filepath)
 
   actual_df <-
     render_proj_io(

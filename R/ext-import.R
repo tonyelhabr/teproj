@@ -15,7 +15,7 @@ import_ext <-
 
     # browser()
     filepath <-
-      .get_filepath(dir, filename, ext, filepath)
+      .get_filepath(filename, dir, ext, filepath)
 
     # out <- .import_ext(filepath, x, ...)
     out <- rio::import(filepath, x, ...)

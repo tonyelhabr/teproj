@@ -1,0 +1,38 @@
+---
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "inst/README/README-"
+)
+```
+
+# Introduction
+
+This package containts functions that I keep often in projects.
+
+## Installation
+
+`devtools::install_github("aelhabr/teproj")`.
+
+## Notes
+
+Here is a list of all functions in the package.
+```{r }
+# library("teproj")
+# ls("package:teproj")
+```
+
+Here is the code coverage of the unit tests.
+```{r }
+# covr::package_coverage()
+```
+
+
+## Examples
+
+None (yet).
+

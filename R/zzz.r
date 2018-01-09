@@ -9,16 +9,19 @@
   paste0(strwrap(msg, width = 80), sep = "", collapse = "\n")
 }
 
-teutils_default_opts <- list(
-  teutils.print_msg = TRUE,
-  teutils.print_wrn = TRUE,
-  teutils.print_err = TRUE
+pkg_knit_opts <- list(teproj.fig_width = 10)
+
+pkg_print_opts <- list(
+  teproj.print_msg = TRUE,
+  teproj.print_wrn = TRUE,
+  teproj.print_err = TRUE
 )
+
+pkg_default_opts <- c(pkg_print_opts, pkg_knit_opts)
 
 .onLoad <- function(libname, pkgname) {
   op <- options()
-  toset <- !(names(teutils_default_opts) %in% names(op))
-  if(any(toset)) options(teutils_default_opts[toset])
-
-  # invisible()
+  toset <- !(names(pkg_default_opts) %in% names(op))
+  if(any(toset)) options(pkg_default_opts[toset])
+  invisible()
 }

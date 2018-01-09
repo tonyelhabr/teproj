@@ -54,16 +54,16 @@
 #' @description Saves an object to a filepath.
 #' @details Object to save must be a data.frame (or matrix) for most formats.
 #' @inheritParams create_dir
-#' @param x Data.frame (or matrix) for most formats. Default: NULL.
-#' @param filename Character. Bare filename (i.e. without folderor extension), Default: deparse(substitute(x)).
-#' @param ext Character. Bare extension (i.e. without a dot). Must be one of valid formats. Default: NULL.
-#' @param filepath Character. Concatenation of `filename`, `dir`, and `ext`, Default: paste0(dir, filename, ".", ext).
-#' @param overwrite Boolean. Default: TRUE.
-#' @param backup Boolean. Default: FALSE.
-#' @param filepath_backup like `filepath`, Default: Same as `filepath`, but with timestamp appended.
-#' @param export Boolean. Indicates whether to actually carry out action. Intended to be used as a "catch all". Default: TRUE.
-#' @param ... Dots. May (or may not) be passed on to specific exporting functions.
-#' @return Character. Filepath.
+#' @param x data.frame (or matrix) for most formats.
+#' @param filename character. Bare filename (i.e. without folderor extension),
+#' @param ext character. Bare extension (i.e. without a dot). Must be one of valid formats.
+#' @param filepath character. Concatenation of `filename`, `dir`, and `ext`,
+#' @param overwrite boolean.
+#' @param backup boolean.
+#' @param filepath_backup like `filepath`,
+#' @param export boolean. Indicates whether to actually carry out action. Intended to be used as a "catch all".
+#' @param ... dots. May (or may not) be passed on to specific exporting functions.
+#' @return character. Filepath.
 #' @examples
 #' \dontrun{
 #' if(interactive()){
@@ -96,6 +96,11 @@ export_ext <-
     # browser()
     if (!export) {
       .print_argfalse_msg("export")
+      return(invisible())
+    }
+
+    if(is.null(x) && is.null(ext)) {
+      .print_isnull_msg()
       return(invisible())
     }
 

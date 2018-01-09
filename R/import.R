@@ -3,6 +3,7 @@
 #' @description Reads in an object from a filepath.
 #' @details None.
 #' @inheritParams export_ext
+#' @param import boolean. Indicates whether to actually carry out function.
 #' @export
 #' @importFrom rio import
 #' @importFrom session restore.session
@@ -13,7 +14,17 @@ import_ext <-
            dir = paste0(getwd(), "/"),
            ext = NULL,
            filepath = paste0(dir, filename, ".", ext),
+           import = TRUE,
            ...) {
+    if (!import) {
+      .print_argfalse_msg("import")
+      return(invisible())
+    }
+
+    if(is.null(x) && is.null(ext)) {
+      .print_isnull_msg()
+      return(invisible())
+    }
 
     # browser()
     filepath <-

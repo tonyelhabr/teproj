@@ -1,41 +1,31 @@
 
-.get_render_opts <- function() {
-  list(
-    echo = FALSE,
-    cache = FALSE,
-    results = "hide",
-    fig.align = "center",
-    fig.show = "hide",
-    # width = 100,
-    fig.width = 10,
-    fig.height = 10,
-    warning = FALSE,
-    message = FALSE
-  )
-}
-
 #' @title Render project output.
-#' @description Parses project to identify inputs/out variables, filenames, etc.
-#' @details None.
-#' @param filepaths_input character
-#' @param dir_input character
-#' @param ... character
-#' @param dir_output character. File path.
-#' @param filenames_output character.
-#' @param rgx_input character.
-#' @param rgx_input_include character.
-#' @param rgx_input_exclude character.
-#' @param rgx_output_trim character.
-#' @param ext_output character.
-#' @param render character.
-#' @param rgx_render character
-#' @param overwrite boolean.
-#' @param backup character.
-#' @param backup_suffix character.
-#' @param keep_rmd character.
-#' @return data.frame.
+#' @description Renders R scripts with Roxygen comments into specified output format.
+#' @details This is a wrapper for `rmarkdown::render()` (and `knitr::spin()`, if `keep_rmd == TRUE`).
+#' It is designed specifically to convert R scripts formatted with Roxgyen comments
+#' into the specified output format. (In other words, it mirrors the behavior of `knitr::knit()`
+#' for a R markdown document.
+#' @param filepaths_input character. Can be a vector.
+#' @param dir_input character. Should not be a vector. Only used if `filepaths_input` is missing.
+#' @param ... dots. Parameters passed to `list.files()`.
+#' @param dir_output character. Should not be a vector. IMPORTANT: Relative to input directory (so something like "../output" is valid).
+#' @param filenames_output character. Explicit filenames to use for output. Length of variable must exactly match number of filepaths meeting `list.files()` criteria.
+#' @param rgx_input character. Alias to `pattern` parameter for `list.files()`. Used ONLY if `filepaths` is missing and `dir` is not.
+#' @param rgx_input_include character. Regular expression to use to filter for `list.files()` output. (Somewhat redundant.)
+#' @param rgx_input_exclude character. Regular expression to use to filter for `list.files()` output. (Somewhat redundant.)
+#' @param rgx_output_trim character. Used ONLY if `filenames_output` is missing. Describes how input file names should be "trimmed" to make the output file name appear "cleaner".
+#' @param ext_output character. File extension of output.
+#' @param render boolean. Indiciates whether or not to actually carry out function.
+#' @param return boolean. Relevant ONLY if `render == FALSE`. Set to `TRUE` in order to preview what would be rendered.
+#' @param overwrite boolean. Indicates whether or not to overwrite any existing file with the same name. Not currently used.
+#' @param quiet boolean. Direct argument for `rmarkdown::render()`.
+#' @param backup boolean. Indicates whether or not to create e a backup.
+#' @param backup_suffix character. Suffix to append to filename for backup file.
+#' @param keep_rmd boolean. Assuming specified output is not ".Rmd", indicates whether to call `knitr::spin` to keep "intermediate" results.
+#' @return data.frame. Information regarding what was rendered.
 #' @export
 #' @importFrom tibble tibble
+#' @importFrom knitr spin
 #' @importFrom rmarkdown render
 render_proj_io <-
   function(filepaths_input,
@@ -49,8 +39,9 @@ render_proj_io <-
            rgx_output_trim = "-v[0-9]+.R",
            ext_output = ".html",
            render = TRUE,
-           rgx_render = ".",
+           return = TRUE,
            overwrite = TRUE,
+           quiet = FALSE,
            backup = FALSE,
            backup_suffix = paste0("_", format(Sys.time(), "%Y-%m-%d_%H-%M-%S")),
            keep_rmd = FALSE) {
@@ -71,10 +62,10 @@ render_proj_io <-
     # keep_md = FALSE
 
     # Check for render at the very end.
-    # if (!render) {
-    #   .print_argfalse_msg("render")
-    #   return(invisible())
-    # }
+    if (!render && !return) {
+      .print_argfalse_msg("render")
+      return(invisible())
+    }
 
     if(is.null(dir_output)) {
       .print_isnull_msg("dir_output")
@@ -148,9 +139,6 @@ render_proj_io <-
       filepaths_render_info <- filepaths_render_info[, -ncol(filepaths_render_info)]
     filepaths_render_info
 
-    if(!missing(rgx_render))
-      filepaths_render_info <- subset(filepaths_render_info, grepl(rgx_render, output))
-
     if (render) {
 
       create_dir(dir_output)
@@ -172,8 +160,8 @@ render_proj_io <-
           rmarkdown::render(
             input = filepath_i,
             output_file = filepath_output_i,
-            # quiet = TRUE,
-            output_options = .get_render_opts()
+            quiet = quiet,
+            output_options = set_pkg_render_opts()
           )
 
           if (backup) {

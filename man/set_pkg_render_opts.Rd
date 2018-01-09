@@ -4,11 +4,23 @@
 \alias{set_pkg_render_opts}
 \title{Control package render settings.}
 \usage{
-set_pkg_render_opts()
+set_pkg_render_opts(echo = getOption("teproj.render.echo"),
+  cache = getOption("teproj.render.cache"),
+  results = getOption("teproj.render.results"),
+  width = getOption("teproj.render.width"),
+  fig.align = getOption("teproj.render.fig.align"),
+  fig.show = getOption("teproj.render.fig.show"),
+  fig.width = getOption("teproj.render.fig.width"),
+  fig.height = getOption("teproj.render.fig.height"),
+  warning = getOption("teproj.render.warning"),
+  message = getOption("teproj.render.message"))
+}
+\arguments{
+\item{echo, cache, results, width, fig.align, fig.show, fig.width, fig.height, warning, message}{Arguments passed to the `knitr_opts$set()` arguments of their same namesake.}
 }
 \description{
 Sets options for relevant `teproj` functions.
 }
 \details{
-Intended to be used as a wrapper to `options(...`).
+Intended to be used as a wrapper to `options(...)`.
 }

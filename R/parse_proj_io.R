@@ -11,7 +11,7 @@
            filename,
            ext,
            filepath) {
-    if (getOption("teproj.print_msg"))
+    if (getOption("teproj.print.msg"))
       message(
         "Found ",
         action,
@@ -40,7 +40,7 @@
            filepath,
            accuracy,
            comment) {
-    # if (getOptions("teproj.print_msg")) {
+    # if (getOptions("teproj.print.msg")) {
     #   if (filename == "")
     #     message("Could not identify a filename.")
     #   if (var == "")
@@ -63,19 +63,19 @@
 
 
 #' @title Parse project input/output.
-#' @description Parses project to identify inputs/out variables, filenames, etc.
+#' @description Parses project to identify input/output variables, filenames, etc.
 #' @details Intended to be used with `export_ext()*` and `import_ext*()` functions, but can work
 #' if `rgx_input` and `rgx_output` are modified appropriately.
 #' Does not currently work as intended if variables, filenames, etc. are not wrapped by `rgx_input` and `rgx_output`.
 #' (i.e. Does not work as intended if variables, filenames, etc. is on a separate line,
 #' such as with a pipe.)
 #' @inheritParams create_dir
-#' @param filepaths character (vector),
-#' @param dir character. Should not be a vector, Only used if filepaths is missing.
-#' #' @param ... dots. Parameters passed to `list.files()`. (Technically, `pattern` could/should not be specified explicitly.
+#' @param filepaths character. Can be a vector.
+#' @param dir character. Should not be a vector. Only used if `filepaths` is missing.
+#' #' @param ... dots. Parameters passed to `list.files()`. (Technically, `pattern` could/should not be specified explicitly.)
 #' @param rgx_file_io character. Alias to `pattern` parameter for `list.files()`. Used ONLY if `filepaths` is missing and `dir` is not.
-#' @param rgx_input character. Regular expression to match for input functions,
-#' @param rgx_output Chracter. Regular expression to match for out functions.,
+#' @param rgx_input character. Regular expression to match for input functions
+#' @param rgx_output Chracter. Regular expression to match for output functions.
 #' @return data.frame
 #' @importFrom tibble tibble as_tibble
 #' @export

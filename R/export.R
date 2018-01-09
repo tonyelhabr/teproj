@@ -1,7 +1,7 @@
 
 # Because this is used in more than one place...
 .print_export_msg <- function(filepath) {
-  if (getOption("teproj.print_msg"))
+  if (getOption("teproj.print.msg"))
     message("Saved ", basename(filepath), " as ", filepath, ".")
 }
 
@@ -115,9 +115,9 @@ export_ext <-
     create_dir(dir, overwrite = FALSE, backup = backup)
 
     if (ext %in% c("png")) {
-      units <- getOption("teproj.ggsave_units")
-      width <- getOption("teproj.ggsave_width")
-      height <- getOption("teproj.ggsave_height")
+      units <- getOption("teproj.ggsave.units")
+      width <- getOption("teproj.ggsave.width")
+      height <- getOption("teproj.ggsave.height")
       ggplot2::ggsave(
         filename = filepath,
         units = units,

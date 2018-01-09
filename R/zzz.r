@@ -9,28 +9,28 @@
 }
 
 pkg_render_opts <- list(
-  teproj.render_echo = FALSE,
-  teproj.render_cache = FALSE,
-  teproj.render_results = "hide",
-  teproj.render_fig_align = "center",
-  teproj.render_fig_show = "hide",
-  teproj.render_width = 100,
-  teproj.render_fig.width = 10,
-  teproj.render_fig_height = 10,
-  teproj.render_warning = FALSE,
-  teproj.render_message = FALSE
+  teproj.render.echo = FALSE,
+  teproj.render.cache = FALSE,
+  teproj.render.results = "hide",
+  teproj.render.width = 100,
+  teproj.render.fig.align = "center",
+  teproj.render.fig.show = "hide",
+  teproj.render.fig.width = 10,
+  teproj.render.fig.height = 10,
+  teproj.render.warning = FALSE,
+  teproj.render.message = FALSE
 )
 
 pkg_ggsave_opts <- list(
-  teproj.ggsave_units = "in",
-  teproj.ggsave_width = 11,
-  teproj.ggsave_height = 7
+  teproj.ggsave.units = "in",
+  teproj.ggsave.width = 11,
+  teproj.ggsave.height = 7
 )
 
 pkg_print_opts <- list(
-  teproj.print_msg = TRUE,
-  teproj.print_wrn = TRUE,
-  teproj.print_err = TRUE
+  teproj.print.msg = TRUE,
+  teproj.print.wrn = TRUE,
+  teproj.print.err = TRUE
 )
 
 pkg_default_opts <-

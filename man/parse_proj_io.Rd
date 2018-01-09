@@ -9,24 +9,24 @@ parse_proj_io(filepaths, dir, ..., rgx_file_io = ".R",
   rgx_output = ".*(export_ext|teutils::export_ext)")
 }
 \arguments{
-\item{filepaths}{character (vector),}
+\item{filepaths}{character. Can be a vector.}
 
-\item{dir}{character. Should not be a vector, Only used if filepaths is missing.
-#' @param ... dots. Parameters passed to `list.files()`. (Technically, `pattern` could/should not be specified explicitly.}
+\item{dir}{character. Should not be a vector. Only used if `filepaths` is missing.
+#' @param ... dots. Parameters passed to `list.files()`. (Technically, `pattern` could/should not be specified explicitly.)}
 
 \item{...}{dots. Additional parameters to pass to `dir.create()`.}
 
 \item{rgx_file_io}{character. Alias to `pattern` parameter for `list.files()`. Used ONLY if `filepaths` is missing and `dir` is not.}
 
-\item{rgx_input}{character. Regular expression to match for input functions,}
+\item{rgx_input}{character. Regular expression to match for input functions}
 
-\item{rgx_output}{Chracter. Regular expression to match for out functions.,}
+\item{rgx_output}{Chracter. Regular expression to match for output functions.}
 }
 \value{
 data.frame
 }
 \description{
-Parses project to identify inputs/out variables, filenames, etc.
+Parses project to identify input/output variables, filenames, etc.
 }
 \details{
 Intended to be used with `export_ext()*` and `import_ext*()` functions, but can work

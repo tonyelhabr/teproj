@@ -8,7 +8,6 @@
 NULL
 
 utils::globalVariables(c("."))
-# utils::globalVariables(c("<<-"))
 # sinew::makeImport("R", format = "description", desc_loc = ".")
 # rstudioapi::getActiveDocumentContext()$path
 # kimisc::thisfile()

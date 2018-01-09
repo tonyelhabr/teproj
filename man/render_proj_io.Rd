@@ -7,49 +7,54 @@
 render_proj_io(filepaths_input, dir_input, ..., dir_output = NULL,
   filenames_output, rgx_input = ".", rgx_input_include = rgx_input,
   rgx_input_exclude = "", rgx_output_trim = "-v[0-9]+.R",
-  ext_output = ".html", render = TRUE, rgx_render = ".",
-  overwrite = TRUE, backup = FALSE, backup_suffix = paste0("_",
+  ext_output = ".html", render = TRUE, return = TRUE, overwrite = TRUE,
+  quiet = FALSE, backup = FALSE, backup_suffix = paste0("_",
   format(Sys.time(), "\%Y-\%m-\%d_\%H-\%M-\%S")), keep_rmd = FALSE)
 }
 \arguments{
-\item{filepaths_input}{character}
+\item{filepaths_input}{character. Can be a vector.}
 
-\item{dir_input}{character}
+\item{dir_input}{character. Should not be a vector. Only used if `filepaths_input` is missing.}
 
-\item{...}{character}
+\item{...}{dots. Parameters passed to `list.files()`.}
 
-\item{dir_output}{character. File path.}
+\item{dir_output}{character. Should not be a vector. IMPORTANT: Relative to input directory (so something like "../output" is valid).}
 
-\item{filenames_output}{character.}
+\item{filenames_output}{character. Explicit filenames to use for output. Length of variable must exactly match number of filepaths meeting `list.files()` criteria.}
 
-\item{rgx_input}{character.}
+\item{rgx_input}{character. Alias to `pattern` parameter for `list.files()`. Used ONLY if `filepaths` is missing and `dir` is not.}
 
-\item{rgx_input_include}{character.}
+\item{rgx_input_include}{character. Regular expression to use to filter for `list.files()` output. (Somewhat redundant.)}
 
-\item{rgx_input_exclude}{character.}
+\item{rgx_input_exclude}{character. Regular expression to use to filter for `list.files()` output. (Somewhat redundant.)}
 
-\item{rgx_output_trim}{character.}
+\item{rgx_output_trim}{character. Used ONLY if `filenames_output` is missing. Describes how input file names should be "trimmed" to make the output file name appear "cleaner".}
 
-\item{ext_output}{character.}
+\item{ext_output}{character. File extension of output.}
 
-\item{render}{character.}
+\item{render}{boolean. Indiciates whether or not to actually carry out function.}
 
-\item{rgx_render}{character}
+\item{return}{boolean. Relevant ONLY if `render == FALSE`. Set to `TRUE` in order to preview what would be rendered.}
 
-\item{overwrite}{boolean.}
+\item{overwrite}{boolean. Indicates whether or not to overwrite any existing file with the same name. Not currently used.}
 
-\item{backup}{character.}
+\item{quiet}{boolean. Direct argument for `rmarkdown::render()`.}
 
-\item{backup_suffix}{character.}
+\item{backup}{boolean. Indicates whether or not to create e a backup.}
 
-\item{keep_rmd}{character.}
+\item{backup_suffix}{character. Suffix to append to filename for backup file.}
+
+\item{keep_rmd}{boolean. Assuming specified output is not ".Rmd", indicates whether to call `knitr::spin` to keep "intermediate" results.}
 }
 \value{
-data.frame.
+data.frame. Information regarding what was rendered.
 }
 \description{
-Parses project to identify inputs/out variables, filenames, etc.
+Renders R scripts with Roxygen comments into specified output format.
 }
 \details{
-None.
+This is a wrapper for `rmarkdown::render()` (and `knitr::spin()`, if `keep_rmd == TRUE`).
+It is designed specifically to convert R scripts formatted with Roxgyen comments
+into the specified output format. (In other words, it mirrors the behavior of `knitr::knit()`
+for a R markdown document.
 }

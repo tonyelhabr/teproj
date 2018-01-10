@@ -5,7 +5,7 @@
 \title{Parse input and output in project scripts.}
 \usage{
 parse_proj_io(filepaths, dir, ..., rgx_file_io = ".R",
-  rgx_input = ".*import_ext", rgx_output = ".*export_ext")
+  rgx_input = ".*(import_ext|read)", rgx_output = ".*export_ext|write)")
 }
 \arguments{
 \item{filepaths}{character. Can be a vector. Missing by default. Takes precedence over \code{dir} argument.}

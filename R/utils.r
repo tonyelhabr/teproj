@@ -100,7 +100,8 @@ create_dir <- function(dir = paste0(getwd(), "/"),
            ext,
            filepath) {
     if (is.null(filepath)) {
-      filepath <- paste0(dir, filename, ".", ext)
+      # filepath <- paste0(dir, filename, ".", ext)
+      filepath <- file.path(dir, paste0(filename, ".", ext))
     }
     filepath
   }
@@ -168,38 +169,35 @@ create_dir <- function(dir = paste0(getwd(), "/"),
   list(exist = exist, filepaths = out)
 }
 
+# .test <- function(filter = NULL, pkg = ".", ...) {
+#   test(pkg = pkg, filter = filter, ...)
+# }
+
 # TODO: Implement proper message/warning/error wrappers.
 # See https://stackoverflow.com/questions/9596918/r-warning-wrapper-raise-to-parent-function.
-warningf <- function(..., n = 1L){
+.warningf <- function(..., n = 1L){
   parent_call <- sys.call(sys.nframe() - n)
   warning(paste("In", parent_call, ":", sprintf(...)), call. = FALSE)
 }
-
-# messagef <- function(..., n = 2L){
-#   parent.call <- sys.call(sys.nframe() - n)
-#   message(paste("In", parent.call, ":", sprintf(...)))
-# }
-
-# f2()
 
 .print_isnull_msg <- function(...,  msg_input = "") {
   # browser()
   # parent.call <- sys.call(sys.nframe() - 1L)
   dots <- list(...)
   if(length(dots) > 0) msg_input <- gsub(",$", "", paste(dots, collapse = ","))
-  if(getOption("teproj.print.wrn")) warningf("Required input `%s`is NULL.", msg_input, n = 2L)
+  if(getOption("teproj.print.wrn")) .warningf("Required input `%s`is NULL.", msg_input, n = 2L)
 }
 
 .print_ismiss_msg <- function(...,  msg_input = "") {
   dots <- list(...)
   if(length(dots) > 0) msg_input <- gsub(",$", "", paste(dots, collapse = ","))
-  if(getOption("teproj.print.wrn")) warningf("Required input `%s`is missing.", msg_input, n = 2L)
+  if(getOption("teproj.print.wrn")) .warningf("Required input `%s`is missing.", msg_input, n = 2L)
 }
 
 .print_nofile_msg <- function(...,  msg_input = "") {
   dots <- list(...)
   if(length(dots) > 0) msg_input <- gsub(",$", " ", paste(dots, collapse = ","))
-  if(getOption("teproj.print.wrn")) warningf("Could not find any files meeting criteria `%s`.", msg_input, n = 2L)
+  if(getOption("teproj.print.wrn")) .warningf("Could not find any files meeting criteria `%s`.", msg_input, n = 2L)
 }
 
 .print_argfalse_msg <- function(arg) {

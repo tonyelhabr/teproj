@@ -10,8 +10,7 @@
 #' @importFrom utils capture.output
 #' @importFrom tibble as_tibble
 import_ext <-
-  function(x = NULL,
-           filename = deparse(substitute(x)),
+  function(filename = NULL,
            dir = paste0(getwd(), "/"),
            ext = NULL,
            filepath = paste0(dir, filename, ".", ext),
@@ -22,14 +21,15 @@ import_ext <-
       return(invisible())
     }
 
-    if(is.null(x) && is.null(ext)) {
+    if(is.null(filename) && is.null(ext)) {
       .print_isnull_msg()
       return(invisible())
     }
 
     # browser()
-    filepath <-
-      .get_filepath(filename, dir, ext, filepath)
+    if(!is.character(filename))
+      filename <- deparse(substitute(filename))
+    filepath <- .get_filepath(filename, dir, ext, filepath)
 
     if(grepl("rda", tolower(ext))) {
       # browser()

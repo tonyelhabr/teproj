@@ -11,9 +11,8 @@
 \alias{import_ext_rds}
 \title{Import an object.}
 \usage{
-import_ext(x = NULL, filename = deparse(substitute(x)),
-  dir = paste0(getwd(), "/"), ext = NULL, filepath = paste0(dir, filename,
-  ".", ext), import = TRUE, ...)
+import_ext(filename = NULL, dir = paste0(getwd(), "/"), ext = NULL,
+  filepath = paste0(dir, filename, ".", ext), import = TRUE, ...)
 
 import_ext_csv(...)
 
@@ -30,8 +29,6 @@ import_ext_rda(...)
 import_ext_rds(...)
 }
 \arguments{
-\item{x}{data.frame (or matrix) for most formats.}
-
 \item{filename}{character. Bare filename (i.e. without folderor extension),}
 
 \item{dir}{character. Folder name (with a trailing slash).}

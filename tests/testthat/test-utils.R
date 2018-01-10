@@ -11,7 +11,7 @@ test_that("create_dir", {
 })
 
 test_that(".print_", {
-  expect_warning(warningf("%i banana", 1, n = 1))
+  expect_warning(.warningf("%i banana", 1, n = 1))
   expect_warning(.print_isnull_msg("banana"))
   expect_warning(.print_ismiss_msg("banana"))
   expect_warning(.print_nofile_msg("banana"))

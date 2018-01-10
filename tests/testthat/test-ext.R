@@ -1,15 +1,15 @@
 
 context("ext")
 
-test_that("csv", {
+if (interactive()) {
+  dir_before <- getwd()
+  dir_current <- "O:/_other/packages/teutils/tests/testthat/"
+  on.exit(setwd(dir_before), add = TRUE)
+  dir <- paste0(dir_current)
+  dir.exists(dir)
+}
 
-  if (interactive()) {
-    dir_before <- getwd()
-    dir_current <- "O:/_other/packages/teutils/tests/testthat/"
-    on.exit(setwd(dir_before), add = TRUE)
-    dir <- paste0(dir_current)
-    dir.exists(dir)
-  }
+test_that("csv", {
 
   filepath <- export_ext_csv(iris)
   expect_true(file.exists(filepath))

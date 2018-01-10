@@ -70,9 +70,9 @@
         var = var,
         filename = filename,
         ext = ext,
-        script_line = line,
-        script_line_idx = line_idx,
-        script_filepath = filepath,
+        line = line,
+        line_idx = line_idx,
+        filepath = filepath,
         accuracy = accuracy,
         comment = comment
       )
@@ -107,8 +107,8 @@ parse_proj_io <-
            dir,
            ...,
            rgx_file_io = ".R",
-           rgx_input = ".*import_ext",
-           rgx_output = ".*export_ext") {
+           rgx_input = ".*(import_ext|read)",
+           rgx_output = ".*export_ext|write)") {
     # showConnections(all = TRUE)
     # showConnections()
     # closeAllConnections()

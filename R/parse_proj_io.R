@@ -107,8 +107,8 @@ parse_proj_io <-
            dir,
            ...,
            rgx_file_io = ".R",
-           rgx_input = ".*(import_ext|teutils::import_ext)",
-           rgx_output = ".*(export_ext|teutils::export_ext)") {
+           rgx_input = ".*import_ext",
+           rgx_output = ".*export_ext") {
     # showConnections(all = TRUE)
     # showConnections()
     # closeAllConnections()
@@ -229,19 +229,20 @@ parse_proj_io <-
               # than the export_ext*() functions.
               filename <- .remove_rgx(var_filename, '\\".*\\"')
               filename <- gsub('\\"', "", filename)
+              if(length(filename) == 0) filename <- ""
               var_filename <- gsub('\\".*\\"', "", var_filename)
               accuracy <- "low"
-              if (length(ext) == 0) {
-                ext <- ""
+              if (ext == "") {
+
                 # filename <- ""
                 comment <-
                   "Difficulty parsing var, filename, and ext."
-              } else if (filename == ext) {
-                filename <- ""
+              } else if (!(filename == "") && filename == ext) {
                 # browser()
+                filename <- ""
                 comment <- "Difficulty parsing var and filename."
               } else {
-                comment <- "Not sure if filename is correct."
+                comment <- "Difficulty parsing filename"
               }
 
             } else {

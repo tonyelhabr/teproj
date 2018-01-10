@@ -16,7 +16,8 @@ parse_proj_io(filepaths, dir, ..., rgx_file_io = ".R",
 \item{...}{dots. Arguments passed to \code{list.files()} for identifying input/output files.
 (Technically, \code{pattern} could/should not be specified explicitly.)}
 
-\item{rgx_file_io}{character. Alias to `pattern` parameter for `list.files()`. Used ONLY if `filepaths` is missing and \code{dir} is not.}
+\item{rgx_file_io}{character. Alias to `pattern` parameter for `list.files()`.
+Used ONLY if `filepaths` is missing and \code{dir} is not.}
 
 \item{rgx_input}{character. Regular expression to match for input functions}
 
@@ -34,4 +35,5 @@ with the functions from other packages (e.g. `readr`) if `rgx_input` and \code{r
 For example, `rgx_input == "read"` and `rgx_output == "write"` might be appropriate choices if using the \code{readr} package.)
 Does not (currently) work as well if variables, filenames, etc. are not wrapped directly by
 the functions described by `rgx_input` and \code{rgx_output}.
+NOTE: In the future this should/will use \code{utils::getParseData(parse(f))}
 }

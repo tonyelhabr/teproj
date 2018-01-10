@@ -7,7 +7,7 @@ require("dplyr")
 test_that("parse_proj_io", {
   dir <- file.path("tests", "project-parse")
   filename <- "script.R"
-  if(interactiv()) {
+  if(interactive()) {
     dir.exists(file.path("inst", dir))
   } else {
     print(dir.exists(dir))
@@ -36,7 +36,7 @@ test_that("parse_proj_io", {
 test_that("render_proj_io", {
   dir <- file.path("tests", "project-render")
   filename <- "default_template_rmd2r.R"
-  if(interactiv()) {
+  if(interactive()) {
     dir.exists(file.path("inst", dir))
   } else {
     print(dir.exists(dir))
@@ -63,3 +63,13 @@ test_that("render_proj_io", {
   # expect_gt(actual, expect)
   # unlink(list.files(dir = file.path(filepath, "output")))
 })
+
+# TODO:
+# filepath <- "O:/_other/packages/teproj/inst/tests/project-parse/script.R"
+# parsed <- utils::getParseData(parse(filepath))
+# parsed_f <- parsed[parsed$parent %in% parsed$parent[grepl("SYMBOL_FUNCTION_CALL", parsed$token)], ]
+# rgx_input <- "import"
+# rgx_output <- "export"
+# parsed[parsed$parent %in% parsed$parent[grepl("SYMBOL_PACKAGE", parsed$token)], ]
+# parsed_f_input <- parsed_f[grepl(rgx_input, parsed_f$text), c("parent", "token", "text")]
+# parsed_f_output <- parsed_f[grepl(rgx_output, parsed_f$text), c("parent", "token", "text")]

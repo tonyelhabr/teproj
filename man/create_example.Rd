@@ -5,18 +5,18 @@
 \title{Create an example project/file.}
 \usage{
 create_example(style = "personal", template = "analysis",
-  dir = "project_example", ..., overwrite = TRUE)
+  dir = "teproj_test", ..., overwrite = FALSE)
 }
 \arguments{
-\item{style}{Character. Default: "personal"}
+\item{style}{Character. Valid arguments include "ercot".}
 
-\item{template}{Character. Default: "all"}
+\item{template}{Character. Valid arguments include "analysis".}
 
-\item{dir}{Character. Name of directory to create. Default = "project_exmample"}
+\item{dir}{Character. Name of directory to create. Default is provided.}
 
-\item{...}{Dots. Parameters passed to ???}
+\item{...}{Dots. Not currently used.}
 
-\item{overwrite}{Boolean. Indicates whether to overwrite or not.}
+\item{overwrite}{Boolean. Indicates whether to overwrite existing directory or not.}
 }
 \value{
 Character. Directory filepath.

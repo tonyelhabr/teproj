@@ -34,7 +34,7 @@ import_ext_rds(...)
 
 \item{filename}{character. Bare filename (i.e. without folderor extension),}
 
-\item{dir}{character. Folder name (with a trailing slash),}
+\item{dir}{character. Folder name (with a trailing slash).}
 
 \item{ext}{character. Bare extension (i.e. without a dot). Must be one of valid formats.}
 

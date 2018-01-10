@@ -1,13 +1,16 @@
 
 
-.get_valid_exts <- function(action = c("import", "export")) {
+.get_valid_exts <- function(action = c("input", "output")) {
+  requireNamespace("rio")
   action <- match.arg(action)
   rgx_pattern_0 <-  "rio|(\\.)|_"
-  rgx_pattern <- paste0(rgx_pattern_0, "|", action)
-  if(action == "import") {
-    output <- gsub(rgx_pattern, "", as.character(methods(rio::.import)))
-  } else if (action == "export") {
-    output <- gsub(rgx_pattern, "", as.character(methods(rio::.export)))
+  rgx_pattern_suffix <- switch(action, input = "import", output = "export")
+  # browser()
+  rgx_pattern <- paste0(rgx_pattern_0, "|", rgx_pattern_suffix)
+  if(action == "input") {
+    output <- gsub(rgx_pattern, "", as.character(utils::methods(.import)))
+  } else if (action == "output") {
+    output <- gsub(rgx_pattern, "", as.character(utils::methods(.export)))
     output <- c(output, "png")
   }
   output
@@ -84,6 +87,7 @@
 #' For example, `rgx_input == "read"` and `rgx_output == "write"` might be appropriate choices if using the \code{readr} package.)
 #' Does not (currently) work as well if variables, filenames, etc. are not wrapped directly by
 #' the functions described by `rgx_input` and \code{rgx_output}.
+#' NOTE: In the future this should/will use \code{utils::getParseData(parse(f))}
 #' @inheritParams create_dir
 #' @param filepaths character. Can be a vector. Missing by default. Takes precedence over \code{dir} argument.
 #' @param dir character. Should not be a vector. Missing by default. Only used if \code{filepaths} is missing.
@@ -95,7 +99,8 @@
 #' @param rgx_output Chracter. Regular expression to match for output functions.
 #' @return data.frame
 #' @importFrom tibble tibble as_tibble
-#' @importFrom rio .import .export
+#' @importFrom utils methods
+#' @import rio
 #' @export
 parse_proj_io <-
   function(filepaths,
@@ -133,6 +138,9 @@ parse_proj_io <-
 
     while (filepath_idx <= length(filepaths)) {
       filepath <- filepaths[filepath_idx]
+      # TODO:utils::getParseData(parse(filepath)) here.
+      # browser()
+
       conn <- file(filepath, open = "r")
       on.exit(try(close(conn), silent = TRUE)
               , add = TRUE)
@@ -177,7 +185,7 @@ parse_proj_io <-
 
         if (match) {
 
-          browser()
+          # browser()
           line_parsed <- gsub(rgx_parse, "", line_trimmed)
           line_parsed <- gsub("(,|\\)).*", "", line_parsed)
           line_parsed <- gsub("^_", "", line_parsed)
@@ -187,7 +195,10 @@ parse_proj_io <-
           var_filename <- gsub(".*\\=", "", var_filename)
 
           exts_valid <- .get_valid_exts(action)
-          ext <- .remove_rgx(exts_valid, line)
+          # browser()
+          exts_valid_collapsed <- paste(paste0("(", exts_valid, ")"), collapse = "|")
+          ext <- .remove_rgx(line_parsed, exts_valid_collapsed)
+          if(length(ext) == 0) ext <- ""
 
           if (var_filename == "") {
             # browser()
@@ -195,6 +206,7 @@ parse_proj_io <-
             # filename <- ""
 
             if (grepl("%>%", line_trimmed)) {
+              # browser()
               line_parsed <- gsub("\\s+%>.*", "", line)
               line_parsed <- gsub(".*<-\\s+", "", line_parsed)
               var_filename <- line_parsed
@@ -226,6 +238,7 @@ parse_proj_io <-
                   "Difficulty parsing var, filename, and ext."
               } else if (filename == ext) {
                 filename <- ""
+                # browser()
                 comment <- "Difficulty parsing var and filename."
               } else {
                 comment <- "Not sure if filename is correct."
@@ -248,6 +261,17 @@ parse_proj_io <-
                                      filepath,
                                      accuracy,
                                      comment)
+          tibble::tibble(
+            io = action,
+            # var = var,
+            # filename = "",
+            ext = ext,
+            script_line = line,
+            script_line_idx = line_idx,
+            script_filepath = filepath,
+            accuracy = accuracy,
+            comment = comment
+          )
           .print_parse_proj_io_msg(action,
                                    var,
                                    line_idx,

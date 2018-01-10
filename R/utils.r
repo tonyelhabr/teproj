@@ -43,10 +43,11 @@ set_pkg_render_opts <-
 #' @title Create a directory.
 #' @description Creates the directory if it does not exist.
 #' @details Used by other functions in this package.
-#' @param dir character. Folder name (with a trailing slash),
+#' @param dir character. Folder name (with a trailing slash).
 #' @param overwrite boolean.
 #' @param backup boolean.
 #' @param create boolean.
+#' @param ... dots. Not currently used.
 #' @return character. Filepath.
 #' @export
 create_dir <- function(dir = paste0(getwd(), "/"),
@@ -178,18 +179,7 @@ warningf <- function(..., n = 1L){
 #   parent.call <- sys.call(sys.nframe() - n)
 #   message(paste("In", parent.call, ":", sprintf(...)))
 # }
-f1 <- function() {
-  warningf("I have %i bananas!", 2, n = 1)
-}
-# f1()
-f2 <- function() {
-  .print_isnull_msg("apple")
-  .print_ismiss_msg("banana")
-  .print_nofile_msg("orange")
-  .print_argfalse_msg("kiwi")
-  .print_dpc_msg("watermelon")
-  .print_usedefault_msg("strawberry")
-}
+
 # f2()
 
 .print_isnull_msg <- function(...,  msg_input = "") {

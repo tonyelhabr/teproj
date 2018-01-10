@@ -8,13 +8,15 @@ create_dir(dir = paste0(getwd(), "/"), overwrite = FALSE, backup = TRUE,
   create = TRUE, ...)
 }
 \arguments{
-\item{dir}{character. Folder name (with a trailing slash),}
+\item{dir}{character. Folder name (with a trailing slash).}
 
 \item{overwrite}{boolean.}
 
 \item{backup}{boolean.}
 
 \item{create}{boolean.}
+
+\item{...}{dots. Not currently used.}
 }
 \value{
 character. Filepath.

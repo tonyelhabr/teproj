@@ -8,6 +8,7 @@
 #' @importFrom rio import
 #' @importFrom session restore.session
 #' @importFrom utils capture.output
+#' @importFrom tibble as_tibble
 import_ext <-
   function(x = NULL,
            filename = deparse(substitute(x)),
@@ -36,6 +37,7 @@ import_ext <-
       out <- suppressWarnings(utils::capture.output(session::restore.session(filepath)))
     } else {
       out <- rio::import(filepath, ...)
+      try({out <- tibble::as_tibble(out)}, silent = TRUE)
     }
     invisible(out)
   }

@@ -2,21 +2,21 @@
 % Please edit documentation in R/parse_proj_io.R
 \name{parse_proj_io}
 \alias{parse_proj_io}
-\title{Parse project input/output.}
+\title{Parse input and output in project scripts.}
 \usage{
 parse_proj_io(filepaths, dir, ..., rgx_file_io = ".R",
   rgx_input = ".*(import_ext|teutils::import_ext)",
   rgx_output = ".*(export_ext|teutils::export_ext)")
 }
 \arguments{
-\item{filepaths}{character. Can be a vector.}
+\item{filepaths}{character. Can be a vector. Missing by default. Takes precedence over \code{dir} argument.}
 
-\item{dir}{character. Should not be a vector. Only used if `filepaths` is missing.
-#' @param ... dots. Parameters passed to `list.files()`. (Technically, `pattern` could/should not be specified explicitly.)}
+\item{dir}{character. Should not be a vector. Missing by default. Only used if \code{filepaths} is missing.}
 
-\item{...}{dots. Additional parameters to pass to `dir.create()`.}
+\item{...}{dots. Arguments passed to \code{list.files()} for identifying input/output files.
+(Technically, \code{pattern} could/should not be specified explicitly.)}
 
-\item{rgx_file_io}{character. Alias to `pattern` parameter for `list.files()`. Used ONLY if `filepaths` is missing and `dir` is not.}
+\item{rgx_file_io}{character. Alias to `pattern` parameter for `list.files()`. Used ONLY if `filepaths` is missing and \code{dir} is not.}
 
 \item{rgx_input}{character. Regular expression to match for input functions}
 
@@ -26,12 +26,12 @@ parse_proj_io(filepaths, dir, ..., rgx_file_io = ".R",
 data.frame
 }
 \description{
-Parses project to identify input/output variables, filenames, etc.
+Parses project diretory to identify input andoutput variables, filenames, etc.
 }
 \details{
-Intended to be used with `export_ext()*` and `import_ext*()` functions, but can work
-if `rgx_input` and `rgx_output` are modified appropriately.
-Does not currently work as intended if variables, filenames, etc. are not wrapped by `rgx_input` and `rgx_output`.
-(i.e. Does not work as intended if variables, filenames, etc. is on a separate line,
-such as with a pipe.)
+Intended to be used with this package's `export*()` and \code{import*()} functions, but it can also work
+with the functions from other packages (e.g. `readr`) if `rgx_input` and \code{rgx_output} are modified appropriately.
+For example, `rgx_input == "read"` and `rgx_output == "write"` might be appropriate choices if using the \code{readr} package.)
+Does not (currently) work as well if variables, filenames, etc. are not wrapped directly by
+the functions described by `rgx_input` and \code{rgx_output}.
 }

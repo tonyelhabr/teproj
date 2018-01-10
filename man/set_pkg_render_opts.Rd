@@ -16,11 +16,11 @@ set_pkg_render_opts(echo = getOption("teproj.render.echo"),
   message = getOption("teproj.render.message"))
 }
 \arguments{
-\item{echo, cache, results, width, fig.align, fig.show, fig.width, fig.height, warning, message}{Arguments passed to the `knitr_opts$set()` arguments of their same namesake.}
+\item{echo, cache, results, width, fig.align, fig.show, fig.width, fig.height, warning, message}{Arguments passed to the \code{knitr_opts$set()} arguments of their same namesake.}
 }
 \description{
-Sets options for relevant `teproj` functions.
+Sets options for relevant \code{teproj} functions.
 }
 \details{
-Intended to be used as a wrapper to `options(...)`.
+Intended to be used as a wrapper to \code{options(...)}.
 }

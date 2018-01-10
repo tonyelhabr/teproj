@@ -12,11 +12,9 @@ create_dir(dir = paste0(getwd(), "/"), overwrite = FALSE, backup = TRUE,
 
 \item{overwrite}{boolean.}
 
-\item{backup}{boolean. Only relevant if `dir` exists and `overwrite == TRUE`.}
+\item{backup}{boolean.}
 
-\item{create}{boolean. Intended to be used with a global `keep_*` parameter.}
-
-\item{...}{dots. Additional parameters to pass to `dir.create()`.}
+\item{create}{boolean.}
 }
 \value{
 character. Filepath.

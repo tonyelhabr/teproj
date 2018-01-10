@@ -38,7 +38,7 @@ import_ext_rds(...)
 
 \item{ext}{character. Bare extension (i.e. without a dot). Must be one of valid formats.}
 
-\item{filepath}{character. Concatenation of `filename`, `dir`, and `ext`,}
+\item{filepath}{character. Concatenation of `filename`, `dir`, and \code{ext},}
 
 \item{import}{boolean. Indicates whether to actually carry out function.}
 

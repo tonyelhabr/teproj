@@ -1,4 +1,19 @@
 
+
+.get_valid_exts <- function(action = c("import", "export")) {
+  action <- match.arg(action)
+  rgx_pattern_0 <-  "rio|(\\.)|_"
+  rgx_pattern <- paste0(rgx_pattern_0, "|", action)
+  if(action == "import") {
+    output <- gsub(rgx_pattern, "", as.character(methods(rio::.import)))
+  } else if (action == "export") {
+    output <- gsub(rgx_pattern, "", as.character(methods(rio::.export)))
+    output <- c(output, "png")
+  }
+  output
+}
+
+# See: https://stackoverflow.com/questions/2192316/extract-a-regular-expression-match-in-r-version-2-10.
 .remove_rgx <- function(char, rgx) {
   regmatches(char, regexpr(rgx, char))
 }
@@ -62,22 +77,25 @@
   }
 
 
-#' @title Parse project input/output.
-#' @description Parses project to identify input/output variables, filenames, etc.
-#' @details Intended to be used with `export_ext()*` and `import_ext*()` functions, but can work
-#' if `rgx_input` and `rgx_output` are modified appropriately.
-#' Does not currently work as intended if variables, filenames, etc. are not wrapped by `rgx_input` and `rgx_output`.
-#' (i.e. Does not work as intended if variables, filenames, etc. is on a separate line,
-#' such as with a pipe.)
+#' @title Parse input and output in project scripts.
+#' @description Parses project diretory to identify input andoutput variables, filenames, etc.
+#' @details Intended to be used with this package's `export*()` and \code{import*()} functions, but it can also work
+#' with the functions from other packages (e.g. `readr`) if `rgx_input` and \code{rgx_output} are modified appropriately.
+#' For example, `rgx_input == "read"` and `rgx_output == "write"` might be appropriate choices if using the \code{readr} package.)
+#' Does not (currently) work as well if variables, filenames, etc. are not wrapped directly by
+#' the functions described by `rgx_input` and \code{rgx_output}.
 #' @inheritParams create_dir
-#' @param filepaths character. Can be a vector.
-#' @param dir character. Should not be a vector. Only used if `filepaths` is missing.
-#' #' @param ... dots. Parameters passed to `list.files()`. (Technically, `pattern` could/should not be specified explicitly.)
-#' @param rgx_file_io character. Alias to `pattern` parameter for `list.files()`. Used ONLY if `filepaths` is missing and `dir` is not.
+#' @param filepaths character. Can be a vector. Missing by default. Takes precedence over \code{dir} argument.
+#' @param dir character. Should not be a vector. Missing by default. Only used if \code{filepaths} is missing.
+#' @param ... dots. Arguments passed to \code{list.files()} for identifying input/output files.
+#'(Technically, \code{pattern} could/should not be specified explicitly.)
+#' @param rgx_file_io character. Alias to `pattern` parameter for `list.files()`.
+#' Used ONLY if `filepaths` is missing and \code{dir} is not.
 #' @param rgx_input character. Regular expression to match for input functions
 #' @param rgx_output Chracter. Regular expression to match for output functions.
 #' @return data.frame
 #' @importFrom tibble tibble as_tibble
+#' @importFrom rio .import .export
 #' @export
 parse_proj_io <-
   function(filepaths,
@@ -98,9 +116,17 @@ parse_proj_io <-
     # rgx_input = "^(readr::import_|import_)"
     # rgx_output = "^export_"
 
-    files_exist <- .check_files_exist(filepaths = filepaths, dir = dir, pattern = rgx_file_io, ...)
-    if(!files_exist$exist)
+    # browser()
+    files_exist <-
+      .check_files_exist(filepaths = filepaths,
+                         dir = dir,
+                         pattern = rgx_file_io,
+                         ...)
+    if (!files_exist$exist) {
       return(invisible())
+    } else {
+      filepaths <- files_exist$filepaths
+    }
 
     filepaths
     filepath_idx <- 1
@@ -108,7 +134,8 @@ parse_proj_io <-
     while (filepath_idx <= length(filepaths)) {
       filepath <- filepaths[filepath_idx]
       conn <- file(filepath, open = "r")
-      on.exit(try(close(conn), silent = TRUE), add = TRUE)
+      on.exit(try(close(conn), silent = TRUE)
+              , add = TRUE)
       lines <- readLines(conn)
       line_idx <- 1
 
@@ -123,7 +150,8 @@ parse_proj_io <-
 
         # Remove comments, package calls, etc.
         line_trimmed <- gsub("(^#|\\s+#).*", "", line)
-        line_trimmed <- gsub("(library|require).*", "", line_trimmed)
+        line_trimmed <-
+          gsub("(library|require).*", "", line_trimmed)
         line_trimmed <- gsub(".*::", "", line_trimmed)
         line_trimmed <- gsub("^\\s+|\\s+$", "", line_trimmed)
 
@@ -148,7 +176,8 @@ parse_proj_io <-
         }
 
         if (match) {
-          # browser()
+
+          browser()
           line_parsed <- gsub(rgx_parse, "", line_trimmed)
           line_parsed <- gsub("(,|\\)).*", "", line_parsed)
           line_parsed <- gsub("^_", "", line_parsed)
@@ -156,24 +185,29 @@ parse_proj_io <-
           var_filename <- gsub("\\).*", "", var_filename)
           var_filename <- gsub("\\s", "", var_filename)
           var_filename <- gsub(".*\\=", "", var_filename)
-          ext <- tools::file_ext(line)
+
+          exts_valid <- .get_valid_exts(action)
+          ext <- .remove_rgx(exts_valid, line)
+
           if (var_filename == "") {
             # browser()
             piped <- TRUE
             # filename <- ""
 
-            if(grepl("%>%", line_trimmed)) {
+            if (grepl("%>%", line_trimmed)) {
               line_parsed <- gsub("\\s+%>.*", "", line)
               line_parsed <- gsub(".*<-\\s+", "", line_parsed)
               var_filename <- line_parsed
 
               accuracy <- "medium"
-              comment <- "Assuming variable is equal to expression before pipe."
+              comment <-
+                "Assuming variable is equal to expression before pipe."
             } else {
               var_filename <- gsub("\\s+%>%.*", "", line_previous)
 
               accuracy <- "medium"
-              comment <- "Assuming variable is equal to previous line due to pipe detection."
+              comment <-
+                "Assuming variable is equal to previous line due to pipe detection."
             }
           } else {
             quoted <- grepl('\\"', var_filename)
@@ -185,11 +219,12 @@ parse_proj_io <-
               filename <- gsub('\\"', "", filename)
               var_filename <- gsub('\\".*\\"', "", var_filename)
               accuracy <- "low"
-              if(length(ext) == 0) {
+              if (length(ext) == 0) {
                 ext <- ""
                 # filename <- ""
-                comment <- "Difficulty parsing var, filename, and ext."
-              } else if(filename == ext) {
+                comment <-
+                  "Difficulty parsing var, filename, and ext."
+              } else if (filename == ext) {
                 filename <- ""
                 comment <- "Difficulty parsing var and filename."
               } else {
@@ -207,7 +242,7 @@ parse_proj_io <-
             .compile_project_io_data(action,
                                      var,
                                      line_idx,
-                                     line,
+                                     line_trimmed,
                                      filename,
                                      ext,
                                      filepath,

@@ -5,7 +5,7 @@
 \title{Create an example project/file.}
 \usage{
 create_example(style = "personal", template = "analysis",
-  dir = "../project_example", ..., overwrite = TRUE)
+  dir = "project_example", ..., overwrite = TRUE)
 }
 \arguments{
 \item{style}{Character. Default: "personal"}

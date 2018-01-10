@@ -11,8 +11,8 @@ set_pkg_print_opts(msg = getOption("teproj.print.msg"),
 \item{msg, wrn, err}{booleans. Indiciates whether to show messages, warnings, and errors for package functions.}
 }
 \description{
-Sets options for relevant `teproj` functions.
+Sets options for relevant \code{teproj} functions.
 }
 \details{
-Intended to be used as a wrapper to `options(...)`.
+Intended to be used as a wrapper to \code{options(...)}.
 }

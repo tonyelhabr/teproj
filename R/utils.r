@@ -1,7 +1,7 @@
 
 #' @title Control package messages.
-#' @description Sets options for relevant `teproj` functions.
-#' @details Intended to be used as a wrapper to `options(...)`.
+#' @description Sets options for relevant \code{teproj} functions.
+#' @details Intended to be used as a wrapper to \code{options(...)}.
 #' @param msg,wrn,err booleans. Indiciates whether to show messages, warnings, and errors for package functions.
 #' @export
 set_pkg_print_opts <- function(msg = getOption("teproj.print.msg"),
@@ -13,9 +13,9 @@ set_pkg_print_opts <- function(msg = getOption("teproj.print.msg"),
 }
 
 #' @title Control package render settings.
-#' @description Sets options for relevant `teproj` functions.
-#' @details Intended to be used as a wrapper to `options(...)`.
-#' @param echo,cache,results,width,fig.align,fig.show,fig.width,fig.height,warning,message Arguments passed to the `knitr_opts$set()` arguments of their same namesake.
+#' @description Sets options for relevant \code{teproj} functions.
+#' @details Intended to be used as a wrapper to \code{options(...)}.
+#' @param echo,cache,results,width,fig.align,fig.show,fig.width,fig.height,warning,message Arguments passed to the \code{knitr_opts$set()} arguments of their same namesake.
 #' @export
 set_pkg_render_opts <-
   function(echo = getOption("teproj.render.echo"),
@@ -45,9 +45,8 @@ set_pkg_render_opts <-
 #' @details Used by other functions in this package.
 #' @param dir character. Folder name (with a trailing slash),
 #' @param overwrite boolean.
-#' @param backup boolean. Only relevant if `dir` exists and `overwrite == TRUE`.
-#' @param create boolean. Intended to be used with a global `keep_*` parameter.
-#' @param ... dots. Additional parameters to pass to `dir.create()`.
+#' @param backup boolean.
+#' @param create boolean.
 #' @return character. Filepath.
 #' @export
 create_dir <- function(dir = paste0(getwd(), "/"),
@@ -170,7 +169,7 @@ create_dir <- function(dir = paste0(getwd(), "/"),
 
 # TODO: Implement proper message/warning/error wrappers.
 # See https://stackoverflow.com/questions/9596918/r-warning-wrapper-raise-to-parent-function.
-warningf <- function(..., n = 2L){
+warningf <- function(..., n = 1L){
   parent_call <- sys.call(sys.nframe() - n)
   warning(paste("In", parent_call, ":", sprintf(...)), call. = FALSE)
 }
@@ -179,26 +178,38 @@ warningf <- function(..., n = 2L){
 #   parent.call <- sys.call(sys.nframe() - n)
 #   message(paste("In", parent.call, ":", sprintf(...)))
 # }
+f1 <- function() {
+  warningf("I have %i bananas!", 2, n = 1)
+}
+# f1()
+f2 <- function() {
+  .print_isnull_msg("apple")
+  .print_ismiss_msg("banana")
+  .print_nofile_msg("orange")
+  .print_argfalse_msg("kiwi")
+  .print_dpc_msg("watermelon")
+  .print_usedefault_msg("strawberry")
+}
+# f2()
 
 .print_isnull_msg <- function(...,  msg_input = "") {
-  parent.call <- sys.call(sys.nframe() - 1L)
+  # browser()
+  # parent.call <- sys.call(sys.nframe() - 1L)
   dots <- list(...)
-  if(length(dots) > 0) msg_input <- gsub(", $", "", paste(dots, collpase = ", "))
-  if(getOption("teproj.print.wrn")) warningf("Required input %sis null.", msg_input, n = 2)
+  if(length(dots) > 0) msg_input <- gsub(",$", "", paste(dots, collapse = ","))
+  if(getOption("teproj.print.wrn")) warningf("Required input `%s`is NULL.", msg_input, n = 2L)
 }
 
 .print_ismiss_msg <- function(...,  msg_input = "") {
-  parent.call <- sys.call(sys.nframe() - 1L)
   dots <- list(...)
-  if(length(dots) > 0) msg_input <- gsub(", $", "", paste(dots, collpase = ", "))
-  if(getOption("teproj.print.wrn")) warningf("Required input %sis missing.", msg_input, n = 2)
+  if(length(dots) > 0) msg_input <- gsub(",$", "", paste(dots, collapse = ","))
+  if(getOption("teproj.print.wrn")) warningf("Required input `%s`is missing.", msg_input, n = 2L)
 }
 
 .print_nofile_msg <- function(...,  msg_input = "") {
-  parent.call <- sys.call(sys.nframe() - 1L)
   dots <- list(...)
-  if(length(dots) > 0) msg_input <- gsub(", $", "", paste(c(" ", dots), collpase = ", "))
-  if(getOption("teproj.print.wrn")) warningf("Could not find any files meeting criteria%s.", msg_input, n = 2)
+  if(length(dots) > 0) msg_input <- gsub(",$", " ", paste(dots, collapse = ","))
+  if(getOption("teproj.print.wrn")) warningf("Could not find any files meeting criteria `%s`.", msg_input, n = 2L)
 }
 
 .print_argfalse_msg <- function(arg) {

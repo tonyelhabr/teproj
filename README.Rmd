@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-This package containts functions that I keep often in projects.
+This package contains functions that I keep often in projects.
 
 ## Installation
 
@@ -20,10 +20,16 @@ This package containts functions that I keep often in projects.
 
 ## Notes
 
-Here is a list of all functions in the package.
+Here is a list of the noteworty functions in the package.
+
 ```{r }
 library("teproj")
-ls("package:teproj")
+ls_vars_all <- ls("package:teproj")
+ls_vars_io_start <- grep("^import|^export", ls_vars_all, value = TRUE)
+ls_vars_io_main <- grep("ext$", ls_vars_io_start, value = TRUE)
+ls_vars_other <- setdiff(ls_vars_all, ls_vars_io_start)
+print(sort(c(ls_vars_io_main, ls_vars_other)))
+?teproj::`teproj-package`
 ```
 
 Here is the code coverage of the unit tests.

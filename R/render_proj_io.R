@@ -1,27 +1,27 @@
 
 #' @title Render project output.
 #' @description Renders R scripts with Roxygen comments into specified output format.
-#' @details This is a wrapper for `rmarkdown::render()` (and `knitr::spin()`, if `keep_rmd == TRUE`).
+#' @details This is a wrapper for `rmarkdown::render()` (and `knitr::spin()`, if \code{keep_rmd == TRUE}).
 #' It is designed specifically to convert R scripts formatted with Roxgyen comments
-#' into the specified output format. (In other words, it mirrors the behavior of `knitr::knit()`
+#' into the specified output format. (In other words, it mirrors the behavior of \code{knitr::knit()}
 #' for a R markdown document.
 #' @param filepaths_input character. Can be a vector.
-#' @param dir_input character. Should not be a vector. Only used if `filepaths_input` is missing.
-#' @param ... dots. Parameters passed to `list.files()`.
+#' @param dir_input character. Should not be a vector. Only used if \code{filepaths_input} is missing.
+#' @param ... dots. Parameters passed to \code{list.files()}.
 #' @param dir_output character. Should not be a vector. IMPORTANT: Relative to input directory (so something like "../output" is valid).
-#' @param filenames_output character. Explicit filenames to use for output. Length of variable must exactly match number of filepaths meeting `list.files()` criteria.
-#' @param rgx_input character. Alias to `pattern` parameter for `list.files()`. Used ONLY if `filepaths` is missing and `dir` is not.
-#' @param rgx_input_include character. Regular expression to use to filter for `list.files()` output. (Somewhat redundant.)
-#' @param rgx_input_exclude character. Regular expression to use to filter for `list.files()` output. (Somewhat redundant.)
-#' @param rgx_output_trim character. Used ONLY if `filenames_output` is missing. Describes how input file names should be "trimmed" to make the output file name appear "cleaner".
+#' @param filenames_output character. Explicit filenames to use for output. Length of variable must exactly match number of filepaths meeting \code{list.files()} criteria.
+#' @param rgx_input character. Alias to `pattern` parameter for `list.files()`. Used ONLY if `filepaths` is missing and \code{dir} is not.
+#' @param rgx_input_include character. Regular expression to use to filter for \code{list.files()} output. (Somewhat redundant.)
+#' @param rgx_input_exclude character. Regular expression to use to filter for \code{list.files()} output. (Somewhat redundant.)
+#' @param rgx_output_trim character. Used ONLY if \code{filenames_output} is missing. Describes how input file names should be "trimmed" to make the output file name appear "cleaner".
 #' @param ext_output character. File extension of output.
 #' @param render boolean. Indiciates whether or not to actually carry out function.
-#' @param return boolean. Relevant ONLY if `render == FALSE`. Set to `TRUE` in order to preview what would be rendered.
+#' @param return boolean. Relevant ONLY if `render == FALSE`. Set to \code{TRUE} in order to preview what would be rendered.
 #' @param overwrite boolean. Indicates whether or not to overwrite any existing file with the same name. Not currently used.
-#' @param quiet boolean. Direct argument for `rmarkdown::render()`.
+#' @param quiet boolean. Direct argument for \code{rmarkdown::render()}.
 #' @param backup boolean. Indicates whether or not to create e a backup.
 #' @param backup_suffix character. Suffix to append to filename for backup file.
-#' @param keep_rmd boolean. Assuming specified output is not ".Rmd", indicates whether to call `knitr::spin` to keep "intermediate" results.
+#' @param keep_rmd boolean. Assuming specified output is not ".Rmd", indicates whether to call \code{knitr::spin} to keep "intermediate" results.
 #' @return data.frame. Information regarding what was rendered.
 #' @export
 #' @importFrom tibble tibble
@@ -100,9 +100,7 @@ render_proj_io <-
 
     filepaths_exist <- as.logical(lapply(filepaths_input, file.exists))
     if(!any(filepaths_exist)) {
-      if(getOption("teutils.print_wrn")) {
-        .print_nofile_msg()
-      }
+      .print_nofile_msg()
       return(invisible())
     }
 

@@ -1,5 +1,6 @@
 
 
+
 .get_valid_example_styles <- function() {
   c("ercot", "personal")
 }
@@ -23,8 +24,7 @@
 #' @param ... Dots. Parameters passed to ???
 #' @param overwrite Boolean. Indicates whether to overwrite or not.
 #' @return Character. Directory filepath.
-#' @export
-create_example <-
+create_example_OLD <-
   function(style = "personal",
            template = "analysis",
            dir = "project_example",
@@ -50,27 +50,74 @@ create_example <-
     list.dirs(dir_src, recursive = TRUE, full.names = FALSE)
 
     # dir_src_filenames <- list.files(dir_src, recursive = TRUE)
-    dir_src_filenames <- list.files(system.file(dir_src, package = "teproj"), recursive = TRUE)
-    dir_src_dirnames <- list.dirs(system.file(dir_src, package = "teproj"), recursive = TRUE, full.names = FALSE)
+    dir_src_filenames <-
+      list.files(system.file(dir_src, package = "teproj"), recursive = TRUE)
+    dir_src_dirnames <-
+      list.dirs(
+        system.file(dir_src, package = "teproj"),
+        recursive = TRUE,
+        full.names = FALSE
+      )
     # dir_src_dirnames <- setdiff(dir_src_dirnames, "")
 
     if (template ==  "analysis") {
       grep("analy|www/", dir_src_filenames, value = TRUE)
-      dir_src_filenames <- grep("analy|www/", dir_src_filenames, value = TRUE)
+      dir_src_filenames <-
+        grep("analy|www/", dir_src_filenames, value = TRUE)
     }
     file.path(dir_src, dir_src_dirnames)
     gsub("inst\\/", "", dir_src)
-    system.file(gsub("inst\\/", "", dir_src), dir_src_filenames, package = "teproj", mustWork = TRUE)
+    system.file(
+      gsub("inst\\/", "", dir_src),
+      dir_src_filenames,
+      package = "teproj",
+      mustWork = TRUE
+    )
 
     gsub("inst\\/|examples\\/", "", dir_src)
-    dir_src_dirs <- file.path(gsub("inst\\/|examples\\/", "", dir_src), dir_src_dirnames)
+    dir_src_dirs <-
+      file.path(gsub("inst\\/|examples\\/", "", dir_src), dir_src_dirnames)
     gsub("inst\\/|examples\\/", "", dir_src_dirs)
-    dir_trg_dirs <- file.path(dir_trg, gsub("inst\\/|examples\\/", "", dir_src_dirs))
+    dir_trg_dirs <-
+      file.path(dir_trg, gsub("inst\\/|examples\\/", "", dir_src_dirs))
     dir_src_filepaths <- file.path(dir_src, dir_src_filenames)
 
     browser()
     create_dir(dir_trg_dirs[1])
-    file.copy(from = normalizePath(getwd(), dir_src_dirs[1]), to = dir_trg_dirs[1], recursive = TRUE)
+    file.copy(
+      from = normalizePath(getwd(), dir_src_dirs[1]),
+      to = dir_trg_dirs[1],
+      recursive = TRUE
+    )
     # unlink(dir_trg_filenames_extra, recursive = TRUE, force = TRUE)
     invisible(dir_trg)
   }
+
+#' @inheritParams create_example_OLD
+#' @export
+create_example <- function(style = "personal",
+                           template = "analysis",
+                           dir = "project_example",
+                           ...,
+                           overwrite = TRUE) {
+  # # Debugging...
+  # style = "personal"
+  # template = "all"
+  # dir = "../project_example/"
+  # overwrite = FALSE
+  # # For debugging...
+  # dir_src <- "inst/examples/"
+  # # For real...
+  dir_src <- "examples/"
+
+  style <- match.arg(style, .get_valid_example_styles())
+  template <- match.arg(template, .get_valid_example_templates())
+
+  dir_trg <- dir
+  create_dir(dir_trg, overwrite = FALSE)
+
+  list.files(dir_src, include.dirs = TRUE, recursive = TRUE)
+  list.dirs(dir_src, recursive = TRUE, full.names = FALSE)
+
+
+}

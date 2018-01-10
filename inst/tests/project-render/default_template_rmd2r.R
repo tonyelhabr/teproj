@@ -24,4 +24,4 @@ summary(cars)
 plot(pressure)
 #'
 #'
-#' Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+#' Note that the \code{echo = FALSE} parameter was added to the code chunk to prevent printing of the R code that generated the plot.

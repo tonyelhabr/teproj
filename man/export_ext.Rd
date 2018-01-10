@@ -48,13 +48,13 @@ export_viz(...)
 
 \item{ext}{character. Bare extension (i.e. without a dot). Must be one of valid formats.}
 
-\item{filepath}{character. Concatenation of `filename`, `dir`, and `ext`,}
+\item{filepath}{character. Concatenation of `filename`, `dir`, and \code{ext},}
 
 \item{overwrite}{boolean.}
 
 \item{backup}{boolean.}
 
-\item{filepath_backup}{like `filepath`,}
+\item{filepath_backup}{like \code{filepath},}
 
 \item{export}{boolean. Indicates whether to actually carry out action. Intended to be used as a "catch all".}
 

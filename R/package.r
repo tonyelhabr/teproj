@@ -11,3 +11,8 @@ utils::globalVariables(c("."))
 # sinew::makeImport("R", format = "description", desc_loc = ".")
 # rstudioapi::getActiveDocumentContext()$path
 # kimisc::thisfile()
+
+# Notepad Plus Plus find and replace all
+# Find What: (^#'.*)`(.*)`
+# Replace with: \1\\code\{\2\}
+# Filters: *

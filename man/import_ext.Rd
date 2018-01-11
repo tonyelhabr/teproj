@@ -11,8 +11,8 @@
 \alias{import_ext_rds}
 \title{Import an object.}
 \usage{
-import_ext(filename = NULL, dir = paste0(getwd(), "/"), ext = NULL,
-  filepath = paste0(dir, filename, ".", ext), import = TRUE, ...)
+import_ext(filename, dir = getwd(), ext, filepath = file.path(dir,
+  paste0(filename, ".", ext)), import = TRUE, return = TRUE, ...)
 
 import_ext_csv(...)
 
@@ -39,7 +39,10 @@ import_ext_rds(...)
 
 \item{import}{boolean. Indicates whether to actually carry out function.}
 
-\item{...}{dots. May (or may not) be passed on to specific exporting functions.}
+\item{return}{boolean.  Relevant ONLY if \code{export == FALSE}.
+Set to \code{TRUE} in order to preview what would be rendered.}
+
+\item{...}{dots. Not currently used.}
 }
 \description{
 Reads in an object from a filepath.

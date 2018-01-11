@@ -14,10 +14,10 @@
 \alias{export_viz}
 \title{Save to a filepath.}
 \usage{
-export_ext(x = NULL, filename = deparse(substitute(x)),
-  dir = paste0(getwd(), "/"), ext = NULL, filepath = paste0(dir, filename,
-  ".", ext), overwrite = TRUE, backup = FALSE, filepath_backup = NULL,
-  export = TRUE, ...)
+export_ext(x = NULL, filename = deparse(substitute(x)), dir = getwd(),
+  ext = NULL, filepath = file.path(dir, paste0(filename, ".", ext)),
+  overwrite = TRUE, backup = FALSE, filepath_backup = NULL,
+  export = TRUE, return = TRUE, ...)
 
 export_ext_csv(...)
 
@@ -58,7 +58,10 @@ export_viz(...)
 
 \item{export}{boolean. Indicates whether to actually carry out action. Intended to be used as a "catch all".}
 
-\item{...}{dots. May (or may not) be passed on to specific exporting functions.}
+\item{return}{boolean.  Relevant ONLY if \code{export == FALSE}.
+Set to \code{TRUE} in order to preview what would be rendered.}
+
+\item{...}{dots. Not currently used.}
 }
 \value{
 character. Filepath.

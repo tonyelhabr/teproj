@@ -34,7 +34,8 @@ render_proj_io(filepaths_input, dir_input, ..., dir_output = NULL,
 
 \item{render}{boolean. Indiciates whether or not to actually carry out function.}
 
-\item{return}{boolean. Relevant ONLY if `render == FALSE`. Set to \code{TRUE} in order to preview what would be rendered.}
+\item{return}{boolean. Relevant ONLY if \code{render == FALSE}.
+Set to \code{TRUE} in order to preview what would be rendered.}
 
 \item{overwrite}{boolean. Indicates whether or not to overwrite any existing file with the same name. Not currently used.}
 

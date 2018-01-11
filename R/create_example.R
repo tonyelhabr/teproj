@@ -28,7 +28,7 @@ create_example <- function(style = "personal",
                            overwrite = FALSE) {
 
   dir_trg <- file.path(dir)
-  if(dir.exists(dir_trg) && !overwrite) {
+  if(dir.exists(dir_trg) & !overwrite) {
     # .print_argfalse_msg("overwrite"))
     if(getOption("teproj.print.wrn"))
        warning("Returning nothing because `overwrite == FALSE` and ", dir_trg, " exists.")

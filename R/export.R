@@ -96,12 +96,12 @@ export_ext <-
            return = TRUE,
            ...) {
     # browser()
-    if (!export && !return) {
+    if (!export & !return) {
       .print_argfalse_msg("export")
       return(invisible())
     }
 
-    if(is.null(x) && is.null(ext)) {
+    if(is.null(x) & is.null(ext)) {
       .print_isnull_msg()
       return(invisible())
     }
@@ -109,7 +109,7 @@ export_ext <-
     filepath <-
       .get_filepath(filename, dir, ext, filepath)
 
-    if(!export && return) {
+    if(!export & return) {
       return(invisible(filepath))
     }
 

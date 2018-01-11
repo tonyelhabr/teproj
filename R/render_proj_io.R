@@ -63,7 +63,7 @@ render_proj_io <-
     # keep_md = FALSE
 
     # Check for render at the very end.
-    if (!render && !return) {
+    if (!render & !return) {
       .print_argfalse_msg("render")
       return(invisible())
     }

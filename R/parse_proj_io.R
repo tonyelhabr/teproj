@@ -237,7 +237,7 @@ parse_proj_io <-
                 # filename <- ""
                 comment <-
                   "Difficulty parsing var, filename, and ext."
-              } else if (!(filename == "") && filename == ext) {
+              } else if (!(filename == "") & filename == ext) {
                 # browser()
                 filename <- ""
                 comment <- "Difficulty parsing var and filename."

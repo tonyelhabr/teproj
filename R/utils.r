@@ -115,10 +115,10 @@ create_dir <- function(dir = paste0(getwd(), "/"),
   exist <- FALSE
   out <- ""
   # browser()
-  if(missing(filepaths) && missing(dir)) {
+  if(missing(filepaths) & missing(dir)) {
     .print_ismiss_msg()
 
-  } else if (missing(filepaths) && !missing(dir)) {
+  } else if (missing(filepaths) & !missing(dir)) {
     # TODO: For some reason include.dirs = FALSE does not produce expected output?
     filepaths <-
       list.files(

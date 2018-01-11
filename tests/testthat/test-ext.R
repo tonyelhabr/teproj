@@ -1,13 +1,27 @@
 
 context("ext")
 
-if (interactive()) {
-  dir_before <- getwd()
-  dir_current <- "O:/_other/packages/teutils/tests/testthat/"
-  on.exit(setwd(dir_before), add = TRUE)
-  dir <- paste0(dir_current)
-  dir.exists(dir)
-}
+# if (interactive()) {
+#   dir_before <- getwd()
+#   dir_current <- "O:/_other/packages/teutils/tests/testthat/"
+#   on.exit(setwd(dir_before), add = TRUE)
+#   dir <- paste0(dir_current)
+#   dir.exists(dir)
+# }
+
+test_that("import NSE", {
+
+  df <- data.frame(one = c(1:3), two = letters[c(1:3)], stringsAsFactors = FALSE)
+  filepath <- export_ext_csv(df)
+  expect_true(file.exists(filepath))
+  expected <- df
+  rm("df")
+
+  actual <- import_ext_csv(df)
+  expect_equal(as.data.frame(actual), expected)
+  unlink(filepath)
+
+})
 
 test_that("csv", {
 

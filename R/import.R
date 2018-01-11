@@ -2,7 +2,7 @@
 # # See https://stackoverflow.com/questions/15811305/how-can-i-have-this-deparse-function-working.
 # g = function(x) {
 #   x.try <- try(x, silent = TRUE)
-#   if (!inherits(x.try, "try-error") && is.character(x.try)) x.try
+#   if (!inherits(x.try, "try-error") & is.character(x.try)) x.try
 #   else deparse(substitute(x))
 # }
 #
@@ -42,25 +42,25 @@ import_ext <-
            return = TRUE,
            ...) {
     # browser()
-    if (!import && !return) {
+    if (!import & !return) {
       .print_argfalse_msg("import")
-      return(invisible())
-    }
-
-    if(missing(filename) && missing(ext)) {
-      .print_ismiss_msg()
       return(invisible())
     }
 
     # browser()
     filename_try <- try(filename, silent = TRUE)
-    if (!inherits(filename_try, "try-error") && is.character(filename_try)) {
+    if (!inherits(filename_try, "try-error") & is.character(filename_try)) {
       filename <- filename_try
     } else {
       filename <- deparse(substitute(filename))
     }
 
-    # if(!missing(filename) && !is.character(filename)) {
+    if(missing(filename) & missing(ext)) {
+      .print_ismiss_msg()
+      return(invisible())
+    }
+
+    # if(!missing(filename) & !is.character(filename)) {
     #   # browser()
     #   filename <- deparse(substitute(filename))
     #
@@ -80,7 +80,7 @@ import_ext <-
       return(invisible(filepath))
     }
 
-    if(!import && return) {
+    if(!import & return) {
       return(invisible(filepath))
     }
 

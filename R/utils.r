@@ -180,24 +180,24 @@ create_dir <- function(dir = paste0(getwd(), "/"),
   warning(paste("In", parent_call, ":", sprintf(...)), call. = FALSE)
 }
 
-.print_isnull_msg <- function(...,  msg_input = "") {
+.print_isnull_msg <- function(...,  msg_input = "", n = 2) {
   # browser()
   # parent.call <- sys.call(sys.nframe() - 1L)
   dots <- list(...)
   if(length(dots) > 0) msg_input <- gsub(",$", "", paste(dots, collapse = ","))
-  if(getOption("teproj.print.wrn")) .warningf("Required input `%s`is NULL.", msg_input, n = 2L)
+  if(getOption("teproj.print.wrn")) .warningf("Required input `%s`is NULL.", msg_input, n = n)
 }
 
-.print_ismiss_msg <- function(...,  msg_input = "") {
+.print_ismiss_msg <- function(...,  msg_input = "", n = 2) {
   dots <- list(...)
-  if(length(dots) > 0) msg_input <- gsub(",$", "", paste(dots, collapse = ","))
-  if(getOption("teproj.print.wrn")) .warningf("Required input `%s`is missing.", msg_input, n = 2L)
+  if(length(dots) > 0 || length(msg_input) > 0) msg_input <- gsub(",$", "", paste(dots, collapse = ","))
+  if(getOption("teproj.print.wrn")) .warningf("Required input `%s`is missing.", msg_input, n = n)
 }
 
-.print_nofile_msg <- function(...,  msg_input = "") {
+.print_nofile_msg <- function(...,  msg_input = "", n = 2) {
   dots <- list(...)
   if(length(dots) > 0) msg_input <- gsub(",$", " ", paste(dots, collapse = ","))
-  if(getOption("teproj.print.wrn")) .warningf("Could not find any files meeting criteria `%s`.", msg_input, n = 2L)
+  if(getOption("teproj.print.wrn")) .warningf("Could not find any files meeting criteria `%s`.", msg_input, n = n)
 }
 
 .print_argfalse_msg <- function(arg) {

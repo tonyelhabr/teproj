@@ -16,7 +16,8 @@
 #' @param rgx_output_trim character. Used ONLY if \code{filenames_output} is missing. Describes how input file names should be "trimmed" to make the output file name appear "cleaner".
 #' @param ext_output character. File extension of output.
 #' @param render boolean. Indiciates whether or not to actually carry out function.
-#' @param return boolean. Relevant ONLY if `render == FALSE`. Set to \code{TRUE} in order to preview what would be rendered.
+#' @param return boolean. Relevant ONLY if \code{render == FALSE}.
+#' Set to \code{TRUE} in order to preview what would be rendered.
 #' @param overwrite boolean. Indicates whether or not to overwrite any existing file with the same name. Not currently used.
 #' @param quiet boolean. Direct argument for \code{rmarkdown::render()}.
 #' @param backup boolean. Indicates whether or not to create e a backup.

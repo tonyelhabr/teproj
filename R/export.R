@@ -62,7 +62,8 @@
 #' @param backup boolean.
 #' @param filepath_backup like \code{filepath},
 #' @param export boolean. Indicates whether to actually carry out action. Intended to be used as a "catch all".
-#' @param ... dots. May (or may not) be passed on to specific exporting functions.
+#' @param return boolean.  Relevant ONLY if \code{export == FALSE}.
+#' Set to \code{TRUE} in order to preview what would be rendered.
 #' @return character. Filepath.
 #' @examples
 #' \dontrun{
@@ -85,16 +86,17 @@
 export_ext <-
   function(x = NULL,
            filename = deparse(substitute(x)),
-           dir = paste0(getwd(), "/"),
+           dir = getwd(),
            ext = NULL,
-           filepath = paste0(dir, filename, ".", ext),
+           filepath = file.path(dir, paste0(filename, ".", ext)),
            overwrite = TRUE,
            backup = FALSE,
            filepath_backup = NULL,
            export = TRUE,
+           return = TRUE,
            ...) {
     # browser()
-    if (!export) {
+    if (!export && !return) {
       .print_argfalse_msg("export")
       return(invisible())
     }
@@ -106,6 +108,11 @@ export_ext <-
 
     filepath <-
       .get_filepath(filename, dir, ext, filepath)
+
+    if(!export && return) {
+      return(invisible(filepath))
+    }
+
     if (file.exists(filepath) & overwrite == FALSE) {
       .print_argfalse_msg("overwrite")
       return(invisible())
@@ -125,7 +132,7 @@ export_ext <-
         height = height,
         ...
       )
-    } else if(grepl("rda", tolower(ext))) {
+    } else if (grepl("rda", tolower(ext))) {
       # browser()
       # x <- ls(parent.frame())
       # filepath <- gsub(ext, "rdata", filepath)

@@ -23,6 +23,8 @@
 # z <- try(import_ext(iris, ext = "csv"))
 # z
 
+
+
 #' @title Import an object.
 #' @description Reads in an object from a filepath.
 #' @details None.
@@ -47,7 +49,6 @@ import_ext <-
       return(invisible())
     }
 
-    # browser()
     filename_try <- try(filename, silent = TRUE)
     if (!inherits(filename_try, "try-error") & is.character(filename_try)) {
       filename <- filename_try
@@ -60,19 +61,6 @@ import_ext <-
       return(invisible())
     }
 
-    # if(!missing(filename) & !is.character(filename)) {
-    #   # browser()
-    #   filename <- deparse(substitute(filename))
-    #
-    # } else {
-    #   filename_info <- pryr::promise_info(filename)
-    #   filename <- as.character(filename_info$code)
-    #   # filename <- NULL
-    # }
-
-
-    # z <- file.path(dir, paste0(filename, ".", ext))
-    # browser()
     filepath <- .get_filepath(filename, dir, ext, filepath)
 
     if(!file.exists(filepath)) {
@@ -84,20 +72,30 @@ import_ext <-
       return(invisible(filepath))
     }
 
-    # browser()
     if(grepl("rda", tolower(ext))) {
-      # browser()
       # x <- ls(parent.frame())
       out <- suppressWarnings(utils::capture.output(session::restore.session(filepath)))
     } else {
-      out <- rio::import(filepath, ...)
-      out <- try(tibble::as_tibble(out), silent = TRUE)
+
+      out <- try({
+        fun_readr <- paste0("read_", ext)
+        .do_call(fun_readr, list(file = filepath))
+      }, silent = TRUE)
 
       if(inherits(out, "try-error")) {
-        if(getOption("teproj.print.msg")) message("Could not convert data imported to tibble.")
-      }
+        out <- rio::import(filepath, ...)
+        if(!inherits(out, "try-error")) {
+          .print_nonreadr_msg("rio")
+        }
 
+        out <- try(tibble::as_tibble(out), silent = TRUE)
+
+        if(inherits(out, "try-error")) {
+          if(getOption("teproj.print.msg")) message("Could not convert data imported to tibble.")
+        }
+      }
     }
+
     invisible(out)
   }
 

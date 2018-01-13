@@ -1,5 +1,6 @@
 
 context("ext")
+require("tibble")
 
 # if (interactive()) {
 #   dir_before <- getwd()
@@ -12,13 +13,17 @@ context("ext")
 test_that("import NSE", {
 
   df <- data.frame(one = c(1:3), two = letters[c(1:3)], stringsAsFactors = FALSE)
+  df2 <- tibble::as_tibble(df)
   filepath <- export_ext_csv(df)
   expect_true(file.exists(filepath))
   expected <- df
   rm("df")
 
   actual <- import_ext_csv(df)
-  expect_equal(as.data.frame(actual), expected)
+  # expect_equal(actual, expected)
+  expect_equivalent(actual, expected)
+  # expected <- df2
+  # expect_equal(actual, expected)
   unlink(filepath)
 
 })

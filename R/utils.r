@@ -169,6 +169,21 @@ create_dir <- function(dir = paste0(getwd(), "/"),
   list(exist = exist, filepaths = out)
 }
 
+# Modified from https://stackoverflow.com/questions/10022436/do-call-in-combination-with.
+.do_call <- function(what, args, ...) {
+  if (is.character(what)) {
+    fn <- strsplit(what, "::")[[1]]
+    what <- if (length(fn) == 1) {
+      get(fn[[1]], envir = parent.frame(), mode = "function")
+    } else {
+      get(fn[[2]], envir = asNamespace(fn[[1]]), mode = "function")
+    }
+  }
+
+  do.call(what, as.list(args), ...)
+}
+
+
 # .test <- function(filter = NULL, pkg = ".", ...) {
 #   test(pkg = pkg, filter = filter, ...)
 # }
@@ -216,4 +231,10 @@ create_dir <- function(dir = paste0(getwd(), "/"),
     parent.call <- sys.call(sys.nframe() - 1L)
     if(getOption("teproj.print.msg")) message("Using ", arg, " for ", arg_name, ".")
   }
+
+.print_nonreadr_msg <- function(pkg, ..., msg_input = "", n = 2) {
+  dots <- list(...)
+  if(length(dots) > 0) msg_input <- gsub(",$", " ", paste(dots, collapse = ","))
+  if(getOption("teproj.print.msg")) message("Used `", pkg, "` method instead of `readr` method.")
+}
 

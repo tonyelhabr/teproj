@@ -22,7 +22,7 @@
     invisible(filepath_backup)
   }
 
-.export_backup <- function(filename,
+.create_backup <- function(filename,
                            dir,
                            ext,
                            filepath,
@@ -30,7 +30,7 @@
                            backup,
                            overwrite) {
   if (!backup) {
-    .print_argfalse_msg("backup")
+    # .print_argfalse_msg("backup")
     return(invisible())
   }
 
@@ -132,18 +132,30 @@ export_ext <-
         height = height,
         ...
       )
+      .print_nonreadr_msg("ggplot2")
     } else if (grepl("rda", tolower(ext))) {
-      # browser()
       # x <- ls(parent.frame())
       # filepath <- gsub(ext, "rdata", filepath)
       # rio::export(x, filepath, ...)
       suppressWarnings(utils::capture.output(session::save.session(filepath)))
     } else {
-      rio::export(x, filepath, ...)
+
+      out <- try({
+        fun_readr <- paste0("write_", ext)
+        .do_call(fun_readr, list(x = x, path = filepath, ...))
+      }, silent = TRUE)
+
+      if(inherits(out, "try-error")) {
+        out <- rio::export(x, filepath, ...)
+        if(!inherits(out, "try-error")) {
+          .print_nonreadr_msg("rio")
+        }
+      }
+
     }
 
     .print_export_msg(filepath)
-    .export_backup(filename,
+    .create_backup(filename,
                    dir,
                    ext,
                    filepath,
@@ -192,13 +204,18 @@ export_ext_png <- function(...)
 
 #' @export
 #' @rdname export_ext
-export_fig <- export_ext_png
+# export_fig <- export_ext_png
+# Or...
+export_fig <- function(...) {
+  .print_dpc_msg("export_ext_png")
+  export_ext(ext = "png", ...)
+}
 
 #' @export
 #' @rdname export_ext
-export_viz <- export_ext_png
-# export_viz <- function(...) {
-#   pkg_print_opts <- get_pkg_print_opts()
-#   .print_dpc_msg("export_ext_png")
-#   export_ext(ext = "png", ...)
-# }
+# export_viz <- export_ext_png
+# Or...
+export_viz <- function(...) {
+  .print_dpc_msg("export_ext_png")
+  export_ext(ext = "png", ...)
+}

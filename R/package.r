@@ -4,6 +4,7 @@
 #'
 #' @name teproj
 #' @docType package
+#' @import readr
 #' @importFrom utils globalVariables
 NULL
 

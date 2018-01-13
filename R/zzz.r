@@ -23,8 +23,8 @@ pkg_render_opts <- list(
 
 pkg_ggsave_opts <- list(
   teproj.ggsave.units = "in",
-  teproj.ggsave.width = 11,
-  teproj.ggsave.height = 7
+  teproj.ggsave.width = 10,
+  teproj.ggsave.height = 10
 )
 
 pkg_print_opts <- list(

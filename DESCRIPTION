@@ -9,5 +9,5 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
-Imports: ggplot2,utils,session,rio,tibble,tools,knitr,rmarkdown
+Imports: ggplot2,readr,utils,session,rio,tibble,tools,knitr,rmarkdown
 Suggests: testthat,covr

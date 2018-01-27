@@ -1,32 +1,6 @@
 
 context("ext")
-require("tibble")
-
-# if (interactive()) {
-#   dir_before <- getwd()
-#   dir_current <- "O:/_other/packages/teutils/tests/testthat/"
-#   on.exit(setwd(dir_before), add = TRUE)
-#   dir <- paste0(dir_current)
-#   dir.exists(dir)
-# }
-
-test_that("import NSE", {
-
-  df <- data.frame(one = c(1:3), two = letters[c(1:3)], stringsAsFactors = FALSE)
-  df2 <- tibble::as_tibble(df)
-  filepath <- export_ext_csv(df)
-  expect_true(file.exists(filepath))
-  expected <- df
-  rm("df")
-
-  actual <- import_ext_csv(df)
-  # expect_equal(actual, expected)
-  expect_equivalent(actual, expected)
-  # expected <- df2
-  # expect_equal(actual, expected)
-  unlink(filepath)
-
-})
+require("datasets")
 
 test_that("csv", {
 
@@ -149,10 +123,6 @@ test_that("png", {
   unlink(filepath)
 
   filepath <- export_viz(viz_iris)
-  expect_true(file.exists(filepath))
-  unlink(filepath)
-
-  filepath <- export_fig(viz_iris)
   expect_true(file.exists(filepath))
   unlink(filepath)
 

@@ -1,9 +1,4 @@
 
-# Because this is used in more than one place...
-.print_export_msg <- function(filepath) {
-  if (getOption("teproj.print.msg"))
-    message("Saved ", basename(filepath), " as ", filepath, ".")
-}
 
 .get_filepath_backup <-
   function(filename,
@@ -12,12 +7,16 @@
            filepath_backup,
            backup) {
     if (is.null(filepath_backup)) {
-      filepath_backup <- paste0(dir,
-                                filename,
-                                "-",
-                                strftime(Sys.time(), "%Y-%m-%d:%H-%M-%S"),
-                                ".",
-                                ext)
+      filepath_backup <- file.path(
+        dir,
+        paste0(
+          filename,
+          "-",
+          strftime(Sys.time(), "%Y-%m-%d@%H-%M-%S"),
+          ".",
+          ext
+        )
+      )
     }
     invisible(filepath_backup)
   }
@@ -35,11 +34,13 @@
   }
 
   filepath_backup <-
-    .get_filepath_backup(filename,
-                         dir,
-                         ext,
-                         filepath_backup,
-                         backup)
+    .get_filepath_backup(
+      filename,
+      dir,
+      ext,
+      filepath_backup,
+      backup
+    )
   if (file.exists(filepath_backup) & !overwrite) {
     .print_argfalse_msg("overwrite")
     return(invisible())
@@ -101,7 +102,7 @@ export_ext <-
       return(invisible())
     }
 
-    if(is.null(x) & is.null(ext)) {
+    if (is.null(x) & is.null(ext)) {
       .print_isnull_msg()
       return(invisible())
     }
@@ -109,7 +110,7 @@ export_ext <-
     filepath <-
       .get_filepath(filename, dir, ext, filepath)
 
-    if(!export & return) {
+    if (!export & return) {
       return(invisible(filepath))
     }
 
@@ -122,46 +123,84 @@ export_ext <-
     create_dir(dir, overwrite = FALSE, backup = backup)
 
     if (ext %in% c("png")) {
-      units <- getOption("teproj.ggsave.units")
-      width <- getOption("teproj.ggsave.width")
-      height <- getOption("teproj.ggsave.height")
-      ggplot2::ggsave(
-        filename = filepath,
-        units = units,
-        width = width,
-        height = height,
-        ...
-      )
       .print_nonreadr_msg("ggplot2")
+
+      if (is.null(x)) {
+        x <- ggplot2::last_plot()
+      }
+
+      dots <- list(...)
+      # ggplot2_params_explicit <- grep("teproj.*ggsave", options(), value = TRUE)
+      ggplot2_params_explicit <- c("units", "width", "height")
+      params_diff_1 <- setdiff(names(dots), ggplot2_params_explicit)
+      params_diff_2 <- setdiff(ggplot2_params_explicit, names(dots))
+
+      # NOTE: This is written like this in case different action is desired in the future.
+      if (length(params_diff_2) >= 1) {
+        # .print_ignore_msg(params_diff_2)
+        utils::capture.output(
+          ggplot2::ggsave(
+            filename = filepath,
+            plot = x,
+            ...
+          )
+        )
+      } else if (length(params_diff_1) == 0) {
+        utils::capture.output(
+          ggplot2::ggsave(
+            filename = filepath,
+            plot = x,
+            ...
+          )
+        )
+      } else {
+        units <- getOption("teproj.ggsave.units")
+        width <- getOption("teproj.ggsave.width")
+        height <- getOption("teproj.ggsave.height")
+        .print_usedefault_msg(unit)
+        .print_usedefault_msg(width)
+        .print_usedefault_msg(height)
+        utils::capture.output(
+          ggplot2::ggsave(
+            filename = filepath,
+            plot = x,
+            units = units,
+            width = width,
+            height = height,
+            ...
+          )
+        )
+      }
     } else if (grepl("rda", tolower(ext))) {
       # x <- ls(parent.frame())
       # filepath <- gsub(ext, "rdata", filepath)
       # rio::export(x, filepath, ...)
       suppressWarnings(utils::capture.output(session::save.session(filepath)))
     } else {
-
       out <- try({
         fun_readr <- paste0("write_", ext)
         .do_call(fun_readr, list(x = x, path = filepath, ...))
       }, silent = TRUE)
 
-      if(inherits(out, "try-error")) {
+      if (inherits(out, "try-error")) {
         out <- rio::export(x, filepath, ...)
-        if(!inherits(out, "try-error")) {
+        if (!inherits(out, "try-error")) {
           .print_nonreadr_msg("rio")
         }
       }
-
     }
 
     .print_export_msg(filepath)
-    .create_backup(filename,
-                   dir,
-                   ext,
-                   filepath,
-                   filepath_backup,
-                   backup,
-                   overwrite)
+    filepath_backup <-
+      .create_backup(
+        filename,
+        dir,
+        ext,
+        filepath,
+        filepath_backup,
+        backup,
+        overwrite
+      )
     invisible(filepath)
   }
 

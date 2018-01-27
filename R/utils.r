@@ -205,7 +205,7 @@ create_dir <- function(dir = paste0(getwd(), "/"),
 
 .print_ismiss_msg <- function(...,  msg_input = "", n = 2) {
   dots <- list(...)
-  if(length(dots) > 0 || length(msg_input) > 0) msg_input <- gsub(",$", "", paste(dots, collapse = ","))
+  if(length(dots) > 0) msg_input <- gsub(",$", "", paste(dots, collapse = ","))
   if(getOption("teproj.print.wrn")) .warningf("Required input `%s`is missing.", msg_input, n = n)
 }
 
@@ -232,9 +232,21 @@ create_dir <- function(dir = paste0(getwd(), "/"),
     if(getOption("teproj.print.msg")) message("Using ", arg, " for ", arg_name, ".")
   }
 
+.print_ignore_msg <-
+  function(..., msg_input = "") {
+    parent.call <- sys.call(sys.nframe() - 1L)
+    dots <- list(...)
+    if(length(dots) > 0) msg_input <- gsub(",$", " ", paste(names(dots), collapse = ","))
+    if(getOption("teproj.print.msg")) message("Ingoring parameters: ", msg_input, ".")
+  }
+
 .print_nonreadr_msg <- function(pkg, ..., msg_input = "", n = 2) {
   dots <- list(...)
   if(length(dots) > 0) msg_input <- gsub(",$", " ", paste(dots, collapse = ","))
   if(getOption("teproj.print.msg")) message("Used `", pkg, "` method instead of `readr` method.")
+}
+
+.print_export_msg <- function(filepath) {
+  if (getOption("teproj.print.msg"))  message("Saved ", basename(filepath), " as ", filepath, ".")
 }
 

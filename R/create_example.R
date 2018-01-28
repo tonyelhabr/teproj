@@ -11,16 +11,16 @@
 # 1. https://github.com/ropensci/ezknitr/blob/master/R/setup_src.R.
 # 2. https://github.com/rstudio/blogdown/blob/master/R/hugo.R
 
-#' @title Create an example project/file.
+#' Create an example project/file.
+#'
 #' @description Creates an example project or file.
 #' @details TODO.
-#' @param style Character. Valid arguments include "ercot".
-#' @param template Character. Valid arguments include "analysis".
-#' @param dir Character. Name of directory to create. Default is provided.
-#' @param ... Dots. Not currently used.
-#' @param overwrite Boolean. Indicates whether to overwrite existing directory or not.
-#' @return Character. Directory filepath.
-#' @export
+#' @param style character. Valid arguments include "ercot".
+#' @param template character. Valid arguments include "analysis".
+#' @param dir character. Name of directory to create. Default is provided.
+#' @param ... dots. Not currently used.
+#' @param overwrite logical. Indicates whether to overwrite existing directory or not.
+#' @return character. directory filepath.
 create_example <- function(style = "personal",
                            template = "analysis",
                            dir = "teproj_test",

@@ -2,7 +2,7 @@
 % Please edit documentation in R/render_proj_io.R
 \name{render_proj_io}
 \alias{render_proj_io}
-\title{Render project output.}
+\title{Render project output}
 \usage{
 render_proj_io(filepaths_input, dir_input, ..., dir_output = NULL,
   filenames_output, rgx_input = ".", rgx_input_include = rgx_input,
@@ -22,7 +22,7 @@ render_proj_io(filepaths_input, dir_input, ..., dir_output = NULL,
 
 \item{filenames_output}{character. Explicit filenames to use for output. Length of variable must exactly match number of filepaths meeting \code{list.files()} criteria.}
 
-\item{rgx_input}{character. Alias to `pattern` parameter for `list.files()`. Used ONLY if `filepaths` is missing and \code{dir} is not.}
+\item{rgx_input}{character. Alias to \code{pattern} parameter for \code{list.files()}. Used ONLY if \code{filepaths} is missing and \code{dir} is not.}
 
 \item{rgx_input_include}{character. Regular expression to use to filter for \code{list.files()} output. (Somewhat redundant.)}
 
@@ -54,7 +54,7 @@ data.frame. Information regarding what was rendered.
 Renders R scripts with Roxygen comments into specified output format.
 }
 \details{
-This is a wrapper for `rmarkdown::render()` (and `knitr::spin()`, if \code{keep_rmd == TRUE}).
+This is a wrapper for \code{rmarkdown::render()}` (and \code{knitr::spin()}, if \code{keep_rmd == TRUE}).
 It is designed specifically to convert R scripts formatted with Roxgyen comments
 into the specified output format. (In other words, it mirrors the behavior of \code{knitr::knit()}
 for a R markdown document.

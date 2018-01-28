@@ -1,7 +1,8 @@
 
-#' @title Render project output.
+#' Render project output
+#'
 #' @description Renders R scripts with Roxygen comments into specified output format.
-#' @details This is a wrapper for `rmarkdown::render()` (and `knitr::spin()`, if \code{keep_rmd == TRUE}).
+#' @details This is a wrapper for \code{rmarkdown::render()}` (and \code{knitr::spin()}, if \code{keep_rmd == TRUE}).
 #' It is designed specifically to convert R scripts formatted with Roxgyen comments
 #' into the specified output format. (In other words, it mirrors the behavior of \code{knitr::knit()}
 #' for a R markdown document.
@@ -10,7 +11,7 @@
 #' @param ... dots. Parameters passed to \code{list.files()}.
 #' @param dir_output character. Should not be a vector. IMPORTANT: Relative to input directory (so something like "../output" is valid).
 #' @param filenames_output character. Explicit filenames to use for output. Length of variable must exactly match number of filepaths meeting \code{list.files()} criteria.
-#' @param rgx_input character. Alias to `pattern` parameter for `list.files()`. Used ONLY if `filepaths` is missing and \code{dir} is not.
+#' @param rgx_input character. Alias to \code{pattern} parameter for \code{list.files()}. Used ONLY if \code{filepaths} is missing and \code{dir} is not.
 #' @param rgx_input_include character. Regular expression to use to filter for \code{list.files()} output. (Somewhat redundant.)
 #' @param rgx_input_exclude character. Regular expression to use to filter for \code{list.files()} output. (Somewhat redundant.)
 #' @param rgx_output_trim character. Used ONLY if \code{filenames_output} is missing. Describes how input file names should be "trimmed" to make the output file name appear "cleaner".

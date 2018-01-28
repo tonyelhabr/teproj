@@ -51,20 +51,23 @@
   invisible(filepath_backup)
 }
 
-#' @title Save to a filepath.
+#' Save to a filepath
+#'
 #' @description Saves an object to a filepath.
 #' @details Object to save must be a data.frame (or matrix) for most formats.
 #' @inheritParams create_dir
 #' @param x data.frame (or matrix) for most formats.
 #' @param filename character. Bare filename (i.e. without folderor extension),
 #' @param ext character. Bare extension (i.e. without a dot). Must be one of valid formats.
-#' @param filepath character. Concatenation of `filename`, `dir`, and \code{ext},
+#' @param filepath character. Concatenation of \code{filename}, \code{dir}, and \code{ext},
 #' @param overwrite boolean.
 #' @param backup boolean.
 #' @param filepath_backup like \code{filepath},
 #' @param export boolean. Indicates whether to actually carry out action. Intended to be used as a "catch all".
 #' @param return boolean.  Relevant ONLY if \code{export == FALSE}.
 #' Set to \code{TRUE} in order to preview what would be rendered.
+#' @param ... dots. Parameters to pass on to internally used export function.
+#' Important for explicitly specifying non-default \code{ggplot2::ggsave()}.
 #' @return character. Filepath.
 #' @examples
 #' \dontrun{
@@ -81,7 +84,7 @@
 #' @export
 #' @rdname export_ext
 #' @importFrom rio export
-#' @importFrom ggplot2 ggsave
+#' @importFrom ggplot2 last_plot ggsave
 #' @importFrom session save.session
 #' @importFrom utils capture.output
 export_ext <-
@@ -157,7 +160,7 @@ export_ext <-
         units <- getOption("teproj.ggsave.units")
         width <- getOption("teproj.ggsave.width")
         height <- getOption("teproj.ggsave.height")
-        .print_usedefault_msg(unit)
+        .print_usedefault_msg(units)
         .print_usedefault_msg(width)
         .print_usedefault_msg(height)
         utils::capture.output(

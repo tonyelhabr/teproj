@@ -8,18 +8,18 @@ create_example(style = "personal", template = "analysis",
   dir = "teproj_test", ..., overwrite = FALSE)
 }
 \arguments{
-\item{style}{Character. Valid arguments include "ercot".}
+\item{style}{character. Valid arguments include "ercot".}
 
-\item{template}{Character. Valid arguments include "analysis".}
+\item{template}{character. Valid arguments include "analysis".}
 
-\item{dir}{Character. Name of directory to create. Default is provided.}
+\item{dir}{character. Name of directory to create. Default is provided.}
 
-\item{...}{Dots. Not currently used.}
+\item{...}{dots. Not currently used.}
 
-\item{overwrite}{Boolean. Indicates whether to overwrite existing directory or not.}
+\item{overwrite}{logical. Indicates whether to overwrite existing directory or not.}
 }
 \value{
-Character. Directory filepath.
+character. directory filepath.
 }
 \description{
 Creates an example project or file.

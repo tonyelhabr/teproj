@@ -17,6 +17,8 @@ pkg_render_opts <- list(
   teproj.render.fig.show = "hide",
   teproj.render.fig.width = 10,
   teproj.render.fig.height = 10,
+  teproj.render.out.width = 10,
+  teproj.render.out.height = 10,
   teproj.render.warning = FALSE,
   teproj.render.message = FALSE
 )

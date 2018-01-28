@@ -9,7 +9,7 @@
 \alias{import_ext_RData}
 \alias{import_ext_rda}
 \alias{import_ext_rds}
-\title{Import an object.}
+\title{Import an object}
 \usage{
 import_ext(filename, dir = getwd(), ext, filepath = file.path(dir,
   paste0(filename, ".", ext)), import = TRUE, return = TRUE, ...)
@@ -35,14 +35,14 @@ import_ext_rds(...)
 
 \item{ext}{character. Bare extension (i.e. without a dot). Must be one of valid formats.}
 
-\item{filepath}{character. Concatenation of `filename`, `dir`, and \code{ext},}
+\item{filepath}{character. Concatenation of \code{filename}, \code{dir}, and \code{ext},}
 
 \item{import}{boolean. Indicates whether to actually carry out function.}
 
 \item{return}{boolean.  Relevant ONLY if \code{export == FALSE}.
 Set to \code{TRUE} in order to preview what would be rendered.}
 
-\item{...}{dots. Not currently used.}
+\item{...}{dots. Parameters to pass on to internally used import function.}
 }
 \description{
 Reads in an object from a filepath.

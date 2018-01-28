@@ -25,11 +25,13 @@
 
 
 
-#' @title Import an object.
+#' Import an object
+#'
 #' @description Reads in an object from a filepath.
 #' @details None.
 #' @inheritParams export_ext
 #' @param import boolean. Indicates whether to actually carry out function.
+#' @param ... dots. Parameters to pass on to internally used import function.
 #' @export
 #' @importFrom rio import
 #' @importFrom session restore.session

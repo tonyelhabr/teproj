@@ -12,7 +12,7 @@
 \alias{export_ext_png}
 \alias{export_fig}
 \alias{export_viz}
-\title{Save to a filepath.}
+\title{Save to a filepath}
 \usage{
 export_ext(x = NULL, filename = deparse(substitute(x)), dir = getwd(),
   ext = NULL, filepath = file.path(dir, paste0(filename, ".", ext)),
@@ -48,7 +48,7 @@ export_viz(...)
 
 \item{ext}{character. Bare extension (i.e. without a dot). Must be one of valid formats.}
 
-\item{filepath}{character. Concatenation of `filename`, `dir`, and \code{ext},}
+\item{filepath}{character. Concatenation of \code{filename}, \code{dir}, and \code{ext},}
 
 \item{overwrite}{boolean.}
 
@@ -61,7 +61,8 @@ export_viz(...)
 \item{return}{boolean.  Relevant ONLY if \code{export == FALSE}.
 Set to \code{TRUE} in order to preview what would be rendered.}
 
-\item{...}{dots. Not currently used.}
+\item{...}{dots. Parameters to pass on to internally used export function.
+Important for explicitly specifying non-default \code{ggplot2::ggsave()}.}
 }
 \value{
 character. Filepath.

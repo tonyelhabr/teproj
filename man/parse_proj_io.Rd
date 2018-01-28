@@ -2,7 +2,7 @@
 % Please edit documentation in R/parse_proj_io.R
 \name{parse_proj_io}
 \alias{parse_proj_io}
-\title{Parse input and output in project scripts.}
+\title{Parse input and output in project scripts}
 \usage{
 parse_proj_io(filepaths, dir, ..., rgx_file_io = ".R",
   rgx_input = ".*(import_ext|read)", rgx_output = ".*export_ext|write)")
@@ -15,8 +15,8 @@ parse_proj_io(filepaths, dir, ..., rgx_file_io = ".R",
 \item{...}{dots. Arguments passed to \code{list.files()} for identifying input/output files.
 (Technically, \code{pattern} could/should not be specified explicitly.)}
 
-\item{rgx_file_io}{character. Alias to `pattern` parameter for `list.files()`.
-Used ONLY if `filepaths` is missing and \code{dir} is not.}
+\item{rgx_file_io}{character. Alias to \code{pattern} parameter for \code{list.files()}.
+Used ONLY if \code{filepaths} is missing and \code{dir} is not.}
 
 \item{rgx_input}{character. Regular expression to match for input functions}
 
@@ -29,10 +29,10 @@ data.frame
 Parses project diretory to identify input andoutput variables, filenames, etc.
 }
 \details{
-Intended to be used with this package's `export*()` and \code{import*()} functions, but it can also work
-with the functions from other packages (e.g. `readr`) if `rgx_input` and \code{rgx_output} are modified appropriately.
-For example, `rgx_input == "read"` and `rgx_output == "write"` might be appropriate choices if using the \code{readr} package.)
+Intended to be used with this package's \code{export()} and \code{import()} functions, but it can also work
+with the functions from other packages (e.g. \code{readr}) if \code{rgx_input} and \code{rgx_output} are modified appropriately.
+For example, \code{rgx_input == "read"} and \code{rgx_output == "write"} might be appropriate choices if using the \code{readr} package.)
 Does not (currently) work as well if variables, filenames, etc. are not wrapped directly by
-the functions described by `rgx_input` and \code{rgx_output}.
+the functions described by \code{rgx_input} and \code{rgx_output}.
 NOTE: In the future this should/will use \code{utils::getParseData(parse(f))}
 }

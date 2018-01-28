@@ -1,5 +1,5 @@
 
-teproj <img src="man/figures/logo.png" align="right" height="120" width="139"/>
+teproj <img src="man/figures/logo.png" align="right" height="139" width="120"/>
 ===============================================================================
 
 Introduction
@@ -46,4 +46,4 @@ Unfortunately, none (right now).
 
 [1] The `fundManageR` package inspired some of the format of this section. See its [README file](https://github.com/abresler/fundManageR/blob/master/readme.Rmd).
 
-[2] See [Andrew Brook's discussion](http://brooksandrew.github.io/simpleblog/articles/render-reports-directly-from-R-scripts/) for more discussion.
+[2] See [this blog post](http://brooksandrew.github.io/simpleblog/articles/render-reports-directly-from-R-scripts/) for more discussion.

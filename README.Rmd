@@ -30,7 +30,7 @@ hexSticker::sticker(
 # NOTE: ggsave(width = "37", height = "31.74", units = "mm") produces a png with 120x140px dimensions.
 ```
 
-# teproj <img src="man/figures/logo.png" align="right" height="39" width="120"/>
+# teproj <img src="man/figures/logo.png" align="right" height="139" width="120"/>
 
 ##  Introduction
 

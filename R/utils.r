@@ -63,7 +63,7 @@
   } else {
     filepaths_exist <- as.logical(lapply(filepaths, file.exists))
     if(!any(filepaths_exist)) {
-      if(getOption("teutils.print_wrn")) {
+      if(getOption("teutils.print.wrn")) {
         warning("Specified files do not exist.")
       }
     } else {

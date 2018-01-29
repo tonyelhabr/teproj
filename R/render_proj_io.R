@@ -29,6 +29,7 @@
 #' @importFrom tibble tibble
 #' @importFrom knitr spin
 #' @importFrom rmarkdown render
+#' @importFrom knitr opts_chunk
 render_proj_io <-
   function(filepaths_input,
            dir_input,
@@ -162,18 +163,9 @@ render_proj_io <-
           # opts <- get_pkg_opts_renamed(type = "render")
           opts <-
             list(
-              echo = getOption("teproj.render.echo"),
-              cache = getOption("teproj.render.cache"),
-              results = getOption("teproj.render.results"),
-              width = getOption("teproj.render.width"),
-              fig.align = getOption("teproj.render.fig.align"),
-              fig.show = getOption("teproj.render.fig.show"),
-              fig.width = getOption("teproj.render.fig.width"),
-              fig.height = getOption("teproj.render.fig.height"),
-              out.width = getOption("teproj.render.out.width"),
-              out.height = getOption("teproj.render.out.height"),
-              warning = getOption("teproj.render.warning"),
-              message = getOption("teproj.render.message")
+              knitr::opts_chunk$set(
+                get_pkg_opts_renamed(type = "render")
+              )
             )
           rmarkdown::render(
             input = filepath_i,

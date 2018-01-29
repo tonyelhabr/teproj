@@ -12,13 +12,12 @@ pkg_render_opts <- list(
   teproj.render.echo = FALSE,
   teproj.render.cache = FALSE,
   teproj.render.results = "hide",
-  teproj.render.width = 100,
   teproj.render.fig.align = "center",
   teproj.render.fig.show = "hide",
   teproj.render.fig.width = 10,
   teproj.render.fig.height = 10,
-  teproj.render.out.width = 10,
-  teproj.render.out.height = 10,
+  # teproj.render.out.width = 10,
+  # teproj.render.out.height = 10,
   teproj.render.warning = FALSE,
   teproj.render.message = FALSE
 )

@@ -1,10 +1,38 @@
 
+
+#' View package options
+#'
+#' @description View options for relevant \code{teproj} functions.
+#' @details Particularly useful for the \code{render_pojr_io()} function.
+#' @param type character. Specification of which package options to extract (i.e. "print", "render", or "ggsave").
+#' @param pkg_opts_prefix character. "teproj".
+#' @return list (of named characters). Renamed package options.
+#' @rdname get_pkg_opts
+#' @export
+get_pkg_opts_renamed <- function(type = c("print", "render", "ggsave"), pkg_opts_prefix = "teproj") {
+  type <- match.arg(type)
+  opts <- get_pkg_opts_verbose(type, pkg_opts_prefix)
+  rgx <- paste0(pkg_opts_prefix, "\\.", type, "\\.")
+  out <- opts
+  names(out) <- gsub(rgx, "", names(opts))
+  out
+}
+
+#' @rdname get_pkg_opts
+#' @export
+get_pkg_opts_verbose <- function(type = c("print", "render", "ggsave"), pkg_opts_prefix = "teproj") {
+  type <- match.arg(type)
+  rgx <- paste0(pkg_opts_prefix, ".*", type)
+  opts <- options()[grep(rgx, names(options()))]
+  opts
+}
+
 #' Control package options
 #'
 #' @description Sets options for relevant \code{teproj} functions.
 #' @details Intended to be used as a wrapper to \code{options(...)}.
 #' @param msg,wrn,err booleans. Indiciates whether to show messages, warnings, and errors for package functions.
-#' @rdname set_pkg_opts
+#' @return Nothing.
 #' @export
 set_pkg_print_opts <- function(msg = getOption("teproj.print.msg"),
                                wrn = getOption("teproj.print.wrn"),
@@ -14,11 +42,12 @@ set_pkg_print_opts <- function(msg = getOption("teproj.print.msg"),
   options(teproj.print.err = err)
 }
 
-#' Control package settings
+#' Control package options
 #'
 #' @description Sets options for \code{teproj::render_proj_io}.
 #' @details Intended to be used as a wrapper to \code{options(...)}.
-#' @param echo,cache,results,width,fig.align,fig.show,fig.width,fig.height,out.width,out.height,warning,message Arguments passed to the \code{knitr_opts$set()} arguments of their same namesake.
+#' @param echo,cache,results,width,fig.align,fig.show,fig.width,fig.height,out.width,out.height,warning,message
+#' Arguments passed to the \code{knitr_opts$set()} arguments of their same namesake.
 #' @export
 set_pkg_render_opts <-
   function(echo = getOption("teproj.render.echo"),
@@ -47,7 +76,7 @@ set_pkg_render_opts <-
     options(teproj.render.message = message)
   }
 
-#' Control package option
+#' Control package options
 #' .
 #' @description Sets options for saving a \code{ggplot2} plot with \code{teproj::export()}.
 #' @details Intended to be used as a wrapper to \code{options(...)}.

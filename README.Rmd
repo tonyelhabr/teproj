@@ -15,10 +15,11 @@ knitr::opts_chunk$set(
 ```{r eval = FALSE, echo = FALSE}
 viz_void <- ggplot2::ggplot() + ggplot2::theme_void()
 
+filepath_logo <- file.path("man", "figures", paste0("logo.png"))
 hexSticker::sticker(
   subplot = viz_void,
   package = "teproj",
-  filename = file.path("man", "figures", paste0("logo.png")),
+  filename = filepath_logo,
   p_y = 1.0,
   p_color = "black",
   # p_family = "sans",
@@ -27,10 +28,11 @@ hexSticker::sticker(
   h_color = "black",
   h_fill = "yellow"
 )
-# NOTE: ggsave(width = "37", height = "31.74", units = "mm") produces a png with 120x140px dimensions.
+logo <- magick::image_read(filepath_logo)
+magick::image_write(magick::image_scale(logo, "120"), path = filepath_logo)
 ```
 
-# teproj <img src="man/figures/logo.png" align="right" height="139" width="120"/>
+# teproj <img src="man/figures/logo.png" align="right"/>
 
 ##  Introduction
 

@@ -157,11 +157,12 @@ render_proj_io <-
             unlink(filepaths_render_info$input_rmd[i])
           }
 
+          opts <- get_pkg_opts_renamed(type = "render")
           rmarkdown::render(
             input = filepath_i,
             output_file = filepath_output_i,
             quiet = quiet,
-            output_options = set_pkg_render_opts()
+            output_options = opts
           )
 
           if (backup) {

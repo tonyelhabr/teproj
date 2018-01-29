@@ -119,6 +119,7 @@ render_proj_io <-
       return(invisible())
     }
 
+
     # filenames_output <- gsub("^.*\\\\|^.*\\/", "", filenames_output)
     filenames_output <- basename(filepaths_input)
     filenames_output <- tools::file_path_sans_ext(filenames_output)
@@ -133,6 +134,7 @@ render_proj_io <-
     # filepaths_output <- paste0(dir_output, filename_output, ext_output)
     filepaths_output <-
       file.path(dir_output, paste0(filenames_output, ext_output))
+    filepaths_output <- .normalize_path(filepaths_output, mustWork = FALSE)
     filepaths_output
 
     filepaths_output_backup <-
@@ -148,6 +150,7 @@ render_proj_io <-
                      output = filepaths_output,
                      # output_name = filenames_output,
                      output_backup = filepaths_output_backup)
+    # browser()
     if (!backup)
       filepaths_render_info <-
       filepaths_render_info[, -ncol(filepaths_render_info)]

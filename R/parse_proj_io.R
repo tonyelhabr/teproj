@@ -30,23 +30,23 @@
            ext,
            filepath) {
     if (getOption("teproj.print.msg"))
-      # message(
-      #   "Found ",
-      #   action,
-      #   " variable ",
-      #   var,
-      #   " on line ",
-      #   line_idx,
-      #   " ",
-      #   line,
-      #   " in script ",
-      #   filename,
-      #   # "(",
-      #   # filepath,
-      #   # ")",
-      #   "."
-      # )
-    message(sprintf("Found %s variable %s on line %.0f in script %s.", action, var, line_idx, filename))
+      message(
+        "Found ",
+        action,
+        " variable ",
+        var,
+        " on line ",
+        line_idx,
+        " ",
+        line,
+        " in script ",
+        filename,
+        # "(",
+        # filepath,
+        # ")",
+        "."
+      )
+    # message(sprintf("Found %s variable %s on line %.0f in script %s.", action, var, line_idx, filename))
   }
 
 .compile_project_io_data <-
@@ -125,7 +125,7 @@ parse_proj_io <-
 
     # browser()
     # filepaths <- normalizePath(filepaths)
-    filepaths <- .normalize_path(filepaths, mustWork = FALSE)
+    # filepaths <- .normalize_path(filepaths, mustWork = FALSE)
     files_exist <-
       .check_files_exist(filepaths = filepaths,
                          dir = dir,
@@ -284,7 +284,8 @@ parse_proj_io <-
                                    filename,
                                    ext,
                                    filepath)
-          if (!exists("out")) {
+          # browser()
+          if (!exists("out", inherits = FALSE)) {
             out <- d
           } else {
             out <- rbind(out, d)
@@ -295,7 +296,7 @@ parse_proj_io <-
       close(conn)
       filepath_idx <- filepath_idx + 1
     }
-    if (!exists("out")) {
+    if (!exists("out", inherits = FALSE)) {
       return(invisible())
     }
     invisible(as_tibble(out))

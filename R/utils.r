@@ -9,6 +9,9 @@
 
 # NOTE: This is used by *_proj_io() functions.
 # Modified from https://github.com/rstudio/rmarkdown/blob/81c209271e06266115e08263dbcde5d007e4d77c/R/includes.R
+# NOTE: Not sure why, but need to set mustWork = FALSE) explicitly, otherwise
+# warnings appear. (This behavior is not observed when calling normalizePath directly.
+# Howver, normalizePath() specifies `winslash = "\\"` by default, which is annoying.)
 .normalize_path <- function(path, winslash = "/", mustWork = NA) {
   if (!is.null(path))
     normalizePath(path, winslash = winslash, mustWork = mustWork)

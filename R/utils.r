@@ -1,4 +1,19 @@
 
+
+# Modified from https://github.com/yihui/knitr/blob/master/R/utils.R.
+# .is_windows <- function() .Platform$OS.type == "windows"
+# .is_abs_path <- function(x) {
+#   if (.is_windows())
+#     grepl(':', x, fixed = TRUE) || grepl('^\\\\', x) else grepl('^[/~]', x)
+# }
+
+# NOTE: This is used by *_proj_io() functions.
+# Modified from https://github.com/rstudio/rmarkdown/blob/81c209271e06266115e08263dbcde5d007e4d77c/R/includes.R
+.normalize_path <- function(path, winslash = "/", mustWork = NA) {
+  if (!is.null(path))
+    normalizePath(path, winslash = winslash, mustWork = mustWork)
+}
+
 .get_filepath <-
   function(filename,
            dir,

@@ -1,4 +1,5 @@
 
+
 #' Render project output
 #'
 #' @description Renders R scripts with Roxygen comments into specified output format.
@@ -70,17 +71,23 @@ render_proj_io <-
       return(invisible())
     }
 
-    if(missing(dir_output)) {
+    if (missing(dir_output)) {
       # .print_isnull_msg("dir_output")
       dir_output <- file.path(getwd())
       .print_usedefault_msg(dir_output)
       return(invisible())
     }
 
-    files_exist <- .check_files_exist(filepaths = filepaths_input, dir = dir_input, pattern = rgx_input, ...)
+    # filepaths_input <- normalizePath(filepaths_input)
+    filepaths_input <- .normalize_path(filepaths_input, mustWork = FALSE)
+    files_exist <-
+      .check_files_exist(filepaths = filepaths_input,
+                         dir = dir_input,
+                         pattern = rgx_input,
+                         ...)
 
     # browser()
-    if(!files_exist$exist) {
+    if (!files_exist$exist) {
       return(invisible())
     } else {
       filepaths_input <- files_exist$filepaths
@@ -88,23 +95,26 @@ render_proj_io <-
 
     # Secondary filtering...
     # browser()
-    if (!missing(rgx_input_include))
+    if (!missing(rgx_input_include)) {
       filepaths_input <-
-      grep(rgx_input_include,
-           filepaths_input,
-           value = TRUE)
+        grep(rgx_input_include,
+             filepaths_input,
+             value = TRUE)
+    }
     filepaths_input
 
-    if (!missing(rgx_input_exclude))
+    if (!missing(rgx_input_exclude)) {
       filepaths_input <-
-      grep(rgx_input_exclude,
-           filepaths_input,
-           value = TRUE,
-           invert = TRUE)
-    filepaths_input
+        grep(rgx_input_exclude,
+             filepaths_input,
+             value = TRUE,
+             invert = TRUE)
+    }
+    # filepaths_input
 
-    filepaths_exist <- as.logical(lapply(filepaths_input, file.exists))
-    if(!any(filepaths_exist)) {
+    filepaths_exist <-
+      as.logical(lapply(filepaths_input, file.exists))
+    if (!any(filepaths_exist)) {
       .print_nofile_msg()
       return(invisible())
     }
@@ -115,10 +125,10 @@ render_proj_io <-
     filenames_output
 
     # browser()
-    if (!missing(rgx_output_trim))
-      filenames_output <-
-      gsub(rgx_output_trim, "", filenames_output)
-    filenames_output
+    if (!missing(rgx_output_trim)) {
+      filenames_output <- gsub(rgx_output_trim, "", filenames_output)
+    }
+    # filenames_output
 
     # filepaths_output <- paste0(dir_output, filename_output, ext_output)
     filepaths_output <-
@@ -138,12 +148,12 @@ render_proj_io <-
                      output = filepaths_output,
                      # output_name = filenames_output,
                      output_backup = filepaths_output_backup)
-    if(!backup)
-      filepaths_render_info <- filepaths_render_info[, -ncol(filepaths_render_info)]
+    if (!backup)
+      filepaths_render_info <-
+      filepaths_render_info[, -ncol(filepaths_render_info)]
     filepaths_render_info
 
     if (render) {
-
       create_dir(dir_output)
       # create_dir(dir_output, overwrite = overwrite)
 
@@ -162,11 +172,7 @@ render_proj_io <-
 
           # opts <- get_pkg_opts_renamed(type = "render")
           opts <-
-            list(
-              knitr::opts_chunk$set(
-                get_pkg_opts_renamed(type = "render")
-              )
-            )
+            list(knitr::opts_chunk$set(get_pkg_opts_renamed(type = "render")))
           rmarkdown::render(
             input = filepath_i,
             output_file = filepath_output_i,

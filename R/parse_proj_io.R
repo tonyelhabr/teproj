@@ -30,22 +30,23 @@
            ext,
            filepath) {
     if (getOption("teproj.print.msg"))
-      message(
-        "Found ",
-        action,
-        " variable ",
-        var,
-        " on line ",
-        line_idx,
-        " ",
-        line,
-        " in script ",
-        filename,
-        # "(",
-        # filepath,
-        # ")",
-        "."
-      )
+      # message(
+      #   "Found ",
+      #   action,
+      #   " variable ",
+      #   var,
+      #   " on line ",
+      #   line_idx,
+      #   " ",
+      #   line,
+      #   " in script ",
+      #   filename,
+      #   # "(",
+      #   # filepath,
+      #   # ")",
+      #   "."
+      # )
+    message(sprintf("Found %s variable %s on line %.0f in script %s.", action, var, line_idx, filename))
   }
 
 .compile_project_io_data <-
@@ -123,6 +124,8 @@ parse_proj_io <-
     # rgx_output = "^export_"
 
     # browser()
+    # filepaths <- normalizePath(filepaths)
+    filepaths <- .normalize_path(filepaths, mustWork = FALSE)
     files_exist <-
       .check_files_exist(filepaths = filepaths,
                          dir = dir,

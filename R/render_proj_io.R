@@ -33,7 +33,7 @@ render_proj_io <-
   function(filepaths_input,
            dir_input,
            ...,
-           dir_output = NULL,
+           dir_output,
            filenames_output,
            rgx_input = ".",
            rgx_input_include = rgx_input,
@@ -69,8 +69,10 @@ render_proj_io <-
       return(invisible())
     }
 
-    if(is.null(dir_output)) {
-      .print_isnull_msg("dir_output")
+    if(missing(dir_output)) {
+      # .print_isnull_msg("dir_output")
+      dir_output <- file.path(getwd())
+      .print_usedefault_msg(dir_output)
       return(invisible())
     }
 
@@ -157,7 +159,22 @@ render_proj_io <-
             unlink(filepaths_render_info$input_rmd[i])
           }
 
-          opts <- get_pkg_opts_renamed(type = "render")
+          # opts <- get_pkg_opts_renamed(type = "render")
+          opts <-
+            list(
+              echo = getOption("teproj.render.echo"),
+              cache = getOption("teproj.render.cache"),
+              results = getOption("teproj.render.results"),
+              width = getOption("teproj.render.width"),
+              fig.align = getOption("teproj.render.fig.align"),
+              fig.show = getOption("teproj.render.fig.show"),
+              fig.width = getOption("teproj.render.fig.width"),
+              fig.height = getOption("teproj.render.fig.height"),
+              out.width = getOption("teproj.render.out.width"),
+              out.height = getOption("teproj.render.out.height"),
+              warning = getOption("teproj.render.warning"),
+              message = getOption("teproj.render.message")
+            )
           rmarkdown::render(
             input = filepath_i,
             output_file = filepath_output_i,

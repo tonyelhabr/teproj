@@ -18,6 +18,7 @@
 #' @param rgx_output_trim character. Used ONLY if \code{filenames_output} is missing. Describes how input file names should be "trimmed" to make the output file name appear "cleaner".
 #' @param ext_output character. File extension of output.
 #' @param render boolean. Indiciates whether or not to actually carry out function.
+#' @param render_params list. Parameters to pass directly to \code{params} argument of \code{rmarkdown::render()}
 #' @param return boolean. Relevant ONLY if \code{render == FALSE}.
 #' Set to \code{TRUE} in order to preview what would be rendered.
 #' @param overwrite boolean. Indicates whether or not to overwrite any existing file with the same name. Not currently used.
@@ -43,6 +44,7 @@ render_proj_io <-
            rgx_output_trim = "-v[0-9]+.R",
            ext_output = ".html",
            render = TRUE,
+           render_params = NULL,
            return = TRUE,
            overwrite = TRUE,
            quiet = FALSE,
@@ -179,6 +181,7 @@ render_proj_io <-
           rmarkdown::render(
             input = filepath_i,
             output_file = filepath_output_i,
+            params = render_params,
             quiet = quiet,
             output_options = opts
           )

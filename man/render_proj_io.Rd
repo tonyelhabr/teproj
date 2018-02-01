@@ -7,9 +7,9 @@
 render_proj_io(filepaths_input, dir_input, ..., dir_output, filenames_output,
   rgx_input = ".", rgx_input_include = rgx_input, rgx_input_exclude = "",
   rgx_output_trim = "-v[0-9]+.R", ext_output = ".html", render = TRUE,
-  return = TRUE, overwrite = TRUE, quiet = FALSE, backup = FALSE,
-  backup_suffix = paste0("_", format(Sys.time(), "\%Y-\%m-\%d_\%H-\%M-\%S")),
-  keep_rmd = FALSE)
+  render_params = NULL, return = TRUE, overwrite = TRUE, quiet = FALSE,
+  backup = FALSE, backup_suffix = paste0("_", format(Sys.time(),
+  "\%Y-\%m-\%d_\%H-\%M-\%S")), keep_rmd = FALSE)
 }
 \arguments{
 \item{filepaths_input}{character. Can be a vector.}
@@ -33,6 +33,8 @@ render_proj_io(filepaths_input, dir_input, ..., dir_output, filenames_output,
 \item{ext_output}{character. File extension of output.}
 
 \item{render}{boolean. Indiciates whether or not to actually carry out function.}
+
+\item{render_params}{list. Parameters to pass directly to \code{params} argument of \code{rmarkdown::render()}}
 
 \item{return}{boolean. Relevant ONLY if \code{render == FALSE}.
 Set to \code{TRUE} in order to preview what would be rendered.}

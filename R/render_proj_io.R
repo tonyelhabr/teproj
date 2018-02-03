@@ -80,8 +80,6 @@ render_proj_io <-
       return(invisible())
     }
 
-    # filepaths_input <- normalizePath(filepaths_input)
-    filepaths_input <- .normalize_path(filepaths_input, mustWork = FALSE)
     files_exist <-
       .check_files_exist(filepaths = filepaths_input,
                          dir = dir_input,
@@ -94,6 +92,9 @@ render_proj_io <-
     } else {
       filepaths_input <- files_exist$filepaths
     }
+
+    # filepaths_input <- normalizePath(filepaths_input)
+    filepaths_input <- .normalize_path(filepaths_input, mustWork = FALSE)
 
     # Secondary filtering...
     # browser()

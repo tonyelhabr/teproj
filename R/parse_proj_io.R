@@ -123,9 +123,6 @@ parse_proj_io <-
     # rgx_input = "^(readr::import_|import_)"
     # rgx_output = "^export_"
 
-    # browser()
-    # filepaths <- normalizePath(filepaths)
-    # filepaths <- .normalize_path(filepaths, mustWork = FALSE)
     files_exist <-
       .check_files_exist(filepaths = filepaths,
                          dir = dir,
@@ -137,7 +134,10 @@ parse_proj_io <-
       filepaths <- files_exist$filepaths
     }
 
-    filepaths
+    # browser()
+    # filepaths <- normalizePath(filepaths)
+    filepaths <- .normalize_path(filepaths, mustWork = FALSE)
+
     filepath_idx <- 1
 
     while (filepath_idx <= length(filepaths)) {

@@ -7,15 +7,15 @@
 #' It is designed specifically to convert R scripts formatted with Roxgyen comments
 #' into the specified output format. (In other words, it mirrors the behavior of \code{knitr::knit()}
 #' for a R markdown document.
-#' @param filepaths_input character. Can be a vector.
-#' @param dir_input character. Should not be a vector. Only used if \code{filepaths_input} is missing.
+#' @param filepath_input character. Can be a vector.
+#' @param dir_input character. Should not be a vector. Only used if \code{filepath_input} is missing.
 #' @param ... dots. Parameters passed to \code{list.files()}.
 #' @param dir_output character. Should not be a vector. IMPORTANT: Relative to input directory (so something like "../output" is valid).
-#' @param filenames_output character. Explicit filenames to use for output. Length of variable must exactly match number of filepaths meeting \code{list.files()} criteria.
-#' @param rgx_input character. Alias to \code{pattern} parameter for \code{list.files()}. Used ONLY if \code{filepaths} is missing and \code{dir} is not.
+#' @param filename_output character. Explicit filenames to use for output. Length of variable must exactly match number of filepath meeting \code{list.files()} criteria.
+#' @param rgx_input character. Alias to \code{pattern} parameter for \code{list.files()}. Used ONLY if \code{filepath} is missing and \code{dir} is not.
 #' @param rgx_input_include character. Regular expression to use to filter for \code{list.files()} output. (Somewhat redundant.)
 #' @param rgx_input_exclude character. Regular expression to use to filter for \code{list.files()} output. (Somewhat redundant.)
-#' @param rgx_output_trim character. Used ONLY if \code{filenames_output} is missing. Describes how input file names should be "trimmed" to make the output file name appear "cleaner".
+#' @param rgx_output_trim character. Used ONLY if \code{filename_output} is missing. Describes how input file names should be "trimmed" to make the output file name appear "cleaner".
 #' @param ext_output character. File extension of output.
 #' @param render boolean. Indiciates whether or not to actually carry out function.
 #' @param render_params list. Parameters to pass directly to \code{params} argument of \code{rmarkdown::render()}
@@ -32,17 +32,18 @@
 #' @importFrom knitr spin
 #' @importFrom rmarkdown render
 #' @importFrom knitr opts_chunk
+#' @importFrom tools file_path_sans_ext
 render_proj_io <-
-  function(filepaths_input,
+  function(filepath_input,
            dir_input,
            ...,
-           dir_output,
-           filenames_output,
+           dir_output = file.path(getwd()),
+           filename_output,
            rgx_input = ".",
            rgx_input_include = rgx_input,
            rgx_input_exclude = "",
            rgx_output_trim = "-v[0-9]+.R",
-           ext_output = ".html",
+           ext_output = c("html"),
            render = TRUE,
            render_params = NULL,
            return = TRUE,
@@ -51,21 +52,6 @@ render_proj_io <-
            backup = FALSE,
            backup_suffix = paste0("_", format(Sys.time(), "%Y-%m-%d_%H-%M-%S")),
            keep_rmd = FALSE) {
-    # # Debugging...
-    # filepaths_input = NULL
-    # dir_input = "tests/testthat/project-render"
-    # rgx_input = ".R$"
-    # rgx_input_include = rgx_input
-    # rgx_input_exclude = "fake news"
-    # rgx_output_trim = "-v[0-9]+.R"
-    # dir_output = "tests/testthat/project-render/output/"
-    # ext_output = ".html"
-    # render = TRUE
-    # rgx_render = "."
-    # overwrite = TRUE
-    # backup = FALSE
-    # backup_suffix = paste0("_", format(Sys.time(), "%Y-%m-%d_%H-%M-%S"))
-    # keep_md = FALSE
 
     # Check for render at the very end.
     if (!render & !return) {
@@ -73,110 +59,119 @@ render_proj_io <-
       return(invisible())
     }
 
-    if (missing(dir_output)) {
-      # .print_isnull_msg("dir_output")
-      dir_output <- file.path(getwd())
-      .print_usedefault_msg(dir_output)
-      return(invisible())
-    }
+    if(missing(filepath_input) & missing(dir_input)) {
+      .print_ismiss_msg()
 
-    files_exist <-
-      .check_files_exist(filepaths = filepaths_input,
-                         dir = dir_input,
-                         pattern = rgx_input,
-                         ...)
+    } else if (missing(filepath_input) & !missing(dir_input)) {
+      # TODO: For some reason include.dirs = FALSE does not exclude directories?
+      filepath_input <-
+        list.files(
+          path = dir_input,
+          pattern = rgx_input,
+          full.names = TRUE,
+          ignore.case = TRUE,
+          include.dirs = FALSE
+        )
+      subdirs_input <-
+        list.dirs(path = dir_input,
+                  # ...,
+                  recursive = FALSE,
+                  full.names = TRUE
+        )
+      filepath_input <- setdiff(filepath_input, subdirs_input)
+      if(length(filepath_input) == 0) {
+        .print_nofile_msg()
+        return(invisible())
+      }
+    } else {
+      filepath_input_exist <- as.logical(lapply(filepath_input, file.exists))
+      if(!any(filepath_input_exist)) {
+        if(getOption("teutils.print.wrn")) {
+          warning("Specified file(s) do not exist.")
+          return(invisible())
+        }
+      }
+    }
 
     # browser()
-    if (!files_exist$exist) {
-      return(invisible())
-    } else {
-      filepaths_input <- files_exist$filepaths
-    }
-
-    # filepaths_input <- normalizePath(filepaths_input)
-    filepaths_input <- .normalize_path(filepaths_input, mustWork = FALSE)
+    # filepath_input <- normalizePath(filepath_input)
+    filepath_input <- .normalize_path(filepath_input, mustWork = FALSE)
 
     # Secondary filtering...
-    # browser()
     if (!missing(rgx_input_include)) {
-      filepaths_input <-
+      filepath_input <-
         grep(rgx_input_include,
-             filepaths_input,
+             filepath_input,
              value = TRUE)
     }
-    filepaths_input
+    filepath_input
 
     if (!missing(rgx_input_exclude)) {
-      filepaths_input <-
+      filepath_input <-
         grep(rgx_input_exclude,
-             filepaths_input,
+             filepath_input,
              value = TRUE,
              invert = TRUE)
     }
-    # filepaths_input
 
-    filepaths_exist <-
-      as.logical(lapply(filepaths_input, file.exists))
-    if (!any(filepaths_exist)) {
+    filepath_exist <-
+      as.logical(lapply(filepath_input, file.exists))
+    if (!any(filepath_exist)) {
       .print_nofile_msg()
       return(invisible())
     }
 
 
-    # filenames_output <- gsub("^.*\\\\|^.*\\/", "", filenames_output)
-    filenames_output <- basename(filepaths_input)
-    filenames_output <- tools::file_path_sans_ext(filenames_output)
-    filenames_output
-
-    # browser()
-    if (!missing(rgx_output_trim)) {
-      filenames_output <- gsub(rgx_output_trim, "", filenames_output)
+    if(missing(filename_output)) {
+      filename_output <- basename(filepath_input)
+      filename_output <- tools::file_path_sans_ext(filename_output)
     }
-    # filenames_output
 
-    # filepaths_output <- paste0(dir_output, filename_output, ext_output)
-    filepaths_output <-
-      file.path(dir_output, paste0(filenames_output, ext_output))
-    filepaths_output <- .normalize_path(filepaths_output, mustWork = FALSE)
-    filepaths_output
+    if (!missing(rgx_output_trim)) {
+      filename_output <- gsub(rgx_output_trim, "", filename_output)
+    }
 
-    filepaths_output_backup <-
+    ext_output <- match.arg(ext_output)
+    filepath_output <-
+      .get_filepath(filename_output, dir_output, ext_output, NULL)
+    filepath_output <- .normalize_path(filepath_output, mustWork = FALSE)
+
+    filepath_output_backup <-
       gsub(ext_output,
            paste0(backup_suffix, ext_output),
-           filepaths_output)
-    filepaths_output_backup
+           filepath_output)
 
     input <- output <- output_backup <- NULL
-    filepaths_render_info <-
-      tibble::tibble(input = filepaths_input,
-                     # input_name = filenames_input,
-                     output = filepaths_output,
-                     # output_name = filenames_output,
-                     output_backup = filepaths_output_backup)
-    # browser()
-    if (!backup)
-      filepaths_render_info <-
-      filepaths_render_info[, -ncol(filepaths_render_info)]
-    filepaths_render_info
+    filepath_render_info <-
+      tibble::tibble(input = filepath_input,
+                     # input_name = filename_input,
+                     output = filepath_output,
+                     # output_name = filename_output,
+                     output_backup = filepath_output_backup)
+    if (!backup) {
+      filepath_render_info <- filepath_render_info[, -ncol(filepath_render_info)]
+    }
 
     if (render) {
-      create_dir(dir_output)
       # create_dir(dir_output, overwrite = overwrite)
+      create_dir(dir_output, overwrite = FALSE)
 
       i <- 1
-      while (i <= nrow(filepaths_render_info)) {
+      while (i <= nrow(filepath_render_info)) {
         try({
-          filepath_i <- filepaths_render_info$input[i]
-          filepath_output_i <- filepaths_render_info$output[i]
+          filepath_i <- filepath_render_info$input[i]
+          filepath_output_i <- filepath_render_info$output[i]
 
           if (keep_rmd == TRUE) {
-            knitr::spin(filepath_i, knit = FALSE)
-            file.copy(from = filepaths_render_info$input_rmd[i],
-                      to = filepaths_render_info$output_rmd[i])
-            unlink(filepaths_render_info$input_rmd[i])
+
+           #  browser()
+            filepath_rmd_init_i <- knitr::spin(filepath_i, knit = FALSE)
+            filepath_rmd_output_i <- gsub(ext_output, "Rmd", filepath_output_i)
+            file.copy(from = filepath_rmd_init_i,
+                      to = filepath_rmd_output_i)
+            unlink(filepath_rmd_init_i)
           }
 
-          # opts <- get_pkg_opts_renamed(type = "render")
           opts <-
             list(knitr::opts_chunk$set(get_pkg_opts_renamed(type = "render")))
           rmarkdown::render(
@@ -189,7 +184,7 @@ render_proj_io <-
 
           if (backup) {
             if (file.exists(filepath_output_i)) {
-              filepath_output_i_backup <- filepaths_render_info$output_backup[i]
+              filepath_output_i_backup <- filepath_render_info$output_backup[i]
               file.copy(from = filepath_output_i, to = filepath_output_i_backup)
             }
           }
@@ -197,5 +192,5 @@ render_proj_io <-
         i <- i + 1
       }
     }
-    invisible(filepaths_render_info)
+    invisible(filepath_render_info)
   }

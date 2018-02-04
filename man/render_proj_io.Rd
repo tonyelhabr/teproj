@@ -4,31 +4,32 @@
 \alias{render_proj_io}
 \title{Render project output}
 \usage{
-render_proj_io(filepaths_input, dir_input, ..., dir_output, filenames_output,
-  rgx_input = ".", rgx_input_include = rgx_input, rgx_input_exclude = "",
-  rgx_output_trim = "-v[0-9]+.R", ext_output = ".html", render = TRUE,
+render_proj_io(filepath_input, dir_input, ...,
+  dir_output = file.path(getwd()), filename_output, rgx_input = ".",
+  rgx_input_include = rgx_input, rgx_input_exclude = "",
+  rgx_output_trim = "-v[0-9]+.R", ext_output = c("html"), render = TRUE,
   render_params = NULL, return = TRUE, overwrite = TRUE, quiet = FALSE,
   backup = FALSE, backup_suffix = paste0("_", format(Sys.time(),
   "\%Y-\%m-\%d_\%H-\%M-\%S")), keep_rmd = FALSE)
 }
 \arguments{
-\item{filepaths_input}{character. Can be a vector.}
+\item{filepath_input}{character. Can be a vector.}
 
-\item{dir_input}{character. Should not be a vector. Only used if \code{filepaths_input} is missing.}
+\item{dir_input}{character. Should not be a vector. Only used if \code{filepath_input} is missing.}
 
 \item{...}{dots. Parameters passed to \code{list.files()}.}
 
 \item{dir_output}{character. Should not be a vector. IMPORTANT: Relative to input directory (so something like "../output" is valid).}
 
-\item{filenames_output}{character. Explicit filenames to use for output. Length of variable must exactly match number of filepaths meeting \code{list.files()} criteria.}
+\item{filename_output}{character. Explicit filenames to use for output. Length of variable must exactly match number of filepath meeting \code{list.files()} criteria.}
 
-\item{rgx_input}{character. Alias to \code{pattern} parameter for \code{list.files()}. Used ONLY if \code{filepaths} is missing and \code{dir} is not.}
+\item{rgx_input}{character. Alias to \code{pattern} parameter for \code{list.files()}. Used ONLY if \code{filepath} is missing and \code{dir} is not.}
 
 \item{rgx_input_include}{character. Regular expression to use to filter for \code{list.files()} output. (Somewhat redundant.)}
 
 \item{rgx_input_exclude}{character. Regular expression to use to filter for \code{list.files()} output. (Somewhat redundant.)}
 
-\item{rgx_output_trim}{character. Used ONLY if \code{filenames_output} is missing. Describes how input file names should be "trimmed" to make the output file name appear "cleaner".}
+\item{rgx_output_trim}{character. Used ONLY if \code{filename_output} is missing. Describes how input file names should be "trimmed" to make the output file name appear "cleaner".}
 
 \item{ext_output}{character. File extension of output.}
 

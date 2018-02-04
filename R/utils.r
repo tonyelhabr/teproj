@@ -23,9 +23,9 @@
            ext,
            filepath) {
     if (is.null(filepath)) {
-      # filepath <- paste0(dir, filename, ".", ext)
       filepath <- file.path(dir, paste0(filename, ".", ext))
     }
+    # filepath <- .normalize_path(filepath)
     filepath
   }
 

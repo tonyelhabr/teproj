@@ -133,7 +133,7 @@ render_proj_io <-
 
     ext_output <- match.arg(ext_output)
     filepath_output <-
-      .get_filepath(filename_output, dir_output, ext_output, NULL)
+      .get_filepath(dir_output, filename_output, ext_output, filepath = NULL)
     filepath_output <- .normalize_path(filepath_output, mustWork = FALSE)
 
     filepath_output_backup <-

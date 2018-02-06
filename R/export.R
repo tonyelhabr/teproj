@@ -111,7 +111,7 @@ export_ext <-
     }
 
     filepath <-
-      .get_filepath(filename, dir, ext, filepath)
+      .get_filepath(dir, filename, ext, filepath)
 
     if (!export & return) {
       return(invisible(filepath))

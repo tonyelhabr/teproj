@@ -63,7 +63,7 @@ import_ext <-
       return(invisible())
     }
 
-    filepath <- .get_filepath(filename, dir, ext, filepath)
+    filepath <- .get_filepath(dir, filename, ext, filepath)
 
     if(!file.exists(filepath)) {
       if(getOption("teproj.print.wrn")) warning("Cannot find file at ", filepath, ".")

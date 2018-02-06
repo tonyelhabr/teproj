@@ -18,10 +18,10 @@
 }
 
 .get_filepath <-
-  function(filename,
-           dir,
+  function(dir,
+           filename,
            ext,
-           filepath) {
+           filepath = NULL) {
     if (is.null(filepath)) {
       filepath <- file.path(dir, paste0(filename, ".", ext))
     }

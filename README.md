@@ -1,6 +1,6 @@
 
-teproj <img src="man/figures/logo.png" align="right" height="139" width="120"/>
-===============================================================================
+teproj <img src="man/figures/logo.png" align="right"/>
+======================================================
 
 Introduction
 ------------
@@ -9,7 +9,7 @@ This package contains functions that I use often in projects.
 
 ### Installation
 
-`devtools::install_github("aelhabr/teproj")`.
+`devtools::install_github("tonyelhabr/teproj")`.
 
 Notes
 -----
@@ -29,15 +29,15 @@ While implementing these functions, I realized a couple of other functions that 
 
 Here is a list of all functions in the package.
 
-    #>  [1] "create_dir"          "create_example"      "export_excel"       
-    #>  [4] "export_ext"          "export_ext_csv"      "export_ext_png"     
-    #>  [7] "export_ext_rda"      "export_ext_rdata"    "export_ext_RData"   
-    #> [10] "export_ext_rds"      "export_ext_xlsx"     "export_fig"         
-    #> [13] "export_viz"          "import_excel"        "import_ext"         
-    #> [16] "import_ext_csv"      "import_ext_rda"      "import_ext_rdata"   
-    #> [19] "import_ext_RData"    "import_ext_rds"      "import_ext_xlsx"    
-    #> [22] "parse_proj_io"       "render_proj_io"      "set_pkg_print_opts" 
-    #> [25] "set_pkg_render_opts"
+    #>  [1] "create_dir"           "export_excel"         "export_ext"          
+    #>  [4] "export_ext_csv"       "export_ext_png"       "export_ext_rda"      
+    #>  [7] "export_ext_rdata"     "export_ext_RData"     "export_ext_rds"      
+    #> [10] "export_ext_xlsx"      "export_fig"           "export_viz"          
+    #> [13] "get_pkg_opts_renamed" "get_pkg_opts_verbose" "import_excel"        
+    #> [16] "import_ext"           "import_ext_csv"       "import_ext_rda"      
+    #> [19] "import_ext_rdata"     "import_ext_RData"     "import_ext_rds"      
+    #> [22] "import_ext_xlsx"      "parse_proj_io"        "render_proj_io"      
+    #> [25] "set_pkg_ggssave_opts" "set_pkg_print_opts"   "set_pkg_render_opts"
 
 Examples
 --------

@@ -12,7 +12,7 @@
 # NOTE: Not sure why, but need to set mustWork = FALSE) explicitly, otherwise
 # warnings appear. (This behavior is not observed when calling normalizePath directly.
 # Howver, normalizePath() specifies `winslash = "\\"` by default, which is annoying.)
-.normalize_path <- function(path, winslash = "/", mustWork = NA) {
+.normalize_path <- function(path = NULL, winslash = "/", mustWork = NA) {
   if (!is.null(path))
     normalizePath(path, winslash = winslash, mustWork = mustWork)
 }

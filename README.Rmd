@@ -40,7 +40,7 @@ This package contains functions that I use often in projects.
 
 ### Installation
 
-`devtools::install_github("aelhabr/teproj")`.
+`devtools::install_github("tonyelhabr/teproj")`.
 
 ## Notes
 

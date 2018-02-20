@@ -1,6 +1,6 @@
 
 
-.get_valid_exts <- function(action = c("input", "output")) {
+get_valid_exts <- function(action = c("input", "output")) {
   requireNamespace("rio")
   action <- match.arg(action)
   rgx_pattern_0 <-  "rio|(\\.)|_"
@@ -17,11 +17,11 @@
 }
 
 # See: https://stackoverflow.com/questions/2192316/extract-a-regular-expression-match-in-r-version-2-10.
-.remove_rgx <- function(char, rgx) {
+remove_rgx <- function(char, rgx) {
   regmatches(char, regexpr(rgx, char))
 }
 
-.print_parse_proj_io_msg <-
+print_parse_proj_io_msg <-
   function(action,
            var,
            line_idx,
@@ -49,7 +49,7 @@
     # message(sprintf("Found %s variable %s on line %.0f in script %s.", action, var, line_idx, filename))
   }
 
-.compile_project_io_data <-
+compile_project_io_data <-
   function(action,
            var,
            line_idx,
@@ -124,7 +124,7 @@ parse_proj_io <-
     # rgx_output = "^export_"
 
     files_exist <-
-      .check_files_exist(filepaths = filepaths,
+      check_files_exist(filepaths = filepaths,
                          dir = dir,
                          pattern = rgx_file_io,
                          ...)
@@ -136,7 +136,7 @@ parse_proj_io <-
 
     # browser()
     # filepaths <- normalizePath(filepaths)
-    filepaths <- .normalize_path(filepaths, mustWork = FALSE)
+    filepaths <- normalize_path(filepaths, mustWork = FALSE)
 
     filepath_idx <- 1
 
@@ -198,10 +198,10 @@ parse_proj_io <-
           var_filename <- gsub("\\s", "", var_filename)
           var_filename <- gsub(".*\\=", "", var_filename)
 
-          exts_valid <- .get_valid_exts(action)
+          exts_valid <- get_valid_exts(action)
           # browser()
           exts_valid_collapsed <- paste(paste0("(", exts_valid, ")"), collapse = "|")
-          ext <- .remove_rgx(line_parsed, exts_valid_collapsed)
+          ext <- remove_rgx(line_parsed, exts_valid_collapsed)
           if(length(ext) == 0) ext <- ""
 
           if (var_filename == "") {
@@ -231,7 +231,7 @@ parse_proj_io <-
               # browser()
               # NOTE: import_ext*() functions are more likely to have a filename
               # than the export_ext*() functions.
-              filename <- .remove_rgx(var_filename, '\\".*\\"')
+              filename <- remove_rgx(var_filename, '\\".*\\"')
               filename <- gsub('\\"', "", filename)
               if(length(filename) == 0) filename <- ""
               var_filename <- gsub('\\".*\\"', "", var_filename)
@@ -257,7 +257,7 @@ parse_proj_io <-
           var <- var_filename
 
           d <-
-            .compile_project_io_data(action,
+            compile_project_io_data(action,
                                      var,
                                      line_idx,
                                      line_trimmed,
@@ -277,7 +277,7 @@ parse_proj_io <-
             accuracy = accuracy,
             comment = comment
           )
-          .print_parse_proj_io_msg(action,
+          print_parse_proj_io_msg(action,
                                    var,
                                    line_idx,
                                    line,

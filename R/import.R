@@ -47,7 +47,7 @@ import_ext <-
            ...) {
     # browser()
     if (!import & !return) {
-      .print_argfalse_msg("import")
+      print_argfalse_msg("import")
       return(invisible())
     }
 
@@ -59,11 +59,11 @@ import_ext <-
     }
 
     if(missing(filename) & missing(ext)) {
-      .print_ismiss_msg()
+      print_ismiss_msg()
       return(invisible())
     }
 
-    filepath <- .get_filepath(dir, filename, ext, filepath)
+    filepath <- get_filepath(dir, filename, ext, filepath)
 
     if(!file.exists(filepath)) {
       if(getOption("teproj.print.wrn")) warning("Cannot find file at ", filepath, ".")
@@ -81,13 +81,13 @@ import_ext <-
 
       out <- try({
         fun_readr <- paste0("read_", ext)
-        .do_call(fun_readr, list(file = filepath))
+        do_call_with(fun_readr, list(file = filepath))
       }, silent = TRUE)
 
       if(inherits(out, "try-error")) {
         out <- rio::import(filepath, ...)
         if(!inherits(out, "try-error")) {
-          .print_nonreadr_msg("rio")
+          print_nonreadr_msg("rio")
         }
 
         out <- try(tibble::as_tibble(out), silent = TRUE)

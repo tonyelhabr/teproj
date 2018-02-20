@@ -55,12 +55,12 @@ render_proj_io <-
 
     # Check for render at the very end.
     if (!render & !return) {
-      .print_argfalse_msg("render")
+      print_argfalse_msg("render")
       return(invisible())
     }
 
     if(missing(filepath_input) & missing(dir_input)) {
-      .print_ismiss_msg()
+      print_ismiss_msg()
 
     } else if (missing(filepath_input) & !missing(dir_input)) {
       # TODO: For some reason include.dirs = FALSE does not exclude directories?
@@ -80,7 +80,7 @@ render_proj_io <-
         )
       filepath_input <- setdiff(filepath_input, subdirs_input)
       if(length(filepath_input) == 0) {
-        .print_nofile_msg()
+        print_nofile_msg()
         return(invisible())
       }
     } else {
@@ -95,7 +95,7 @@ render_proj_io <-
 
     # browser()
     # filepath_input <- normalizePath(filepath_input)
-    filepath_input <- .normalize_path(filepath_input, mustWork = FALSE)
+    filepath_input <- normalize_path(filepath_input, mustWork = FALSE)
 
     # Secondary filtering...
     if (!missing(rgx_input_include)) {
@@ -117,7 +117,7 @@ render_proj_io <-
     filepath_exist <-
       as.logical(lapply(filepath_input, file.exists))
     if (!any(filepath_exist)) {
-      .print_nofile_msg()
+      print_nofile_msg()
       return(invisible())
     }
 
@@ -133,8 +133,8 @@ render_proj_io <-
 
     ext_output <- match.arg(ext_output)
     filepath_output <-
-      .get_filepath(dir_output, filename_output, ext_output, filepath = NULL)
-    filepath_output <- .normalize_path(filepath_output, mustWork = FALSE)
+      get_filepath(dir_output, filename_output, ext_output, filepath = NULL)
+    filepath_output <- normalize_path(filepath_output, mustWork = FALSE)
 
     filepath_output_backup <-
       gsub(ext_output,

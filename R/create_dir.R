@@ -16,12 +16,12 @@ create_dir <- function(dir = paste0(getwd(), "/"),
                        create = TRUE,
                        ...) {
   if (!create) {
-    .print_argfalse_msg("create")
+    print_argfalse_msg("create")
     return(invisible())
   }
 
   if (is.null(dir)) {
-    .print_isnull_msg()
+    print_isnull_msg()
     return(invisible())
   }
 

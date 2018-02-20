@@ -29,7 +29,7 @@
                            backup,
                            overwrite) {
   if (!backup) {
-    # .print_argfalse_msg("backup")
+    # print_argfalse_msg("backup")
     return(invisible())
   }
 
@@ -42,12 +42,12 @@
       backup
     )
   if (file.exists(filepath_backup) & !overwrite) {
-    .print_argfalse_msg("overwrite")
+    print_argfalse_msg("overwrite")
     return(invisible())
   }
 
   file.copy(from = filepath, to = filepath_backup)
-  .print_export_msg(filepath_backup)
+  print_export_msg(filepath_backup)
   invisible(filepath_backup)
 }
 
@@ -101,24 +101,24 @@ export_ext <-
            ...) {
     # browser()
     if (!export & !return) {
-      .print_argfalse_msg("export")
+      print_argfalse_msg("export")
       return(invisible())
     }
 
     if (is.null(x) & is.null(ext)) {
-      .print_isnull_msg()
+      print_isnull_msg()
       return(invisible())
     }
 
     filepath <-
-      .get_filepath(dir, filename, ext, filepath)
+      get_filepath(dir, filename, ext, filepath)
 
     if (!export & return) {
       return(invisible(filepath))
     }
 
     if (file.exists(filepath) & overwrite == FALSE) {
-      .print_argfalse_msg("overwrite")
+      print_argfalse_msg("overwrite")
       return(invisible())
     }
 
@@ -126,7 +126,7 @@ export_ext <-
     create_dir(dir, overwrite = FALSE, backup = backup)
 
     if (ext %in% c("png")) {
-      .print_nonreadr_msg("ggplot2")
+      print_nonreadr_msg("ggplot2")
 
       if (is.null(x)) {
         x <- ggplot2::last_plot()
@@ -140,7 +140,7 @@ export_ext <-
 
       # NOTE: This is written like this in case different action is desired in the future.
       if (length(params_diff_2) >= 1) {
-        # .print_ignore_msg(params_diff_2)
+        # print_ignore_msg(params_diff_2)
         utils::capture.output(
           ggplot2::ggsave(
             filename = filepath,
@@ -160,9 +160,9 @@ export_ext <-
         units <- getOption("teproj.ggsave.units")
         width <- getOption("teproj.ggsave.width")
         height <- getOption("teproj.ggsave.height")
-        .print_usedefault_msg(units)
-        .print_usedefault_msg(width)
-        .print_usedefault_msg(height)
+        print_usedefault_msg(units)
+        print_usedefault_msg(width)
+        print_usedefault_msg(height)
         utils::capture.output(
           ggplot2::ggsave(
             filename = filepath,
@@ -182,18 +182,18 @@ export_ext <-
     } else {
       out <- try({
         fun_readr <- paste0("write_", ext)
-        .do_call(fun_readr, list(x = x, path = filepath, ...))
+        do_call_with(fun_readr, list(x = x, path = filepath, ...))
       }, silent = TRUE)
 
       if (inherits(out, "try-error")) {
         out <- rio::export(x, filepath, ...)
         if (!inherits(out, "try-error")) {
-          .print_nonreadr_msg("rio")
+          print_nonreadr_msg("rio")
         }
       }
     }
 
-    .print_export_msg(filepath)
+    print_export_msg(filepath)
     filepath_backup <-
       .create_backup(
         filename,
@@ -249,7 +249,7 @@ export_ext_png <- function(...)
 # export_fig <- export_ext_png
 # Or...
 export_fig <- function(...) {
-  .print_dpc_msg("export_ext_png")
+  print_dpc_msg("export_ext_png")
   export_ext(ext = "png", ...)
 }
 
@@ -258,6 +258,6 @@ export_fig <- function(...) {
 # export_viz <- export_ext_png
 # Or...
 export_viz <- function(...) {
-  .print_dpc_msg("export_ext_png")
+  print_dpc_msg("export_ext_png")
   export_ext(ext = "png", ...)
 }

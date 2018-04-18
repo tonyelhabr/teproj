@@ -17,20 +17,20 @@ normalize_path <- function(path = NULL, winslash = "/", mustWork = NA) {
     normalizePath(path, winslash = winslash, mustWork = mustWork)
 }
 
-get_filepath <-
+get_path <-
   function(dir,
-           filename,
+           basename,
            ext,
-           filepath = NULL) {
-    if (is.null(filepath)) {
-      filepath <- file.path(dir, paste0(filename, ".", ext))
+           path = NULL) {
+    if (is.null(path)) {
+      path <- file.path(dir, paste0(basename, ".", ext))
     }
-    # filepath <- normalize_path(filepath)
-    filepath
+    # path <- normalize_path(path)
+    path
   }
 
 
-check_files_exist <- function(filepaths, dir, pattern, ...) {
+check_files_exist <- function(paths, dir, pattern, ...) {
   # Debugging...
   # path = "."
 
@@ -38,12 +38,12 @@ check_files_exist <- function(filepaths, dir, pattern, ...) {
   exist <- FALSE
   out <- ""
   # browser()
-  if(missing(filepaths) & missing(dir)) {
+  if(missing(paths) & missing(dir)) {
     print_ismiss_msg()
 
-  } else if (missing(filepaths) & !missing(dir)) {
+  } else if (missing(paths) & !missing(dir)) {
     # TODO: For some reason include.dirs = FALSE does not produce expected output?
-    filepaths <-
+    paths <-
       list.files(
         path = dir,
         # ...,
@@ -59,10 +59,10 @@ check_files_exist <- function(filepaths, dir, pattern, ...) {
                 recursive = FALSE,
                 full.names = TRUE
       )
-    filepaths <- setdiff(filepaths, dirs)
+    paths <- setdiff(paths, dirs)
     # Or...
     # # Add a file extension to the pattern.
-    # filepaths <-
+    # paths <-
     #   list.files(
     #     path = dir,
     #     # ...,
@@ -72,24 +72,24 @@ check_files_exist <- function(filepaths, dir, pattern, ...) {
     #     ignore.case = TRUE,
     #     include.dirs = FALSE
     #   )
-    if(length(filepaths) == 0) {
+    if(length(paths) == 0) {
       print_nofile_msg()
     } else {
       exist <- TRUE
-      out <- filepaths
+      out <- paths
     }
   } else {
-    filepaths_exist <- as.logical(lapply(filepaths, file.exists))
-    if(!any(filepaths_exist)) {
+    paths_exist <- as.logical(lapply(paths, file.exists))
+    if(!any(paths_exist)) {
       if(getOption("teutils.print.wrn")) {
         warning("Specified files do not exist.")
       }
     } else {
       exist <- TRUE
-      out <- filepaths
+      out <- paths
     }
   }
-  list(exist = exist, filepaths = out)
+  list(exist = exist, paths = out)
 }
 
 # Modified from https://stackoverflow.com/questions/10022436/do-call-in-combination-with.
@@ -169,7 +169,7 @@ print_nonreadr_msg <- function(pkg, ..., msg_input = "", n = 2) {
   if(getOption("teproj.print.msg")) message("Used `", pkg, "` method instead of `readr` method.")
 }
 
-print_export_msg <- function(filepath) {
-  if (getOption("teproj.print.msg"))  message("Saved ", basename(filepath), " as ", filepath, ".")
+print_export_msg <- function(path) {
+  if (getOption("teproj.print.msg"))  message("Saved ", basename(path), " as ", path, ".")
 }
 

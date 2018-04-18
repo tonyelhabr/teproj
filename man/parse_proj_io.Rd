@@ -4,19 +4,19 @@
 \alias{parse_proj_io}
 \title{Parse input and output in project scripts}
 \usage{
-parse_proj_io(filepaths, dir, ..., rgx_file_io = ".R",
+parse_proj_io(paths, dir, ..., rgx_file_io = ".R",
   rgx_input = ".*(import_ext|read)", rgx_output = ".*export_ext|write)")
 }
 \arguments{
-\item{filepaths}{character. Can be a vector. Missing by default. Takes precedence over \code{dir} argument.}
+\item{paths}{character. Can be a vector. Missing by default. Takes precedence over \code{dir} argument.}
 
-\item{dir}{character. Should not be a vector. Missing by default. Only used if \code{filepaths} is missing.}
+\item{dir}{character. Should not be a vector. Missing by default. Only used if \code{paths} is missing.}
 
 \item{...}{dots. Arguments passed to \code{list.files()} for identifying input/output files.
 (Technically, \code{pattern} could/should not be specified explicitly.)}
 
 \item{rgx_file_io}{character. Alias to \code{pattern} parameter for \code{list.files()}.
-Used ONLY if \code{filepaths} is missing and \code{dir} is not.}
+Used ONLY if \code{paths} is missing and \code{dir} is not.}
 
 \item{rgx_input}{character. Regular expression to match for input functions}
 
@@ -26,13 +26,13 @@ Used ONLY if \code{filepaths} is missing and \code{dir} is not.}
 data.frame
 }
 \description{
-Parses project diretory to identify input andoutput variables, filenames, etc.
+Parses project diretory to identify input andoutput variables, basenames, etc.
 }
 \details{
 Intended to be used with this package's \code{export()} and \code{import()} functions, but it can also work
 with the functions from other packages (e.g. \code{readr}) if \code{rgx_input} and \code{rgx_output} are modified appropriately.
 For example, \code{rgx_input == "read"} and \code{rgx_output == "write"} might be appropriate choices if using the \code{readr} package.)
-Does not (currently) work as well if variables, filenames, etc. are not wrapped directly by
+Does not (currently) work as well if variables, basenames, etc. are not wrapped directly by
 the functions described by \code{rgx_input} and \code{rgx_output}.
 NOTE: In the future this should/will use \code{utils::getParseData(parse(f))}
 }

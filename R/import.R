@@ -27,7 +27,7 @@
 
 #' Import an object
 #'
-#' @description Reads in an object from a filepath.
+#' @description Reads in an object from a path.
 #' @details None.
 #' @inheritParams export_ext
 #' @param import boolean. Indicates whether to actually carry out function.
@@ -38,10 +38,10 @@
 #' @importFrom utils capture.output
 #' @importFrom tibble as_tibble
 import_ext <-
-  function(filename,
+  function(basename,
            dir = getwd(),
            ext,
-           filepath = file.path(dir, paste0(filename, ".", ext)),
+           path = file.path(dir, paste0(basename, ".", ext)),
            import = TRUE,
            return = TRUE,
            ...) {
@@ -51,41 +51,41 @@ import_ext <-
       return(invisible())
     }
 
-    filename_try <- try(filename, silent = TRUE)
-    if (!inherits(filename_try, "try-error") & is.character(filename_try)) {
-      filename <- filename_try
+    basename_try <- try(basename, silent = TRUE)
+    if (!inherits(basename_try, "try-error") & is.character(basename_try)) {
+      basename <- basename_try
     } else {
-      filename <- deparse(substitute(filename))
+      basename <- deparse(substitute(basename))
     }
 
-    if(missing(filename) & missing(ext)) {
+    if(missing(basename) & missing(ext)) {
       print_ismiss_msg()
       return(invisible())
     }
 
-    filepath <- get_filepath(dir, filename, ext, filepath)
+    path <- get_path(dir, basename, ext, path)
 
-    if(!file.exists(filepath)) {
-      if(getOption("teproj.print.wrn")) warning("Cannot find file at ", filepath, ".")
-      return(invisible(filepath))
+    if(!file.exists(path)) {
+      if(getOption("teproj.print.wrn")) warning("Cannot find file at ", path, ".")
+      return(invisible(path))
     }
 
     if(!import & return) {
-      return(invisible(filepath))
+      return(invisible(path))
     }
 
     if(grepl("rda", tolower(ext))) {
       # x <- ls(parent.frame())
-      out <- suppressWarnings(utils::capture.output(session::restore.session(filepath)))
+      out <- suppressWarnings(utils::capture.output(session::restore.session(path)))
     } else {
 
       out <- try({
         fun_readr <- paste0("read_", ext)
-        do_call_with(fun_readr, list(file = filepath))
+        do_call_with(fun_readr, list(file = path))
       }, silent = TRUE)
 
       if(inherits(out, "try-error")) {
-        out <- rio::import(filepath, ...)
+        out <- rio::import(path, ...)
         if(!inherits(out, "try-error")) {
           print_nonreadr_msg("rio")
         }
@@ -108,10 +108,6 @@ import_ext_csv <- function(...) import_ext(ext = "csv", ...)
 #' @export
 #' @rdname import_ext
 import_ext_xlsx <- function(...) import_ext(ext = "xlsx", ...)
-
-#' @export
-#' @rdname import_ext
-import_excel <- import_ext_xlsx
 
 #' @export
 #' @rdname import_ext

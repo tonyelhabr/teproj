@@ -1,9 +1,9 @@
 
-.get_valid_example_styles <- function() {
+get_valid_example_styles <- function() {
   c("ercot", "personal")
 }
 
-.get_valid_example_templates <- function() {
+get_valid_example_templates <- function() {
   c("all", "analysis")
 }
 
@@ -20,7 +20,7 @@
 #' @param dir character. Name of directory to create. Default is provided.
 #' @param ... dots. Not currently used.
 #' @param overwrite logical. Indicates whether to overwrite existing directory or not.
-#' @return character. directory filepath.
+#' @return character. directory path.
 create_example <- function(style = "personal",
                            template = "analysis",
                            dir = "teproj_test",
@@ -36,19 +36,19 @@ create_example <- function(style = "personal",
   }
 
   dir_src <- "examples"
-  style <- match.arg(style, .get_valid_example_styles())
-  template <- match.arg(template, .get_valid_example_templates())
+  style <- match.arg(style, get_valid_example_styles())
+  template <- match.arg(template, get_valid_example_templates())
 
-  filenames_src <-
+  basenames_src <-
     list.files(system.file(dir_src, package = "teproj"), recursive = TRUE)
   # browser()
 
-  filepaths_src <- try(system.file(dir_src, filenames_src, package = "teproj", mustWork = TRUE), silent = TRUE)
+  paths_src <- try(system.file(dir_src, basenames_src, package = "teproj", mustWork = TRUE), silent = TRUE)
   if (class(file) == "try-error") {
     stop("Could not find example file(s).")
   }
-  filepaths_src_r <- grep("\\.R$", filepaths_src, value = TRUE)
-  filepaths_src_other <- grep("\\.R$", filepaths_src, value = TRUE, invert = TRUE)
+  paths_src_r <- grep("\\.R$", paths_src, value = TRUE)
+  paths_src_other <- grep("\\.R$", paths_src, value = TRUE, invert = TRUE)
 
 
   if(overwrite == TRUE) {
@@ -60,8 +60,8 @@ create_example <- function(style = "personal",
   dir_www <- file.path(dir_trg, "www")
   dir.create(dir_www, showWarnings = FALSE, recursive = TRUE)
 
-  file.copy(from = filepaths_src_r, to = dir_trg)
-  file.copy(from = filepaths_src_other, to = dir_www)
+  file.copy(from = paths_src_r, to = dir_trg)
+  file.copy(from = paths_src_other, to = dir_www)
   invisible(dir_trg)
 }
 

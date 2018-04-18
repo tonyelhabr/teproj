@@ -4,21 +4,18 @@
 \alias{import_ext}
 \alias{import_ext_csv}
 \alias{import_ext_xlsx}
-\alias{import_excel}
 \alias{import_ext_rdata}
 \alias{import_ext_RData}
 \alias{import_ext_rda}
 \alias{import_ext_rds}
 \title{Import an object}
 \usage{
-import_ext(filename, dir = getwd(), ext, filepath = file.path(dir,
-  paste0(filename, ".", ext)), import = TRUE, return = TRUE, ...)
+import_ext(basename, dir = getwd(), ext, path = file.path(dir,
+  paste0(basename, ".", ext)), import = TRUE, return = TRUE, ...)
 
 import_ext_csv(...)
 
 import_ext_xlsx(...)
-
-import_excel(...)
 
 import_ext_rdata(...)
 
@@ -29,13 +26,13 @@ import_ext_rda(...)
 import_ext_rds(...)
 }
 \arguments{
-\item{filename}{character. Bare filename (i.e. without folderor extension),}
+\item{basename}{character. Bare basename (i.e. without folderor extension),}
 
 \item{dir}{character. Folder name (with a trailing slash).}
 
 \item{ext}{character. Bare extension (i.e. without a dot). Must be one of valid formats.}
 
-\item{filepath}{character. Concatenation of \code{filename}, \code{dir}, and \code{ext},}
+\item{path}{character. Concatenation of \code{basename}, \code{dir}, and \code{ext},}
 
 \item{import}{boolean. Indicates whether to actually carry out function.}
 
@@ -45,7 +42,7 @@ Set to \code{TRUE} in order to preview what would be rendered.}
 \item{...}{dots. Parameters to pass on to internally used import function.}
 }
 \description{
-Reads in an object from a filepath.
+Reads in an object from a path.
 }
 \details{
 None.

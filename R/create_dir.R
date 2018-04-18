@@ -37,17 +37,17 @@ create_dir <- function(dir = paste0(getwd(), "/"),
 
   if (dir.exists(dir)) {
     if (getOption("teproj.print.msg"))
-      message(dir, " already exists.")
+      message(sprintf("%s already exists.", dir))
     if(overwrite) {
       # unlink(list.files(dir, full.names = TRUE), recursive = TRUE, force = TRUE)
       dir.create(dir, recursive = TRUE, showWarnings = FALSE)
       if(getOption("teproj.print.msg"))
-        message("Overwrote ", dir, " (because `overwrite == TRUE`).")
+        message(sprintf("Overwrote %s (because `overwrite == TRUE`)."), dir)
     }
   } else {
     dir.create(dir, recursive = TRUE, showWarnings = FALSE)
     if (getOption("teproj.print.msg")) {
-      message("Created ", dir, ".")
+      message(sprintf("Created %s.", dir))
     }
   }
   invisible(dir)

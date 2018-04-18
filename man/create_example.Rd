@@ -19,7 +19,7 @@ create_example(style = "personal", template = "analysis",
 \item{overwrite}{logical. Indicates whether to overwrite existing directory or not.}
 }
 \value{
-character. directory filepath.
+character. directory path.
 }
 \description{
 Creates an example project or file.

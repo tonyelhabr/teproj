@@ -1,16 +1,16 @@
 
 
-.get_filepath_backup <-
-  function(filename,
+get_path_backup <-
+  function(basename,
            dir,
            ext,
-           filepath_backup,
+           path_backup,
            backup) {
-    if (is.null(filepath_backup)) {
-      filepath_backup <- file.path(
+    if (is.null(path_backup)) {
+      path_backup <- file.path(
         dir,
         paste0(
-          filename,
+          basename,
           "-",
           strftime(Sys.time(), "%Y-%m-%d@%H-%M-%S"),
           ".",
@@ -18,51 +18,52 @@
         )
       )
     }
-    invisible(filepath_backup)
+    invisible(path_backup)
   }
 
-.create_backup <- function(filename,
-                           dir,
-                           ext,
-                           filepath,
-                           filepath_backup,
-                           backup,
-                           overwrite) {
-  if (!backup) {
-    # print_argfalse_msg("backup")
-    return(invisible())
+create_backup <-
+  function(basename,
+           dir,
+           ext,
+           path,
+           path_backup,
+           backup,
+           overwrite) {
+    if (!backup) {
+      # print_argfalse_msg("backup")
+      return(invisible())
+    }
+
+    path_backup <-
+      get_path_backup(
+        basename,
+        dir,
+        ext,
+        path_backup,
+        backup
+      )
+    if (file.exists(path_backup) & !overwrite) {
+      print_argfalse_msg("overwrite")
+      return(invisible())
+    }
+
+    file.copy(from = path, to = path_backup)
+    print_export_msg(path_backup)
+    invisible(path_backup)
   }
 
-  filepath_backup <-
-    .get_filepath_backup(
-      filename,
-      dir,
-      ext,
-      filepath_backup,
-      backup
-    )
-  if (file.exists(filepath_backup) & !overwrite) {
-    print_argfalse_msg("overwrite")
-    return(invisible())
-  }
-
-  file.copy(from = filepath, to = filepath_backup)
-  print_export_msg(filepath_backup)
-  invisible(filepath_backup)
-}
-
-#' Save to a filepath
+#' Save to a path
 #'
-#' @description Saves an object to a filepath.
+#' @description Saves an object to a path.
 #' @details Object to save must be a data.frame (or matrix) for most formats.
 #' @inheritParams create_dir
 #' @param x data.frame (or matrix) for most formats.
-#' @param filename character. Bare filename (i.e. without folderor extension),
+#' @param basename character. Bare basename (i.e. without folderor extension),
 #' @param ext character. Bare extension (i.e. without a dot). Must be one of valid formats.
-#' @param filepath character. Concatenation of \code{filename}, \code{dir}, and \code{ext},
+#' @param path character. Concatenation of \code{basename}, \code{dir}, and \code{ext},
 #' @param overwrite boolean.
 #' @param backup boolean.
-#' @param filepath_backup like \code{filepath},
+#' @param path_backup like \code{path},
 #' @param export boolean. Indicates whether to actually carry out action. Intended to be used as a "catch all".
 #' @param return boolean.  Relevant ONLY if \code{export == FALSE}.
 #' Set to \code{TRUE} in order to preview what would be rendered.
@@ -89,13 +90,13 @@
 #' @importFrom utils capture.output
 export_ext <-
   function(x = NULL,
-           filename = deparse(substitute(x)),
+           basename = deparse(substitute(x)),
            dir = getwd(),
            ext = NULL,
-           filepath = file.path(dir, paste0(filename, ".", ext)),
+           path = file.path(dir, paste0(basename, ".", ext)),
            overwrite = TRUE,
            backup = FALSE,
-           filepath_backup = NULL,
+           path_backup = NULL,
            export = TRUE,
            return = TRUE,
            ...) {
@@ -110,19 +111,21 @@ export_ext <-
       return(invisible())
     }
 
-    filepath <-
-      get_filepath(dir, filename, ext, filepath)
+    path <-
+      get_path(dir, basename, ext, path)
 
     if (!export & return) {
-      return(invisible(filepath))
+      return(invisible(path))
     }
 
-    if (file.exists(filepath) & overwrite == FALSE) {
+    if (file.exists(path) & overwrite == FALSE) {
       print_argfalse_msg("overwrite")
       return(invisible())
     }
 
     # Don't overwrite the directory, even if overwrite == TRUE for this function.
+    message("Ignoring `overwrite == TRUE` to prevent an accidental overwrite.\n",
+            "The user should rename the existing directory explicitly.")
     create_dir(dir, overwrite = FALSE, backup = backup)
 
     if (ext %in% c("png")) {
@@ -143,7 +146,7 @@ export_ext <-
         # print_ignore_msg(params_diff_2)
         utils::capture.output(
           ggplot2::ggsave(
-            filename = filepath,
+            filename = path,
             plot = x,
             ...
           )
@@ -151,7 +154,7 @@ export_ext <-
       } else if (length(params_diff_1) == 0) {
         utils::capture.output(
           ggplot2::ggsave(
-            filename = filepath,
+            filename = path,
             plot = x,
             ...
           )
@@ -165,7 +168,7 @@ export_ext <-
         print_usedefault_msg(height)
         utils::capture.output(
           ggplot2::ggsave(
-            filename = filepath,
+            basename = path,
             plot = x,
             units = units,
             width = width,
@@ -176,35 +179,35 @@ export_ext <-
       }
     } else if (grepl("rda", tolower(ext))) {
       # x <- ls(parent.frame())
-      # filepath <- gsub(ext, "rdata", filepath)
-      # rio::export(x, filepath, ...)
-      suppressWarnings(utils::capture.output(session::save.session(filepath)))
+      # path <- gsub(ext, "rdata", path)
+      # rio::export(x, path, ...)
+      suppressWarnings(utils::capture.output(session::save.session(path)))
     } else {
       out <- try({
         fun_readr <- paste0("write_", ext)
-        do_call_with(fun_readr, list(x = x, path = filepath, ...))
+        do_call_with(fun_readr, list(x = x, path = path, ...))
       }, silent = TRUE)
 
       if (inherits(out, "try-error")) {
-        out <- rio::export(x, filepath, ...)
+        out <- rio::export(x, path, ...)
         if (!inherits(out, "try-error")) {
           print_nonreadr_msg("rio")
         }
       }
     }
 
-    print_export_msg(filepath)
-    filepath_backup <-
-      .create_backup(
-        filename,
+    print_export_msg(path)
+    path_backup <-
+      create_backup(
+        basename,
         dir,
         ext,
-        filepath,
-        filepath_backup,
+        path,
+        path_backup,
         backup,
         overwrite
       )
-    invisible(filepath)
+    invisible(path)
   }
 
 #' @export
@@ -216,10 +219,6 @@ export_ext_csv <- function(...)
 #' @rdname export_ext
 export_ext_xlsx <- function(...)
   export_ext(ext = "xlsx", ...)
-
-#' @export
-#' @rdname export_ext
-export_excel <- export_ext_xlsx
 
 #' @export
 #' @rdname export_ext
@@ -246,18 +245,17 @@ export_ext_png <- function(...)
 
 #' @export
 #' @rdname export_ext
-# export_fig <- export_ext_png
-# Or...
-export_fig <- function(...) {
-  print_dpc_msg("export_ext_png")
+# export_viz <- export_ext_png
+export_gg <- function(...) {
+  # print_dpc_msg("export_ext_png")
   export_ext(ext = "png", ...)
 }
 
 #' @export
 #' @rdname export_ext
 # export_viz <- export_ext_png
-# Or...
 export_viz <- function(...) {
-  print_dpc_msg("export_ext_png")
+  # print_dpc_msg("export_ext_png")
   export_ext(ext = "png", ...)
 }
+

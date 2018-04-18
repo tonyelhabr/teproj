@@ -4,26 +4,23 @@
 \alias{export_ext}
 \alias{export_ext_csv}
 \alias{export_ext_xlsx}
-\alias{export_excel}
 \alias{export_ext_rdata}
 \alias{export_ext_RData}
 \alias{export_ext_rda}
 \alias{export_ext_rds}
 \alias{export_ext_png}
-\alias{export_fig}
+\alias{export_gg}
 \alias{export_viz}
-\title{Save to a filepath}
+\title{Save to a path}
 \usage{
-export_ext(x = NULL, filename = deparse(substitute(x)), dir = getwd(),
-  ext = NULL, filepath = file.path(dir, paste0(filename, ".", ext)),
-  overwrite = TRUE, backup = FALSE, filepath_backup = NULL,
-  export = TRUE, return = TRUE, ...)
+export_ext(x = NULL, basename = deparse(substitute(x)), dir = getwd(),
+  ext = NULL, path = file.path(dir, paste0(basename, ".", ext)),
+  overwrite = TRUE, backup = FALSE, path_backup = NULL, export = TRUE,
+  return = TRUE, ...)
 
 export_ext_csv(...)
 
 export_ext_xlsx(...)
-
-export_excel(...)
 
 export_ext_rdata(...)
 
@@ -35,26 +32,26 @@ export_ext_rds(...)
 
 export_ext_png(...)
 
-export_fig(...)
+export_gg(...)
 
 export_viz(...)
 }
 \arguments{
 \item{x}{data.frame (or matrix) for most formats.}
 
-\item{filename}{character. Bare filename (i.e. without folderor extension),}
+\item{basename}{character. Bare basename (i.e. without folderor extension),}
 
 \item{dir}{character. Folder name (with a trailing slash).}
 
 \item{ext}{character. Bare extension (i.e. without a dot). Must be one of valid formats.}
 
-\item{filepath}{character. Concatenation of \code{filename}, \code{dir}, and \code{ext},}
+\item{path}{character. Concatenation of \code{basename}, \code{dir}, and \code{ext},}
 
 \item{overwrite}{boolean.}
 
 \item{backup}{boolean.}
 
-\item{filepath_backup}{like \code{filepath},}
+\item{path_backup}{like \code{path},}
 
 \item{export}{boolean. Indicates whether to actually carry out action. Intended to be used as a "catch all".}
 
@@ -68,7 +65,7 @@ Important for explicitly specifying non-default \code{ggplot2::ggsave()}.}
 character. Filepath.
 }
 \description{
-Saves an object to a filepath.
+Saves an object to a path.
 }
 \details{
 Object to save must be a data.frame (or matrix) for most formats.

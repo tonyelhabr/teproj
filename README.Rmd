@@ -67,7 +67,7 @@ use in projects could be added.
 The `fundManageR` package inspired some of the format of this section.
 See its [README file](https://github.com/abresler/fundManageR/blob/master/readme.Rmd).
 
-* `import_ext*()` functions - Implement `rio`-like interface (note the use
++ `import_ext*()` functions - Implement `rio`-like interface (note the use
 of the verb "import") for reading data from files.
 The main function is `import_ext()`, which requires that the file extension be specified with
 the `ext` paramater. Shorcuts for the extensions that I find myself using most often
@@ -75,13 +75,15 @@ are implemented via the syntax `import_ext_[ext]()` (e.g. `import_ext_csv()`).
 Under the hood, preference is given to `readr` methods if they exist and can be recognized.
 (This is because it reads in `data.frame`s as `tibble`s by default.
 Otherwise, an attempt is made to use a `rio` method (with subsequent coerction to a `tibble`).
-* `export_ext*()` functions - Counterpart to the `import_ext_*()` functions.
+
++ `export_ext*()` functions - Counterpart to the `import_ext_*()` functions.
 Notably, exporting of plots is supported. However, the support is not robust--
 it is intended only for use with `ggplot2` plots, and only to the `png` file format.
 The `units`, `width`, and `height` are set to package option values
 (see `options("teproj.ggsave.units"`, etc.)
-if they are not all specified explicitly together
-* `*_proj_io()` functions - "Meta" functions for an RStudio project.
+if they are not all specified explicitly together.
+
++ `*_proj_io()` functions - "Meta" functions for an RStudio project.
 `parse_proj_io()` attempts to create a `tibble` with
 information regarding the input/output files in each script in an RStudio project.
 The output could be used in a number of ways, such as in a node-dependency graph
@@ -90,8 +92,10 @@ visualizing how the project's files relate to one another.
 formatted with Roxygen2 style comments to .Rmd files. This is intended to be used
 by users (like me) who prefer the "feel" of an R script when working with data that will
 eventually be presented in a .Rmd file/report and don't want to work directly with
-a .Rmd file. [^fn_r2rmd]
-* `set_pkg_*_opts()` functions - Functions to facilitate setting this package's options
+a .Rmd file. [^fn_r2rmd] __NOTE:__ These functions are fairly experimental and
+should not be relied upon for anything that should be reliable.
+
++ `set_pkg_*_opts()` functions - Functions to facilitate setting this package's options
 (This is preferable to calling `options()` directly,
 which requires knowing exactly what the name of the option is).
 

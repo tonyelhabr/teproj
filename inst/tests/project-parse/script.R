@@ -7,52 +7,52 @@ olddir <- getwd()
 newdir <- "tests/testthat/fake_project"
 setwd(newdir)
 
-filepath <- export_ext_csv(iris)
+path <- export_ext_csv(iris)
 iris <- import_ext_csv(iris)
-unlink(filepath)
+unlink(path)
 
 # Different extension and different data set.
-filepath <- export_ext_rds(mtcars)
+path <- export_ext_rds(mtcars)
 mtcars <- import_ext_rds(mtcars)
-unlink(filepath)
+unlink(path)
 
 # Different save/read pattern and different data set.
-filepath <- export_ext(crimtab, ext = "rda")
+path <- export_ext(crimtab, ext = "rda")
 crimtab <- import_ext(crimtab, ext = "rda")
-unlink(filepath)
+unlink(path)
 
-filepath <- export_ext(faithful, ext = "xlsx")
-diamonds <- import_ext(filepath = filepath, ext = "xlsx")
-unlink(filepath)
+path <- export_ext(faithful, ext = "xlsx")
+diamonds <- import_ext(path = path, ext = "xlsx")
+unlink(path)
 
-# filepath <- paste0(dir, "cars.RData")
-export_ext(cars, filepath = paste0(dir, "cars.RData"), ext = "RData")
-cars <- import_ext(filepath = paste0(dir, "cars.RData"), ext = "RData")
+# path <- paste0(dir, "cars.RData")
+export_ext(cars, path = paste0(dir, "cars.RData"), ext = "RData")
+cars <- import_ext(path = paste0(dir, "cars.RData"), ext = "RData")
 
-filepath <- airquality %>% export_ext_feather()
-unlink(filepath)
+path <- airquality %>% export_ext_feather()
+unlink(path)
 
-filepath <-
+path <-
   Chickweight %>%
   export_ext_feather()
-unlink(filepath)
+unlink(path)
 
-filepath <- rock %>%
+path <- rock %>%
   export_ext(ext = "feather")
-unlink(filepath)
+unlink(path)
 
-filepath <- quakes %>% export_ext(ext = "feather")
-unlink(filepath)
+path <- quakes %>% export_ext(ext = "feather")
+unlink(path)
 
 library("readr")
-# Get the filepath.
-filepath <- export_ext_csv(iris)
-iris %>% readr::write_csv(path = filepath)
-iris %>% write_csv(path = filepath)
-iris <- readr::read_csv(file = filepath)
-iris <- read_csv(file = filepath)
-iris <- read_csv(filepath)
-unlink(filepath)
+# Get the path.
+path <- export_ext_csv(iris)
+iris %>% readr::write_csv(path = path)
+iris %>% write_csv(path = path)
+iris <- readr::read_csv(file = path)
+iris <- read_csv(file = path)
+iris <- read_csv(path)
+unlink(path)
 
 setwd(olddir)
 rm(list = ls())

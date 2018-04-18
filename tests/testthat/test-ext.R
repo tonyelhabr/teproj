@@ -4,15 +4,15 @@ require("datasets")
 
 test_that("csv", {
 
-  filepath <- export_ext_csv(iris)
-  expect_true(file.exists(filepath))
-  unlink(filepath)
+  path <- export_ext_csv(iris)
+  expect_true(file.exists(path))
+  unlink(path)
 
-  filepath <- export_ext(iris, ext = "csv")
-  expect_true(file.exists(filepath))
-  # unlink(filepath)
+  path <- export_ext(iris, ext = "csv")
+  expect_true(file.exists(path))
+  # unlink(path)
 
-  # filepath <- paste0(getwd(), "/tests/testthat/iris.csv")
+  # path <- paste0(getwd(), "/tests/testthat/iris.csv")
   expected <- iris
   actual <- import_ext_csv(iris)
   expect_identical(nrow(actual), nrow(expected))
@@ -20,45 +20,42 @@ test_that("csv", {
   actual <- import_ext(iris, ext = "csv")
   expect_identical(nrow(actual), nrow(expected))
 
-  actual <- import_ext_csv(filepath = filepath)
+  actual <- import_ext_csv(path = path)
   expect_identical(nrow(actual), nrow(expected))
 
-  unlink(filepath)
+  unlink(path)
 })
 
 test_that("Excel", {
-  filepath <- export_ext_xlsx(iris)
-  expect_true(file.exists(filepath))
-  unlink(filepath)
+  path <- export_ext_xlsx(iris)
+  expect_true(file.exists(path))
+  unlink(path)
 
-  filepath <- export_ext(iris, ext = "xlsx")
-  expect_true(file.exists(filepath))
-  # unlink(filepath)
+  path <- export_ext(iris, ext = "xlsx")
+  expect_true(file.exists(path))
+  # unlink(path)
 
   expected <- iris
   actual <- import_ext_xlsx(iris)
   expect_identical(nrow(actual), nrow(expected))
 
-  actual <- import_excel(iris)
+  actual <- import_ext_xlsx(iris)
   expect_identical(nrow(actual), nrow(expected))
 
   actual <- import_ext(iris, ext = "xlsx")
   expect_identical(nrow(actual), nrow(expected))
 
-  actual <- import_ext_xlsx(filepath = filepath)
-  expect_identical(nrow(actual), nrow(expected))
-
-  unlink(filepath)
+  unlink(path)
 })
 
 test_that("rds", {
-  filepath <- export_ext_rds(iris)
-  expect_true(file.exists(filepath))
-  unlink(filepath)
+  path <- export_ext_rds(iris)
+  expect_true(file.exists(path))
+  unlink(path)
 
-  filepath <- export_ext(iris, ext = "rds")
-  expect_true(file.exists(filepath))
-  # unlink(filepath)
+  path <- export_ext(iris, ext = "rds")
+  expect_true(file.exists(path))
+  # unlink(path)
 
   expected <- iris
   actual <- import_ext_rds(iris)
@@ -67,10 +64,10 @@ test_that("rds", {
   actual <- import_ext(iris, ext = "rds")
   expect_identical(nrow(actual), nrow(expected))
 
-  actual <- import_ext_rds(filepath = filepath)
+  actual <- import_ext_rds(path = path)
   expect_identical(nrow(actual), nrow(expected))
 
-  unlink(filepath)
+  unlink(path)
 })
 
 test_that("R data", {
@@ -80,34 +77,34 @@ test_that("R data", {
   ch <- c("a", "b")
   m <- matrix(1:4, nrow = 2)
   l = list(a = 1, b = 2)
-  filepath_rda <- export_ext_rda(filename = "iris")
-  filepath_rdata <- export_ext_RData(filename = "iris")
+  path_rda <- export_ext_rda(basename = "iris")
+  path_rdata <- export_ext_RData(basename = "iris")
   ls <- ls()
 
-  expect_true(file.exists(filepath_rda))
-  expect_true(file.exists(filepath_rdata))
+  expect_true(file.exists(path_rda))
+  expect_true(file.exists(path_rdata))
 
-  rm(list = setdiff(ls(), c("ls", "filepath_rda", "filepath_rdata")))
-  import_ext_rda(filepath = filepath_rda)
+  rm(list = setdiff(ls(), c("ls", "path_rda", "path_rdata")))
+  import_ext_rda(path = path_rda)
   # setdiff(ls, ls())
   # setdiff(ls(), ls)
   setdiff(ls(), c(ls, "ls"))
   expect_true(length(setdiff(ls(), c(ls, "ls"))) == 0)
 
-  rm(list = setdiff(ls(), c("ls", "filepath_rda", "filepath_rdata")))
-  import_ext_RData(filepath = filepath_rdata)
+  rm(list = setdiff(ls(), c("ls", "path_rda", "path_rdata")))
+  import_ext_RData(path = path_rdata)
   expect_true(length(setdiff(ls(), c(ls, "ls"))) == 0)
 
-  rm(list = setdiff(ls(), c("ls", "filepath_rda", "filepath_rdata")))
-  import_ext(filepath = filepath_rda, ext = "rda")
+  rm(list = setdiff(ls(), c("ls", "path_rda", "path_rdata")))
+  import_ext(path = path_rda, ext = "rda")
   expect_true(length(setdiff(ls(), c(ls, "ls"))) == 0)
 
-  rm(list = setdiff(ls(), c("ls", "filepath_rda", "filepath_rdata")))
-  import_ext(filepath = filepath_rdata, ext = "RData")
+  rm(list = setdiff(ls(), c("ls", "path_rda", "path_rdata")))
+  import_ext(path = path_rdata, ext = "RData")
   expect_true(length(setdiff(ls(), c(ls, "ls"))) == 0)
 
-  unlink(filepath_rda)
-  unlink(filepath_rdata)
+  unlink(path_rda)
+  unlink(path_rdata)
   rm(list = ls())
 
 })
@@ -116,17 +113,17 @@ require("ggplot2")
 test_that("png", {
   viz_iris <-
     ggplot2::qplot(data = iris, x = Petal.Length, y = Petal.Width)
-  filepath <- export_ext_png(viz_iris)
+  path <- export_ext_png(viz_iris)
   # TODO: Need to figure out how to check for messages...
   # evaluate_promise(export_ext_viz(viz_iris), print = TRUE)
-  expect_true(file.exists(filepath))
-  unlink(filepath)
+  expect_true(file.exists(path))
+  unlink(path)
 
-  filepath <- export_viz(viz_iris)
-  expect_true(file.exists(filepath))
-  unlink(filepath)
+  path <- export_viz(viz_iris)
+  expect_true(file.exists(path))
+  unlink(path)
 
-  filepath <- export_ext(viz_iris, ext = "png")
-  expect_true(file.exists(filepath))
-  unlink(filepath)
+  path <- export_ext(viz_iris, ext = "png")
+  expect_true(file.exists(path))
+  unlink(path)
 })

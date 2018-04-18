@@ -26,9 +26,9 @@ print_parse_proj_io_msg <-
            var,
            line_idx,
            line,
-           filename,
+           basename,
            ext,
-           filepath) {
+           path) {
     if (getOption("teproj.print.msg"))
       message(
         "Found ",
@@ -40,13 +40,13 @@ print_parse_proj_io_msg <-
         " ",
         line,
         " in script ",
-        filename,
+        basename,
         # "(",
-        # filepath,
+        # path,
         # ")",
         "."
       )
-    # message(sprintf("Found %s variable %s on line %.0f in script %s.", action, var, line_idx, filename))
+    # message(sprintf("Found %s variable %s on line %.0f in script %s.", action, var, line_idx, basename))
   }
 
 compile_project_io_data <-
@@ -54,14 +54,14 @@ compile_project_io_data <-
            var,
            line_idx,
            line,
-           filename,
+           basename,
            ext,
-           filepath,
+           path,
            accuracy,
            comment) {
     # if (getOptions("teproj.print.msg")) {
-    #   if (filename == "")
-    #     message("Could not identify a filename.")
+    #   if (basename == "")
+    #     message("Could not identify a basename.")
     #   if (var == "")
     #     message("Could not identify a variable.")
     # }
@@ -69,11 +69,11 @@ compile_project_io_data <-
       tibble::tibble(
         io = action,
         var = var,
-        filename = filename,
+        basename = basename,
         ext = ext,
         line = line,
         line_idx = line_idx,
-        filepath = filepath,
+        path = path,
         accuracy = accuracy,
         comment = comment
       )
@@ -83,20 +83,20 @@ compile_project_io_data <-
 
 #' Parse input and output in project scripts
 #'
-#' @description Parses project diretory to identify input andoutput variables, filenames, etc.
+#' @description Parses project diretory to identify input andoutput variables, basenames, etc.
 #' @details Intended to be used with this package's \code{export()} and \code{import()} functions, but it can also work
 #' with the functions from other packages (e.g. \code{readr}) if \code{rgx_input} and \code{rgx_output} are modified appropriately.
 #' For example, \code{rgx_input == "read"} and \code{rgx_output == "write"} might be appropriate choices if using the \code{readr} package.)
-#' Does not (currently) work as well if variables, filenames, etc. are not wrapped directly by
+#' Does not (currently) work as well if variables, basenames, etc. are not wrapped directly by
 #' the functions described by \code{rgx_input} and \code{rgx_output}.
 #' NOTE: In the future this should/will use \code{utils::getParseData(parse(f))}
 #' @inheritParams create_dir
-#' @param filepaths character. Can be a vector. Missing by default. Takes precedence over \code{dir} argument.
-#' @param dir character. Should not be a vector. Missing by default. Only used if \code{filepaths} is missing.
+#' @param paths character. Can be a vector. Missing by default. Takes precedence over \code{dir} argument.
+#' @param dir character. Should not be a vector. Missing by default. Only used if \code{paths} is missing.
 #' @param ... dots. Arguments passed to \code{list.files()} for identifying input/output files.
 #'(Technically, \code{pattern} could/should not be specified explicitly.)
 #' @param rgx_file_io character. Alias to \code{pattern} parameter for \code{list.files()}.
-#' Used ONLY if \code{filepaths} is missing and \code{dir} is not.
+#' Used ONLY if \code{paths} is missing and \code{dir} is not.
 #' @param rgx_input character. Regular expression to match for input functions
 #' @param rgx_output Chracter. Regular expression to match for output functions.
 #' @return data.frame
@@ -105,7 +105,7 @@ compile_project_io_data <-
 #' @import rio
 #' @export
 parse_proj_io <-
-  function(filepaths,
+  function(paths,
            dir,
            ...,
            rgx_file_io = ".R",
@@ -117,35 +117,35 @@ parse_proj_io <-
 
     # # Debugging...
     # try(close(conn), silent = TRUE)
-    # filepaths = NULL
+    # paths = NULL
     # dir = "R/"
     # rgx_file_io = ".R"
     # rgx_input = "^(readr::import_|import_)"
     # rgx_output = "^export_"
 
     files_exist <-
-      check_files_exist(filepaths = filepaths,
+      check_files_exist(paths = paths,
                          dir = dir,
                          pattern = rgx_file_io,
                          ...)
     if (!files_exist$exist) {
       return(invisible())
     } else {
-      filepaths <- files_exist$filepaths
+      paths <- files_exist$paths
     }
 
     # browser()
-    # filepaths <- normalizePath(filepaths)
-    filepaths <- normalize_path(filepaths, mustWork = FALSE)
+    # paths <- normalizePath(paths)
+    paths <- normalize_path(paths, mustWork = FALSE)
 
-    filepath_idx <- 1
+    path_idx <- 1
 
-    while (filepath_idx <= length(filepaths)) {
-      filepath <- filepaths[filepath_idx]
-      # TODO:utils::getParseData(parse(filepath)) here.
+    while (path_idx <= length(paths)) {
+      path <- paths[path_idx]
+      # TODO:utils::getParseData(parse(path)) here.
       # browser()
 
-      conn <- file(filepath, open = "r")
+      conn <- file(path, open = "r")
       on.exit(try(close(conn), silent = TRUE)
               , add = TRUE)
       lines <- readLines(conn)
@@ -172,7 +172,7 @@ parse_proj_io <-
         piped <- FALSE
         quoted <- FALSE
         accuracy <- "high"
-        comment <- "No filename found."
+        comment <- "No basename found."
 
         if (grepl(rgx_input, line_trimmed)) {
           # browser()
@@ -193,10 +193,10 @@ parse_proj_io <-
           line_parsed <- gsub(rgx_parse, "", line_trimmed)
           line_parsed <- gsub("(,|\\)).*", "", line_parsed)
           line_parsed <- gsub("^_", "", line_parsed)
-          var_filename <- gsub(".*\\(", "", line_parsed)
-          var_filename <- gsub("\\).*", "", var_filename)
-          var_filename <- gsub("\\s", "", var_filename)
-          var_filename <- gsub(".*\\=", "", var_filename)
+          var_basename <- gsub(".*\\(", "", line_parsed)
+          var_basename <- gsub("\\).*", "", var_basename)
+          var_basename <- gsub("\\s", "", var_basename)
+          var_basename <- gsub(".*\\=", "", var_basename)
 
           exts_valid <- get_valid_exts(action)
           # browser()
@@ -204,76 +204,76 @@ parse_proj_io <-
           ext <- remove_rgx(line_parsed, exts_valid_collapsed)
           if(length(ext) == 0) ext <- ""
 
-          if (var_filename == "") {
+          if (var_basename == "") {
             # browser()
             piped <- TRUE
-            # filename <- ""
+            # basename <- ""
 
             if (grepl("%>%", line_trimmed)) {
               # browser()
               line_parsed <- gsub("\\s+%>.*", "", line)
               line_parsed <- gsub(".*<-\\s+", "", line_parsed)
-              var_filename <- line_parsed
+              var_basename <- line_parsed
 
               accuracy <- "medium"
               comment <-
                 "Assuming variable is equal to expression before pipe."
             } else {
-              var_filename <- gsub("\\s+%>%.*", "", line_previous)
+              var_basename <- gsub("\\s+%>%.*", "", line_previous)
 
               accuracy <- "medium"
               comment <-
                 "Assuming variable is equal to previous line due to pipe detection."
             }
           } else {
-            quoted <- grepl('\\"', var_filename)
+            quoted <- grepl('\\"', var_basename)
             if (quoted) {
               # browser()
-              # NOTE: import_ext*() functions are more likely to have a filename
+              # NOTE: import_ext*() functions are more likely to have a basename
               # than the export_ext*() functions.
-              filename <- remove_rgx(var_filename, '\\".*\\"')
-              filename <- gsub('\\"', "", filename)
-              if(length(filename) == 0) filename <- ""
-              var_filename <- gsub('\\".*\\"', "", var_filename)
+              basename <- remove_rgx(var_basename, '\\".*\\"')
+              basename <- gsub('\\"', "", basename)
+              if(length(basename) == 0) basename <- ""
+              var_basename <- gsub('\\".*\\"', "", var_basename)
               accuracy <- "low"
               if (ext == "") {
 
-                # filename <- ""
+                # basename <- ""
                 comment <-
-                  "Difficulty parsing var, filename, and ext."
-              } else if (!(filename == "") & filename == ext) {
+                  "Difficulty parsing var, basename, and ext."
+              } else if (!(basename == "") & basename == ext) {
                 # browser()
-                filename <- ""
-                comment <- "Difficulty parsing var and filename."
+                basename <- ""
+                comment <- "Difficulty parsing var and basename."
               } else {
-                comment <- "Difficulty parsing filename"
+                comment <- "Difficulty parsing basename"
               }
 
             } else {
-              # filename <- ""
+              # basename <- ""
             }
           }
-          filename <- basename(filepath)
-          var <- var_filename
+          basename <- basename(path)
+          var <- var_basename
 
           d <-
             compile_project_io_data(action,
                                      var,
                                      line_idx,
                                      line_trimmed,
-                                     filename,
+                                     basename,
                                      ext,
-                                     filepath,
+                                     path,
                                      accuracy,
                                      comment)
           tibble::tibble(
             io = action,
             # var = var,
-            # filename = "",
+            # basename = "",
             ext = ext,
             script_line = line,
             script_line_idx = line_idx,
-            script_filepath = filepath,
+            script_path = path,
             accuracy = accuracy,
             comment = comment
           )
@@ -281,9 +281,9 @@ parse_proj_io <-
                                    var,
                                    line_idx,
                                    line,
-                                   filename,
+                                   basename,
                                    ext,
-                                   filepath)
+                                   path)
           # browser()
           if (!exists("out", inherits = FALSE)) {
             out <- d
@@ -294,7 +294,7 @@ parse_proj_io <-
         line_idx <- line_idx + 1
       }
       close(conn)
-      filepath_idx <- filepath_idx + 1
+      path_idx <- path_idx + 1
     }
     if (!exists("out", inherits = FALSE)) {
       return(invisible())

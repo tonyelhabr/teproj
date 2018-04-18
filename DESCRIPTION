@@ -1,7 +1,7 @@
 Package: teproj
 Type: Package
 Title: Tony's Personal Package
-Version: 0.0.0.9000
+Version: 0.0.1.0000
 Author: Tony ElHabr <anthonyelhabr@gmail.com>
 Maintainer: Tony ElHabr <anthonyelhabr@gmail.com>
 Description: A package for Tony's projects.

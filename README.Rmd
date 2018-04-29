@@ -54,8 +54,11 @@ Under the hood, this packages's functions use "Non-Standared Evaluation" (NSE)
 (using techniques that may or may
 not be up to date with the latest `tidyverse` methods of NSE `r emo::ji("smile")`).
 
-While implementing these functions, I realized a couple of other functions that I often
-use in projects could be added.
+Additionally, while implementing these `import`/`export` functions,
+I realized a couple of other functions that I often
+use in projects (e.g. `render_proj_io()` could be added.
+(I don't necessarily recommend using these "other" functions, however, because they 
+are tailored towards my use cases.)
 
 ```{r include = FALSE }
 # sprintf("Code coverage: %f", covr::package_coverage())
@@ -74,7 +77,7 @@ the `ext` paramater. Shorcuts for the extensions that I find myself using most o
 are implemented via the syntax `import_ext_[ext]()` (e.g. `import_ext_csv()`).
 Under the hood, preference is given to `readr` methods if they exist and can be recognized.
 (This is because it reads in `data.frame`s as `tibble`s by default.
-Otherwise, an attempt is made to use a `rio` method (with subsequent coerction to a `tibble`).
+Otherwise, an attempt is made to use a `rio` method (with subsequent coercion to a `tibble`).
 
 + `export_ext*()` functions - Counterpart to the `import_ext_*()` functions.
 Notably, exporting of plots is supported. However, the support is not robust--

@@ -6,14 +6,14 @@ require("dplyr")
 
 test_that("render_proj_io", {
   dir <- file.path("tests", "project-render")
-  basename <- "default_template_rmd2r.R"
+  file <- "default_template_rmd2r.R"
   if(interactive()) {
     dir.exists(file.path("inst", dir))
   } else {
     print(dir.exists(dir))
   }
   path <-
-    system.file(dir, basename, package = "teproj", mustWork = TRUE)
+    system.file(dir, file, package = "teproj", mustWork = TRUE)
   file.exists(path)
 
   actual_df <-
@@ -39,20 +39,20 @@ test_that("render_proj_io", {
 #
 # test_that("parse_proj_io", {
 #   dir <- file.path("tests", "project-parse")
-#   basename <- "script.R"
+#   file <- "script.R"
 #   if(interactive()) {
 #     dir.exists(file.path("inst", dir))
 #   } else {
 #     print(dir.exists(dir))
 #   }
 #   path <-
-#     system.file(dir, basename, package = "teproj", mustWork = TRUE)
+#     system.file(dir, file, package = "teproj", mustWork = TRUE)
 #   file.exists(path)
 #
 #   actual_df <- parse_proj_io(path)
 #   if (interactive()) {
 #     actual_df
-#     dplyr::select(actual_df, io, var, basename, ext, accuracy, comment)
+#     dplyr::select(actual_df, io, var, file, ext, accuracy, comment)
 #   }
 #
 #   expect <- 0

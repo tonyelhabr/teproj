@@ -26,7 +26,7 @@ print_parse_proj_io_msg <-
            var,
            line_idx,
            line,
-           basename,
+           file,
            ext,
            path) {
     if (getOption("teproj.print.msg"))
@@ -40,13 +40,13 @@ print_parse_proj_io_msg <-
         " ",
         line,
         " in script ",
-        basename,
+        file,
         # "(",
         # path,
         # ")",
         "."
       )
-    # message(sprintf("Found %s variable %s on line %.0f in script %s.", action, var, line_idx, basename))
+    # message(sprintf("Found %s variable %s on line %.0f in script %s.", action, var, line_idx, file))
   }
 
 compile_project_io_data <-
@@ -54,14 +54,14 @@ compile_project_io_data <-
            var,
            line_idx,
            line,
-           basename,
+           file,
            ext,
            path,
            accuracy,
            comment) {
     # if (getOptions("teproj.print.msg")) {
-    #   if (basename == "")
-    #     message("Could not identify a basename.")
+    #   if (file == "")
+    #     message("Could not identify a file.")
     #   if (var == "")
     #     message("Could not identify a variable.")
     # }
@@ -69,7 +69,7 @@ compile_project_io_data <-
       tibble::tibble(
         io = action,
         var = var,
-        basename = basename,
+        file = file,
         ext = ext,
         line = line,
         line_idx = line_idx,
@@ -172,7 +172,7 @@ parse_proj_io <-
         piped <- FALSE
         quoted <- FALSE
         accuracy <- "high"
-        comment <- "No basename found."
+        comment <- "No file found."
 
         if (grepl(rgx_input, line_trimmed)) {
           # browser()
@@ -207,7 +207,7 @@ parse_proj_io <-
           if (var_basename == "") {
             # browser()
             piped <- TRUE
-            # basename <- ""
+            # file <- ""
 
             if (grepl("%>%", line_trimmed)) {
               # browser()
@@ -229,31 +229,31 @@ parse_proj_io <-
             quoted <- grepl('\\"', var_basename)
             if (quoted) {
               # browser()
-              # NOTE: import_ext*() functions are more likely to have a basename
+              # NOTE: import_ext*() functions are more likely to have a file
               # than the export_ext*() functions.
-              basename <- remove_rgx(var_basename, '\\".*\\"')
-              basename <- gsub('\\"', "", basename)
-              if(length(basename) == 0) basename <- ""
+              file <- remove_rgx(var_basename, '\\".*\\"')
+              file <- gsub('\\"', "", file)
+              if(length(file) == 0) file <- ""
               var_basename <- gsub('\\".*\\"', "", var_basename)
               accuracy <- "low"
               if (ext == "") {
 
-                # basename <- ""
+                # file <- ""
                 comment <-
-                  "Difficulty parsing var, basename, and ext."
-              } else if (!(basename == "") & basename == ext) {
+                  "Difficulty parsing var, file, and ext."
+              } else if (!(file == "") & file == ext) {
                 # browser()
-                basename <- ""
-                comment <- "Difficulty parsing var and basename."
+                file <- ""
+                comment <- "Difficulty parsing var and file."
               } else {
-                comment <- "Difficulty parsing basename"
+                comment <- "Difficulty parsing file"
               }
 
             } else {
-              # basename <- ""
+              # file <- ""
             }
           }
-          basename <- basename(path)
+          file <- file(path)
           var <- var_basename
 
           d <-
@@ -261,7 +261,7 @@ parse_proj_io <-
                                      var,
                                      line_idx,
                                      line_trimmed,
-                                     basename,
+                                     file,
                                      ext,
                                      path,
                                      accuracy,
@@ -269,7 +269,7 @@ parse_proj_io <-
           tibble::tibble(
             io = action,
             # var = var,
-            # basename = "",
+            # file = "",
             ext = ext,
             script_line = line,
             script_line_idx = line_idx,
@@ -281,7 +281,7 @@ parse_proj_io <-
                                    var,
                                    line_idx,
                                    line,
-                                   basename,
+                                   file,
                                    ext,
                                    path)
           # browser()

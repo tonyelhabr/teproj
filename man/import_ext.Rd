@@ -10,8 +10,8 @@
 \alias{import_ext_rds}
 \title{Import an object}
 \usage{
-import_ext(basename, dir = getwd(), ext, path = file.path(dir,
-  paste0(basename, ".", ext)), import = TRUE, return = TRUE, ...)
+import_ext(file, dir = getwd(), ext, path = file.path(dir, paste0(file, ".",
+  ext)), import = TRUE, return = TRUE, ...)
 
 import_ext_csv(...)
 
@@ -26,13 +26,13 @@ import_ext_rda(...)
 import_ext_rds(...)
 }
 \arguments{
-\item{basename}{character. Bare basename (i.e. without folderor extension),}
+\item{file}{character. Bare file (i.e. without folderor extension),}
 
 \item{dir}{character. Folder name (with a trailing slash).}
 
 \item{ext}{character. Bare extension (i.e. without a dot). Must be one of valid formats.}
 
-\item{path}{character. Concatenation of \code{basename}, \code{dir}, and \code{ext},}
+\item{path}{character. Concatenation of \code{file}, \code{dir}, and \code{ext},}
 
 \item{import}{boolean. Indicates whether to actually carry out function.}
 

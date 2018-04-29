@@ -29,6 +29,7 @@ pkg_ggsave_opts <- list(
 )
 
 pkg_print_opts <- list(
+  # teproj.print.msg = FALSE,
   teproj.print.msg = TRUE,
   teproj.print.wrn = TRUE,
   teproj.print.err = TRUE

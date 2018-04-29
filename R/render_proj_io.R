@@ -24,7 +24,7 @@
 #' @param overwrite boolean. Indicates whether or not to overwrite any existing file with the same name. Not currently used.
 #' @param quiet boolean. Direct argument for \code{rmarkdown::render()}.
 #' @param backup boolean. Indicates whether or not to create e a backup.
-#' @param backup_suffix character. Suffix to append to basename for backup file.
+#' @param backup_suffix character. Suffix to append to file for backup file.
 #' @param keep_rmd boolean. Assuming specified output is not ".Rmd", indicates whether to call \code{knitr::spin} to keep "intermediate" results.
 #' @return data.frame. Information regarding what was rendered.
 #' @export
@@ -123,7 +123,7 @@ render_proj_io <-
 
 
     if(missing(basename_output)) {
-      basename_output <- basename(path_input)
+      basename_output <- file(path_input)
       basename_output <- tools::file_path_sans_ext(basename_output)
     }
 

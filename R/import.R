@@ -38,10 +38,10 @@
 #' @importFrom utils capture.output
 #' @importFrom tibble as_tibble
 import_ext <-
-  function(basename,
+  function(file,
            dir = getwd(),
            ext,
-           path = file.path(dir, paste0(basename, ".", ext)),
+           path = file.path(dir, paste0(file, ".", ext)),
            import = TRUE,
            return = TRUE,
            ...) {
@@ -51,19 +51,19 @@ import_ext <-
       return(invisible())
     }
 
-    basename_try <- try(basename, silent = TRUE)
+    basename_try <- try(file, silent = TRUE)
     if (!inherits(basename_try, "try-error") & is.character(basename_try)) {
-      basename <- basename_try
+      file <- basename_try
     } else {
-      basename <- deparse(substitute(basename))
+      file <- deparse(substitute(file))
     }
 
-    if(missing(basename) & missing(ext)) {
+    if(missing(file) & missing(ext)) {
       print_ismiss_msg()
       return(invisible())
     }
 
-    path <- get_path(dir, basename, ext, path)
+    path <- get_path(dir, file, ext, path)
 
     if(!file.exists(path)) {
       if(getOption("teproj.print.wrn")) warning("Cannot find file at ", path, ".")

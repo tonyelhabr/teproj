@@ -46,7 +46,7 @@ Set to \code{TRUE} in order to preview what would be rendered.}
 
 \item{backup}{boolean. Indicates whether or not to create e a backup.}
 
-\item{backup_suffix}{character. Suffix to append to basename for backup file.}
+\item{backup_suffix}{character. Suffix to append to file for backup file.}
 
 \item{keep_rmd}{boolean. Assuming specified output is not ".Rmd", indicates whether to call \code{knitr::spin} to keep "intermediate" results.}
 }

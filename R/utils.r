@@ -19,11 +19,11 @@ normalize_path <- function(path = NULL, winslash = "/", mustWork = NA) {
 
 get_path <-
   function(dir,
-           basename,
+           file,
            ext,
            path = NULL) {
     if (is.null(path)) {
-      path <- file.path(dir, paste0(basename, ".", ext))
+      path <- file.path(dir, paste0(file, ".", ext))
     }
     # path <- normalize_path(path)
     path
@@ -170,6 +170,6 @@ print_nonreadr_msg <- function(pkg, ..., msg_input = "", n = 2) {
 }
 
 print_export_msg <- function(path) {
-  if (getOption("teproj.print.msg"))  message("Saved ", basename(path), " as ", path, ".")
+  if (getOption("teproj.print.msg"))  message("Saved ", file(path), " as ", path, ".")
 }
 

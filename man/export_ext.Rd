@@ -13,8 +13,8 @@
 \alias{export_viz}
 \title{Save to a path}
 \usage{
-export_ext(x = NULL, basename = deparse(substitute(x)), dir = getwd(),
-  ext = NULL, path = file.path(dir, paste0(basename, ".", ext)),
+export_ext(x = NULL, file = deparse(substitute(x)), dir = getwd(),
+  ext = NULL, path = file.path(dir, paste0(file, ".", ext)),
   overwrite = TRUE, backup = FALSE, path_backup = NULL, export = TRUE,
   return = TRUE, ...)
 
@@ -39,13 +39,13 @@ export_viz(...)
 \arguments{
 \item{x}{data.frame (or matrix) for most formats.}
 
-\item{basename}{character. Bare basename (i.e. without folderor extension),}
+\item{file}{character. Bare file (i.e. without folderor extension),}
 
 \item{dir}{character. Folder name (with a trailing slash).}
 
 \item{ext}{character. Bare extension (i.e. without a dot). Must be one of valid formats.}
 
-\item{path}{character. Concatenation of \code{basename}, \code{dir}, and \code{ext},}
+\item{path}{character. Concatenation of \code{file}, \code{dir}, and \code{ext},}
 
 \item{overwrite}{boolean.}
 

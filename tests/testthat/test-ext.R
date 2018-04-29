@@ -77,8 +77,8 @@ test_that("R data", {
   ch <- c("a", "b")
   m <- matrix(1:4, nrow = 2)
   l = list(a = 1, b = 2)
-  path_rda <- export_ext_rda(basename = "iris")
-  path_rdata <- export_ext_RData(basename = "iris")
+  path_rda <- export_ext_rda(file = "iris")
+  path_rdata <- export_ext_RData(file = "iris")
   ls <- ls()
 
   expect_true(file.exists(path_rda))

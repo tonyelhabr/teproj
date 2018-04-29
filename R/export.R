@@ -1,7 +1,7 @@
 
 
 get_path_backup <-
-  function(basename,
+  function(file,
            dir,
            ext,
            path_backup,
@@ -10,7 +10,7 @@ get_path_backup <-
       path_backup <- file.path(
         dir,
         paste0(
-          basename,
+          file,
           "-",
           strftime(Sys.time(), "%Y-%m-%d@%H-%M-%S"),
           ".",
@@ -22,7 +22,7 @@ get_path_backup <-
   }
 
 create_backup <-
-  function(basename,
+  function(file,
            dir,
            ext,
            path,
@@ -36,7 +36,7 @@ create_backup <-
 
     path_backup <-
       get_path_backup(
-        basename,
+        file,
         dir,
         ext,
         path_backup,
@@ -58,9 +58,9 @@ create_backup <-
 #' @details Object to save must be a data.frame (or matrix) for most formats.
 #' @inheritParams create_dir
 #' @param x data.frame (or matrix) for most formats.
-#' @param basename character. Bare basename (i.e. without folderor extension),
+#' @param file character. Bare file (i.e. without folderor extension),
 #' @param ext character. Bare extension (i.e. without a dot). Must be one of valid formats.
-#' @param path character. Concatenation of \code{basename}, \code{dir}, and \code{ext},
+#' @param path character. Concatenation of \code{file}, \code{dir}, and \code{ext},
 #' @param overwrite boolean.
 #' @param backup boolean.
 #' @param path_backup like \code{path},
@@ -90,10 +90,10 @@ create_backup <-
 #' @importFrom utils capture.output
 export_ext <-
   function(x = NULL,
-           basename = deparse(substitute(x)),
+           file = deparse(substitute(x)),
            dir = getwd(),
            ext = NULL,
-           path = file.path(dir, paste0(basename, ".", ext)),
+           path = file.path(dir, paste0(file, ".", ext)),
            overwrite = TRUE,
            backup = FALSE,
            path_backup = NULL,
@@ -112,7 +112,7 @@ export_ext <-
     }
 
     path <-
-      get_path(dir, basename, ext, path)
+      get_path(dir, file, ext, path)
 
     if (!export & return) {
       return(invisible(path))
@@ -124,8 +124,8 @@ export_ext <-
     }
 
     # Don't overwrite the directory, even if overwrite == TRUE for this function.
-    message("Ignoring `overwrite == TRUE` to prevent an accidental overwrite.\n",
-            "The user should rename the existing directory explicitly.")
+    # message("Ignoring `overwrite == TRUE` to prevent an accidental overwrite.\n",
+    #         "The user should rename the existing directory explicitly.")
     create_dir(dir, overwrite = FALSE, backup = backup)
 
     if (ext %in% c("png")) {
@@ -168,7 +168,7 @@ export_ext <-
         print_usedefault_msg(height)
         utils::capture.output(
           ggplot2::ggsave(
-            basename = path,
+            file = path,
             plot = x,
             units = units,
             width = width,
@@ -199,7 +199,7 @@ export_ext <-
     print_export_msg(path)
     path_backup <-
       create_backup(
-        basename,
+        file,
         dir,
         ext,
         path,

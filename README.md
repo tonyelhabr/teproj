@@ -32,15 +32,15 @@ Additionally, while implementing these `import`/`export` functions, I realized a
 
 Here is a list of all functions in the package.
 
-    #>  [1] "create_dir"           "export_ext"           "export_ext_csv"      
-    #>  [4] "export_ext_png"       "export_ext_rda"       "export_ext_rdata"    
-    #>  [7] "export_ext_RData"     "export_ext_rds"       "export_ext_xlsx"     
-    #> [10] "export_gg"            "export_viz"           "get_pkg_opts_renamed"
-    #> [13] "get_pkg_opts_verbose" "import_ext"           "import_ext_csv"      
-    #> [16] "import_ext_rda"       "import_ext_rdata"     "import_ext_RData"    
-    #> [19] "import_ext_rds"       "import_ext_xlsx"      "parse_proj_io"       
-    #> [22] "render_proj_io"       "set_pkg_ggssave_opts" "set_pkg_print_opts"  
-    #> [25] "set_pkg_render_opts"
+    #>  [1] "create_dir"          "do_call_with"        "export_ext"         
+    #>  [4] "export_ext_csv"      "export_ext_png"      "export_ext_rda"     
+    #>  [7] "export_ext_rdata"    "export_ext_RData"    "export_ext_rds"     
+    #> [10] "export_ext_xlsx"     "export_gg"           "export_path"        
+    #> [13] "get_path_lazily"     "get_path_safely"     "import_ext"         
+    #> [16] "import_ext_csv"      "import_ext_rda"      "import_ext_rdata"   
+    #> [19] "import_ext_RData"    "import_ext_rds"      "import_ext_xlsx"    
+    #> [22] "import_path"         "import_path_cleanly" "render_proj_io"     
+    #> [25] "set_pkg_render_opts" "sort_named_list"     "warningf"
 
 Examples
 --------

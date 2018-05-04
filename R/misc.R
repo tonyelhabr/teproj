@@ -47,7 +47,7 @@ get_path_safely <-
 #' given all arguments that are not the first nor the last.
 #' @inheritParams export_ext
 #' @param ... dots. Arguments parssed to construct name of file path without the directory nor
-#' the extension. Uses \code{paste()} to collapse all arguments between \code{dir} and \code{ext}/
+#' the extension. Uses \code{paste()} to collapse all arguments between \code{dir} and \code{ext}.
 #' @return character. Path.
 #' @export
 get_path_lazily <-

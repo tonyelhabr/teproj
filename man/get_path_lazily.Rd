@@ -10,7 +10,7 @@ get_path_lazily(dir = NULL, ..., ext = NULL)
 \item{dir}{character. Folder name (with a trailing slash).}
 
 \item{...}{dots. Arguments parssed to construct name of file path without the directory nor
-the extension. Uses \code{paste()} to collapse all arguments between \code{dir} and \code{ext}/}
+the extension. Uses \code{paste()} to collapse all arguments between \code{dir} and \code{ext}.}
 
 \item{ext}{character. Bare extension (i.e. without a dot). Must be one of valid formats.}
 }

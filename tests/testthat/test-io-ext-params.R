@@ -6,7 +6,6 @@ require("tibble")
 
 test_that("import NSE", {
 
-  # This is an explicity test not using an internal data set (i.e. iris, etc.)
   idx_1 <- 1
   idx_2 <- 3
   idxs <- c(idx_1:idx_2)

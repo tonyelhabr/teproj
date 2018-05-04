@@ -1,7 +1,7 @@
 Package: teproj
 Type: Package
 Title: Tony's Personal Package
-Version: 0.0.1.0000
+Version: 0.0.1.1
 Author: Tony ElHabr <anthonyelhabr@gmail.com>
 Authors@R: person("Tony", "ElHabr", email = "anthonyelhabr@gmail.com", role = c("aut", "cre"))
 Description: This is a package for Tony's personal projects. It may be considered
@@ -10,5 +10,5 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
-Imports: ggplot2,readr,utils,session,rio,tibble,janitor,tools,knitr,rmarkdown
+Imports: ggplot2,readr,utils,session,rio,tibble,janitor,tools,knitr,kableExtra,rmarkdown
 Suggests: testthat,covr

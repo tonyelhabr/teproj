@@ -1,6 +1,4 @@
 
-
-
 #' Create a directory
 #'
 #' @description Creates the directory if it does not exist.

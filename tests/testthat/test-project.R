@@ -1,41 +1,44 @@
 
 
-context("project-related functions")
-require("bindrcpp")
-require("dplyr")
+# context("project-related functions")
+# require("bindrcpp")
+# require("dplyr")
+#
+# test_that("render_proj_io", {
+#   dir <- file.path("tests", "project-render")
+#   file <- "default_template_rmd2r.R"
+#   if(interactive()) {
+#     dir.exists(file.path("inst", dir))
+#   } else {
+#     print(dir.exists(dir))
+#   }
+#   path <-
+#     system.file(dir, file, package = "teproj", mustWork = TRUE)
+#   file.exists(path)
+#
+#   actual_df <-
+#     render_proj_io(
+#       path_input = path,
+#       # dir_input = dir,
+#       dir_output =  "output",
+#       # dir_output = file.path(dir, "output"), # Use this if interactive().
+#       basename_output = "deleteme",
+#       rgx_input = ".",
+#       rgx_output = ".",
+#       keep_rmd = TRUE,
+#       render = FALSE,
+#       return = TRUE
+#     )
+#   print(actual_df)
+#
+#   expect <- 0
+#   # actual <- nrow(actual_df)
+#   # expect_gt(actual, expect)
+#   # unlink(list.files(dir = file.path(path, "output")))
+# })
 
-test_that("render_proj_io", {
-  dir <- file.path("tests", "project-render")
-  file <- "default_template_rmd2r.R"
-  if(interactive()) {
-    dir.exists(file.path("inst", dir))
-  } else {
-    print(dir.exists(dir))
-  }
-  path <-
-    system.file(dir, file, package = "teproj", mustWork = TRUE)
-  file.exists(path)
 
-  actual_df <-
-    render_proj_io(
-      path_input = path,
-      # dir_input = dir,
-      dir_output =  "output",
-      # dir_output = file.path(dir, "output"), # Use this if interactive().
-      basename_output = "deleteme",
-      rgx_input = ".",
-      rgx_output = ".",
-      keep_rmd = TRUE,
-      render = FALSE,
-      return = TRUE
-    )
-  print(actual_df)
-
-  expect <- 0
-  # actual <- nrow(actual_df)
-  # expect_gt(actual, expect)
-  # unlink(list.files(dir = file.path(path, "output")))
-})
+# NOTE: Below was commented out even before removing these functions from the package.
 #
 # test_that("parse_proj_io", {
 #   dir <- file.path("tests", "project-parse")

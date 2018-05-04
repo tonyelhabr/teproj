@@ -23,6 +23,7 @@ normalize_path <- function(path = NULL, winslash = "/", mustWork = NA) {
 #' @details This function is notable because it has a \code{path} argument
 #' that can be used as a quick "out".
 #' This helps with argument checking with package functions.
+#' @inheritParams export_ext
 #' @return character. Path.
 #' @export
 get_path_safely <-
@@ -43,7 +44,10 @@ get_path_safely <-
 #' @details Assumes that the last arguments is the path extension. If \code{ext} is not
 #' specified explicitly, it is assumed to be the last argument passed to the function.
 #' This format allows for 'lazy' construction of the basename of the file (sans extension)
-#' given all arguments that are not the first nor the last.s
+#' given all arguments that are not the first nor the last.
+#' @inheritParams export_ext
+#' @param ... dots. Arguments parssed to construct name of file path without the directory nor
+#' the extension. Uses \code{paste()} to collapse all arguments between \code{dir} and \code{ext}/
 #' @return character. Path.
 #' @export
 get_path_lazily <-
@@ -71,6 +75,10 @@ sort_named_list <- function(x = NULL) {
 #'
 #' @description Allows a package to explicitly included in \code{do.call()}
 #' @details None.
+#' @param what character. package name and function specified in explicit
+#' namespace notation (i.e. \code{package::function}).
+#' @param args list. Arguments passed to function parsed from \code{what}.
+#' @param ... dots. Arguments passed to \code{do.call()}.
 #' @source \url{https://stackoverflow.com/questions/10022436/do-call-in-combination-with}.
 #' @export
 do_call_with <- function(what, args, ...) {
@@ -92,11 +100,13 @@ do_call_with <- function(what, args, ...) {
 # }
 
 # TODO: Implement proper message/warning/error wrappers.
-#' \code{warning} + \code{sprintf}
+#' \code{warning()} + \code{sprintf()}
 #'
-#' @description Implements \code{warning} and \code{sprintf} such that the specified
+#' @description Implements \code{warning()} and \code{sprintf()} such that the specified
 #' environment (of a function) is properly shown in the message.
 #' @details None.
+#' @param ... dots. Arguments pased to \code{sprintf()}.
+#' @param n integer. Number of calling environment frame.
 #' @source \url{https://stackoverflow.com/questions/9596918/r-warning-wrapper-raise-to-parent-function}.
 #' @export
 warningf <- function(..., n = 1L){

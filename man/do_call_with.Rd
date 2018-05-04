@@ -9,6 +9,14 @@
 \usage{
 do_call_with(what, args, ...)
 }
+\arguments{
+\item{what}{character. package name and function specified in explicit
+namespace notation (i.e. \code{package::function}).}
+
+\item{args}{list. Arguments passed to function parsed from \code{what}.}
+
+\item{...}{dots. Arguments passed to \code{do.call()}.}
+}
 \description{
 Allows a package to explicitly included in \code{do.call()}
 }

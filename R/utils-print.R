@@ -1,22 +1,35 @@
 
-
+get_msg_input <-
+  function(..., msg_input = "") {
+    dots <- list(...)
+    if (length(dots) > 0) {
+      msg_input <- gsub(",$", "", paste(dots, collapse = ","))
+      msg_input <- sprintf("`%s` ", msg_input)
+    }
+    msg_input
+  }
 
 print_isnull_msg <-
   function(...,  msg_input = "", n = 2) {
     # browser()
     # parent.call <- sys.call(sys.nframe() - 1L)
-    dots <- list(...)
-    if (length(dots) > 0)
-      msg_input <- gsub(",$", "", paste(dots, collapse = ","))
-    warningf("Required input `%s`is NULL.", msg_input, n = n)
+    msg_input <- get_msg_input(..., msg_input = msg_input)
+    warningf("Required input %sis NULL.", msg_input, n = n)
   }
 
 print_ismiss_msg <-
   function(...,  msg_input = "", n = 2) {
     dots <- list(...)
-    if (length(dots) > 0)
-      msg_input <- gsub(",$", "", paste(dots, collapse = ","))
+    msg_input <- get_msg_input(..., msg_input = msg_input)
     warningf("Required input `%s`is missing.", msg_input, n = n)
+  }
+
+
+print_nofile_msg <-
+  function(...,  msg_input = "", n = 2) {
+    dots <- list(...)
+    msg_input <- get_msg_input(..., msg_input = msg_input)
+    warningf("Could not find any files meeting criteria `%s`.", msg_input, n = n)
   }
 
 print_filenotexist_msg <-
@@ -24,13 +37,6 @@ print_filenotexist_msg <-
     warningf("Cannot find `%s`", path, n = n)
   }
 
-print_nofile_msg <-
-  function(...,  msg_input = "", n = 2) {
-    dots <- list(...)
-    if (length(dots) > 0)
-      msg_input <- gsub(",$", " ", paste(dots, collapse = ","))
-    warningf("Could not find any files meeting criteria `%s`.", msg_input, n = n)
-  }
 
 print_argfalse_msg <-
   function(arg = NULL) {

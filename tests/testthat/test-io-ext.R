@@ -1,5 +1,5 @@
 
-context("ext")
+context("io-ext")
 require("datasets")
 
 test_that("csv", {
@@ -26,7 +26,7 @@ test_that("csv", {
   unlink(path)
 })
 
-test_that("Excel", {
+test_that("xlsx", {
   path <- export_ext_xlsx(iris)
   expect_true(file.exists(path))
   unlink(path)
@@ -70,7 +70,7 @@ test_that("rds", {
   unlink(path)
 })
 
-test_that("R data", {
+test_that("rda", {
   rm(list = ls())
   iris <- iris
   n <- c(1, 2)

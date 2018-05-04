@@ -64,11 +64,12 @@ guess_ext <-
       }
     } else if (ggplot2::is.ggplot(x)) {
       print_autoexport_msg(".png")
-      return(export_ext_png(x, ...))
+      ret <- "png"
     } else if (is.data.frame(x)) {
       print_autoexport_msg(".csv")
-      return(export_ext_csv(x, ...))
+      ret <- "csv"
     }
+    ret
   }
 
 export_ggplot <-
@@ -258,7 +259,17 @@ export_ext <-
 #' Export an object
 #'
 #' @description Saves data given a full path.
-#' @details Works similarly to \code{export_ext()} internally, but may be considered simpler.
+#' @details This function works similarly to \code{export_ext()} internally, but the
+#' order of the arguments are presented in a different order because it is assumed
+#' that \code{path} will be supplied. This not the assumption with the \code{export_ext()} function.
+#' If for some reason \code{path} is not provided, the \code{dir},
+#' \code{file}, and \code{ext} defaults are used.
+#'
+#' Note that the difference between \code{export_path()} and \code{export_ext()}
+#' is not as significant as it is for \code{import_path()} and \code{import_ext()}.
+#'
+#' Also, \code{export_path()} does not have an analogue to \code{import_path_cleanly()}.
+#'
 #' @inheritParams export_ext
 #' @return object.
 #' @export
@@ -271,7 +282,11 @@ export_path <-
            path_backup = NULL,
            export = TRUE,
            return = TRUE,
+           dir = getwd(),
+           file = deparse(substitute(x)),
+           ext = guess_ext(x),
            ...) {
+
     if (!export & !return) {
       print_argfalse_msg("export")
       return(invisible())
@@ -282,10 +297,14 @@ export_path <-
       return(invisible())
     }
 
-    ext <- guess_ext(x)
-    if (is.null(ext)) {
-      print_isnull_msg()
-      return(invisible())
+    # if (is.null(ext)) {
+    #   print_isnull_msg()
+    #   return(invisible())
+    # }
+
+    if(is.null(path)) {
+      path <-
+        get_path_safely(dir = dir, file = file, ext = ext, path = path)
     }
 
     if (!export & return) {

@@ -6,6 +6,14 @@
 \usage{
 get_path_lazily(dir = NULL, ..., ext = NULL)
 }
+\arguments{
+\item{dir}{character. Folder name (with a trailing slash).}
+
+\item{...}{dots. Arguments parssed to construct name of file path without the directory nor
+the extension. Uses \code{paste()} to collapse all arguments between \code{dir} and \code{ext}/}
+
+\item{ext}{character. Bare extension (i.e. without a dot). Must be one of valid formats.}
+}
 \value{
 character. Path.
 }
@@ -16,5 +24,5 @@ Constructs a file path given a directory as the first input and an extension as 
 Assumes that the last arguments is the path extension. If \code{ext} is not
 specified explicitly, it is assumed to be the last argument passed to the function.
 This format allows for 'lazy' construction of the basename of the file (sans extension)
-given all arguments that are not the first nor the last.s
+given all arguments that are not the first nor the last.
 }

@@ -2,15 +2,20 @@
 % Please edit documentation in R/misc.R
 \name{warningf}
 \alias{warningf}
-\title{\code{warning} + \code{sprintf}}
+\title{\code{warning()} + \code{sprintf()}}
 \source{
 \url{https://stackoverflow.com/questions/9596918/r-warning-wrapper-raise-to-parent-function}.
 }
 \usage{
 warningf(..., n = 1L)
 }
+\arguments{
+\item{...}{dots. Arguments pased to \code{sprintf()}.}
+
+\item{n}{integer. Number of calling environment frame.}
+}
 \description{
-Implements \code{warning} and \code{sprintf} such that the specified
+Implements \code{warning()} and \code{sprintf()} such that the specified
 environment (of a function) is properly shown in the message.
 }
 \details{

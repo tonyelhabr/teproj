@@ -5,7 +5,8 @@
 \title{Export an object}
 \usage{
 export_path(x = NULL, path = NULL, overwrite = TRUE, backup = FALSE,
-  path_backup = NULL, export = TRUE, return = TRUE, ...)
+  path_backup = NULL, export = TRUE, return = TRUE, dir = getwd(),
+  file = deparse(substitute(x)), ext = guess_ext(x), ...)
 }
 \arguments{
 \item{x}{data.frame (or matrix) for most formats.}
@@ -23,6 +24,12 @@ export_path(x = NULL, path = NULL, overwrite = TRUE, backup = FALSE,
 \item{return}{logical. Relevant ONLY if \code{export == FALSE}.
 Set to \code{TRUE} in order to preview what would be rendered.}
 
+\item{dir}{character. Folder name (with a trailing slash).}
+
+\item{file}{character. Bare file (i.e. without folderor extension),}
+
+\item{ext}{character. Bare extension (i.e. without a dot). Must be one of valid formats.}
+
 \item{...}{dots. Parameters to pass directly to the internally used export function.
 Important for explicitly specifying non-default \code{ggplot2::ggsave()} parameters,
 as well as specifying worksheets, etc. for an Excel-based export method.}
@@ -34,5 +41,14 @@ object.
 Saves data given a full path.
 }
 \details{
-Works similarly to \code{export_ext()} internally, but may be considered simpler.
+This function works similarly to \code{export_ext()} internally, but the
+order of the arguments are presented in a different order because it is assumed
+that \code{path} will be supplied. This not the assumption with the \code{export_ext()} function.
+If for some reason \code{path} is not provided, the \code{dir},
+\code{file}, and \code{ext} defaults are used.
+
+Note that the difference between \code{export_path()} and \code{export_ext()}
+is not as significant as it is for \code{import_path()} and \code{import_ext()}.
+
+Also, \code{export_path()} does not have an analogue to \code{import_path_cleanly()}.
 }

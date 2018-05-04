@@ -6,6 +6,15 @@
 \usage{
 get_path_safely(dir = NULL, file = NULL, ext = NULL, path = NULL)
 }
+\arguments{
+\item{dir}{character. Folder name (with a trailing slash).}
+
+\item{file}{character. Bare file (i.e. without folderor extension),}
+
+\item{ext}{character. Bare extension (i.e. without a dot). Must be one of valid formats.}
+
+\item{path}{character. Concatenation of \code{file}, \code{dir}, and \code{ext},}
+}
 \value{
 character. Path.
 }

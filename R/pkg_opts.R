@@ -7,7 +7,6 @@
 #' @param type character. Specification of which package options to extract (i.e. "print", "render", or "ggsave").
 #' @param pkg_opts_prefix character. "teproj".
 #' @return list (of named characters). Renamed package options.
-# #' @export
 get_pkg_opts_renamed <- function(type = c("print", "render", "ggsave"), pkg_opts_prefix = "teproj") {
   type <- match.arg(type)
   opts <- get_pkg_opts_verbose(type, pkg_opts_prefix)
@@ -17,8 +16,6 @@ get_pkg_opts_renamed <- function(type = c("print", "render", "ggsave"), pkg_opts
   ret
 }
 
-# #' @rdname get_pkg_opts
-# #' @export
 get_pkg_opts_verbose <- function(type = c("print", "render", "ggsave"), pkg_opts_prefix = "teproj") {
   type <- match.arg(type)
   rgx <- paste0(pkg_opts_prefix, ".*", type)
@@ -31,7 +28,6 @@ get_pkg_opts_verbose <- function(type = c("print", "render", "ggsave"), pkg_opts
 #' @description Sets options for relevant \code{teproj} functions.
 #' @details Intended to be used as a wrapper to \code{options(...)}.
 #' @param msg,wrn,err booleans. Indiciates whether to show messages, warnings, and errors for package functions.
-# #' @export
 set_pkg_print_opts <- function(msg = getOption("teproj.print.msg"),
                                wrn = getOption("teproj.print.wrn"),
                                err = getOption("teproj.print.err")) {
@@ -73,12 +69,11 @@ set_pkg_render_opts <-
   }
 
 #' Control package options
-#' .
+#'
 #' @description Sets options for saving a \code{ggplot2} plot with \code{teproj::export()}.
 #' @details Intended to be used as a wrapper to \code{options(...)}.
 #' @param units character. \code{ggsave()} parameters.
 #' @param width,height numerics. \code{ggsave()} parameters.
-# #' @export
 set_pkg_ggssave_opts <- function(units = getOption("teproj.ggsave.units"),
                                  width = getOption("teproj.ggsave.width"),
                                  height = getOption("teproj.ggsave.height")) {

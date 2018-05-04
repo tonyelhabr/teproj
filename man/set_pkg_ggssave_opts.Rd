@@ -2,8 +2,7 @@
 % Please edit documentation in R/pkg_opts.R
 \name{set_pkg_ggssave_opts}
 \alias{set_pkg_ggssave_opts}
-\title{Control package options
-.}
+\title{Control package options}
 \usage{
 set_pkg_ggssave_opts(units = getOption("teproj.ggsave.units"),
   width = getOption("teproj.ggsave.width"),

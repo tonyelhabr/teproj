@@ -74,7 +74,7 @@ print_nonreadr_msg <-
   }
 
 print_export_msg <- function(path = NULL) {
-  message(sprintf("Saving as %s.", path, ))
+  message(sprintf("Saving as %s.", path))
 }
 
 print_guess_msg <- function() {

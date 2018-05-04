@@ -23,5 +23,5 @@ object.
 Reads in data given a full path.
 }
 \details{
-Works similarly to \code{import_ext} internally, but may be considered simpler.
+Works similarly to \code{import_ext()} internally, but may be considered simpler.
 }

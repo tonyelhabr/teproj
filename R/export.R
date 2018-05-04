@@ -1,12 +1,16 @@
 
-
-
-
 get_path_backup_safely <-
   function(path = NULL,
            path_backup = NULL,
            backup = FALSE) {
-    if (is.null(path_backup)) {
+    if(!backup) {
+      # print_argfalse_msg("overwrite")
+      return(invisible())
+    }
+    if(is.null(path_backup) & is.null(path)) {
+      print_isnull_msg()
+      return(invisible())
+    } else if (is.null(path_backup) & !is.null(path)) {
       ext <- tools::file_ext(path)
       path_noext <- tools::file_path_sans_ext(path)
       path_backup <- file.path(paste0(
@@ -16,6 +20,8 @@ get_path_backup_safely <-
         ".",
         ext
       ))
+    } else if(!is.null(path_backup)) {
+
     }
     invisible(path_backup)
   }
@@ -76,10 +82,12 @@ export_ggplot <-
 export_readr_or_rio <-
   function(x = NULL,
            path = NULL,
-           ext = ext,
+           ext = NULL,
            ...) {
+
+    fun_readr <- sprintf("readr::write_%s", ext)
+    # browser()
     ret <- try({
-      fun_readr <- paste0("readr::write_", ext)
       do_call_with(fun_readr, list(x = x, path = path, ...))
     }, silent = TRUE)
 
@@ -90,7 +98,7 @@ export_readr_or_rio <-
       }
     }
 
-    invisible(ret)
+    invisible(path)
   }
 
 export_common <-
@@ -115,6 +123,8 @@ export_common <-
     # Don't overwrite the directory, even if overwrite == TRUE for this function.
     # message("Ignoring `overwrite == TRUE` to prevent an accidental overwrite.\n",
     #         "The user should rename the existing directory explicitly.")
+    # browser()
+    dir <- dirname(path)
     create_dir(dir, overwrite = FALSE, backup = backup)
 
     if (ext %in% c("png")) {
@@ -131,19 +141,17 @@ export_common <-
       # rio::export(x, path, ...)
       ret <-
         suppressWarnings(utils::capture.output(session::save.session(path)))
+      ret <- path
     } else {
-      ret <- export_readr_or_rio(x = x, path = path, ...)
-    }
+      ret <- export_readr_or_rio(x = x, path = path, ext = ext, ...)
 
+    }
     print_export_msg(ret)
     path_backup <-
-      create_backup(file,
-                    dir,
-                    ext,
-                    path,
-                    path_backup,
-                    backup,
-                    overwrite)
+      create_backup(path = path,
+                    path_backup = path_backup,
+                    backup = backup,
+                    overwrite = overwrite)
     invisible(ret)
   }
 
@@ -230,12 +238,31 @@ export_ext <-
     }
 
     path <-
-      get_path_safely(dir, file, ext, path)
+      get_path_safely(dir = dir, file = file, ext = ext, path = path)
 
-    ret <- export_common()
+    ret <-
+      export_common(
+        x = x,
+        path = path,
+        ext = ext,
+        overwrite = overwrite,
+        backup = backup,
+        path_backup = path_backup,
+        export = export,
+        return = return,
+        ...
+        )
     invisible(ret)
   }
 
+#' Export an object
+#'
+#' @description Saves data given a full path.
+#' @details Works similarly to \code{export_ext()} internally, but may be considered simpler.
+#' @inheritParams export_ext
+#' @return object.
+#' @export
+#' @importFrom tools file_ext
 export_path <-
   function(x = NULL,
            path = NULL,
@@ -269,6 +296,20 @@ export_path <-
       print_argfalse_msg("overwrite")
       return(invisible())
     }
+
+    ret <-
+      export_common(
+        x = x,
+        path = path,
+        ext = ext,
+        overwrite = overwrite,
+        backup = backup,
+        path_backup = path_backup,
+        export = export,
+        return = return,
+        ...
+      )
+    invisible(ret)
   }
 
 #' @export
@@ -308,14 +349,6 @@ export_ext_png <- function(...)
 #' @rdname export_ext
 # export_viz <- export_ext_png
 export_gg <- function(...) {
-  # print_dpc_msg("export_ext_png")
-  export_ext(ext = "png", ...)
-}
-
-#' @export
-#' @rdname export_ext
-# export_viz <- export_ext_png
-export_viz <- function(...) {
   # print_dpc_msg("export_ext_png")
   export_ext(ext = "png", ...)
 }

@@ -10,7 +10,6 @@
 \alias{export_ext_rds}
 \alias{export_ext_png}
 \alias{export_gg}
-\alias{export_viz}
 \title{Export an object}
 \usage{
 export_ext(x = NULL, file = deparse(substitute(x)), dir = getwd(),
@@ -33,8 +32,6 @@ export_ext_rds(...)
 export_ext_png(...)
 
 export_gg(...)
-
-export_viz(...)
 }
 \arguments{
 \item{x}{data.frame (or matrix) for most formats.}

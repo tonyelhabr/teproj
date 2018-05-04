@@ -119,7 +119,7 @@ test_that("png", {
   expect_true(file.exists(path))
   unlink(path)
 
-  path <- export_viz(viz_iris)
+  path <- export_gg(viz_iris)
   expect_true(file.exists(path))
   unlink(path)
 

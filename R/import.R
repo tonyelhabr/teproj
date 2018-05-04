@@ -1,8 +1,9 @@
 
 import_readr_or_rio <-
   function(path = NULL, ext =ext, ...) {
+
+    fun_readr <- sprintf("readr::read_%s", ext)
     ret <- try({
-      fun_readr <- paste0("read_", ext)
       do_call_with(fun_readr, list(file = path))
     }, silent = TRUE)
 
@@ -125,7 +126,7 @@ import_ext <-
 #' Import an object
 #'
 #' @description Reads in data given a full path.
-#' @details Works similarly to \code{import_ext} internally, but may be considered simpler.
+#' @details Works similarly to \code{import_ext()} internally, but may be considered simpler.
 #' @inheritParams import_ext
 #' @return object.
 #' @export

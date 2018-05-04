@@ -6,9 +6,9 @@
 \alias{create_kable_md}
 \title{Create a directory}
 \usage{
-create_kable(data = NULL, n_show = 20L, format = "html",
-  show_footnote = ifelse(nrow(data) > n_show, TRUE, FALSE), ...,
-  full_width = FALSE, position = "center")
+create_kable(data = NULL, n_show = 20L, show_footnote = ifelse(nrow(data)
+  > n_show, TRUE, FALSE), format = "html", ..., full_width = FALSE,
+  position = "center")
 
 create_kable_html(..., format = "html")
 
@@ -19,13 +19,15 @@ create_kable_md(..., format = "markdown")
 
 \item{n_show}{integer. Number of rows to show in output.}
 
+\item{show_footnote}{logical. Whether to show total number of rows if \code{data} is truncated.}
+
 \item{format}{character. Passed directly to same \code{knitr::kable()} argument.}
 
 \item{...}{dots. Not currently used.}
 
 \item{full_width}{logical. Passed directly to same \code{kableExtra::kable_styling()} argument.}
 
-\item{posiition}{character. Passed directly to same \code{kableExtra::kable_styling()} argument.}
+\item{position}{character. Passed directly to same \code{kableExtra::kable_styling()} argument.}
 }
 \value{
 kable object.

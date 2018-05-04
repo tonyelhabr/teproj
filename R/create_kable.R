@@ -7,9 +7,10 @@
 #' Re-factoring it should be considered.
 #' @param data data.frame.
 #' @param n_show integer. Number of rows to show in output.
+#' @param show_footnote logical. Whether to show total number of rows if \code{data} is truncated.
 #' @param format character. Passed directly to same \code{knitr::kable()} argument.
 #' @param full_width logical. Passed directly to same \code{kableExtra::kable_styling()} argument.
-#' @param posiition character. Passed directly to same \code{kableExtra::kable_styling()} argument.
+#' @param position character. Passed directly to same \code{kableExtra::kable_styling()} argument.
 #' @param ... dots. Not currently used.
 #' @return kable object.
 #' @export
@@ -18,8 +19,8 @@
 create_kable <-
   function(data = NULL,
            n_show = 20L,
-           format = "html",
            show_footnote = ifelse(nrow(data) > n_show, TRUE, FALSE),
+           format = "html",
            ...,
            full_width = FALSE,
            position = "center") {

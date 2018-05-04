@@ -15,11 +15,15 @@ knitr::opts_chunk$set(
 ```{r eval = FALSE, echo = FALSE}
 viz_void <- ggplot2::ggplot() + ggplot2::theme_void()
 
-filepath_logo <- file.path("man", "figures", paste0("logo.png"))
+dir_logo <- file.path("man", "figures")
+if(!exists(dir_logo)) {
+  dir.create(dir_logo, recursive = TRUE)
+}
+path_logo <- file.path(dir_logo, paste0("logo.png"))
 hexSticker::sticker(
   subplot = viz_void,
   package = "teproj",
-  filename = filepath_logo,
+  filename = path_logo,
   p_y = 1.0,
   p_color = "black",
   # p_family = "sans",
@@ -28,8 +32,8 @@ hexSticker::sticker(
   h_color = "black",
   h_fill = "yellow"
 )
-logo <- magick::image_read(filepath_logo)
-magick::image_write(magick::image_scale(logo, "120"), path = filepath_logo)
+logo <- magick::image_read(path_logo)
+magick::image_write(magick::image_scale(logo, "120"), path = path_logo)
 ```
 
 # teproj <img src="man/figures/logo.png" align="right"/>

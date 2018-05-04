@@ -1,12 +1,16 @@
 
 
-#' @title Create a directory.
+
+#' Create a directory
+#'
 #' @description Creates the directory if it does not exist.
 #' @details Used by other functions in this package.
+#' Note that this function is probably more complex than it really should be.
+#' Re-factoring it should be considered.
 #' @param dir character. Folder name (with a trailing slash).
-#' @param overwrite boolean.
-#' @param backup boolean.
-#' @param create boolean.
+#' @param overwrite logical.
+#' @param backup logical.
+#' @param create logical.
 #' @param ... dots. Not currently used.
 #' @return character. Filepath.
 #' @export
@@ -36,20 +40,16 @@ create_dir <- function(dir = paste0(getwd(), "/"),
   }
 
   if (dir.exists(dir)) {
-    if (getOption("teproj.print.msg"))
-      message(sprintf("%s already exists.", dir))
-    if(overwrite) {
+    # message(sprintf("%s already exists.", dir))
+    if (overwrite) {
       # unlink(list.files(dir, full.names = TRUE), recursive = TRUE, force = TRUE)
       dir.create(dir, recursive = TRUE, showWarnings = FALSE)
-      if(getOption("teproj.print.msg"))
-        message(sprintf("Overwrote %s (because `overwrite == TRUE`)."), dir)
+      message(sprintf("Overwriting %s (because `overwrite == TRUE`)."),
+              dir)
     }
   } else {
     dir.create(dir, recursive = TRUE, showWarnings = FALSE)
-    if (getOption("teproj.print.msg")) {
-      message(sprintf("Created %s.", dir))
-    }
+    message(sprintf("Creating %s.", dir))
   }
   invisible(dir)
 }
-

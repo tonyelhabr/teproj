@@ -7,19 +7,18 @@
 #' @param type character. Specification of which package options to extract (i.e. "print", "render", or "ggsave").
 #' @param pkg_opts_prefix character. "teproj".
 #' @return list (of named characters). Renamed package options.
-#' @rdname get_pkg_opts
-#' @export
+# #' @export
 get_pkg_opts_renamed <- function(type = c("print", "render", "ggsave"), pkg_opts_prefix = "teproj") {
   type <- match.arg(type)
   opts <- get_pkg_opts_verbose(type, pkg_opts_prefix)
   rgx <- paste0(pkg_opts_prefix, "\\.", type, "\\.")
-  out <- opts
-  names(out) <- gsub(rgx, "", names(opts))
-  out
+  ret <- opts
+  names(ret) <- gsub(rgx, "", names(opts))
+  ret
 }
 
-#' @rdname get_pkg_opts
-#' @export
+# #' @rdname get_pkg_opts
+# #' @export
 get_pkg_opts_verbose <- function(type = c("print", "render", "ggsave"), pkg_opts_prefix = "teproj") {
   type <- match.arg(type)
   rgx <- paste0(pkg_opts_prefix, ".*", type)
@@ -32,8 +31,7 @@ get_pkg_opts_verbose <- function(type = c("print", "render", "ggsave"), pkg_opts
 #' @description Sets options for relevant \code{teproj} functions.
 #' @details Intended to be used as a wrapper to \code{options(...)}.
 #' @param msg,wrn,err booleans. Indiciates whether to show messages, warnings, and errors for package functions.
-#' @return Nothing.
-#' @export
+# #' @export
 set_pkg_print_opts <- function(msg = getOption("teproj.print.msg"),
                                wrn = getOption("teproj.print.wrn"),
                                err = getOption("teproj.print.err")) {
@@ -57,8 +55,8 @@ set_pkg_render_opts <-
            fig.show = getOption("teproj.render.fig.show"),
            fig.width = getOption("teproj.render.fig.width"),
            fig.height = getOption("teproj.render.fig.height"),
-           # out.width = getOption("teproj.render.out.width"),
-           # out.height = getOption("teproj.render.out.height"),
+           # ret.width = getOption("teproj.render.ret.width"),
+           # ret.height = getOption("teproj.render.ret.height"),
            warning = getOption("teproj.render.warning"),
            message = getOption("teproj.render.message")) {
     options(teproj.render.echo = echo)
@@ -68,8 +66,8 @@ set_pkg_render_opts <-
     options(teproj.render.fig.show = fig.show)
     options(teproj.render.fig.width = fig.width)
     options(teproj.render.fig.height = fig.height)
-    # options(teproj.render.out.width = out.width)
-    # options(teproj.render.out.height = out.height)
+    # options(teproj.render.ret.width = ret.width)
+    # options(teproj.render.ret.height = ret.height)
     options(teproj.render.warning = warning)
     options(teproj.render.message = message)
   }
@@ -80,7 +78,7 @@ set_pkg_render_opts <-
 #' @details Intended to be used as a wrapper to \code{options(...)}.
 #' @param units character. \code{ggsave()} parameters.
 #' @param width,height numerics. \code{ggsave()} parameters.
-#' @export
+# #' @export
 set_pkg_ggssave_opts <- function(units = getOption("teproj.ggsave.units"),
                                  width = getOption("teproj.ggsave.width"),
                                  height = getOption("teproj.ggsave.height")) {

@@ -1,0 +1,106 @@
+
+
+# Modified from https://github.com/yihui/knitr/blob/master/R/utils.R.
+# .is_windows <- function() .Platform$OS.type == "windows"
+# .is_abs_path <- function(x) {
+#   if (.is_windows())
+#     grepl(':', x, fixed = TRUE) || grepl('^\\\\', x) else grepl('^[/~]', x)
+# }
+
+# NOTE: This is used by *_proj_io() functions.
+# Modified from https://github.com/rstudio/rmarkdown/blob/81c209271e06266115e08263dbcde5d007e4d77c/R/includes.R
+# NOTE: Not sure why, but need to set mustWork = FALSE) explicitly, otherwise
+# warnings appear. (This behavior is not observed when calling normalizePath directly.
+# Howver, normalizePath() specifies `winslash = "\\"` by default, which is annoying.)
+normalize_path <- function(path = NULL, winslash = "/", mustWork = NA) {
+  if (!is.null(path))
+    normalizePath(path, winslash = winslash, mustWork = mustWork)
+}
+
+#' Construct a file path
+#'
+#' @description Construct a file path given a directory, file, and extension.
+#' @details This function is notable because it has a \code{path} argument
+#' that can be used as a quick "out".
+#' This helps with argument checking with package functions.
+#' @return character. Path.
+#' @export
+get_path_safely <-
+  function(dir = NULL,
+           file = NULL,
+           ext = NULL,
+           path = NULL) {
+    if (is.null(path)) {
+      path <- file.path(dir, paste0(file, ".", ext))
+    }
+    # path <- normalize_path(path)
+    path
+  }
+
+#' Construct a file path
+#'
+#' @description Constructs a file path given a directory as the first input and an extension as the last input.
+#' @details Assumes that the last arguments is the path extension. If \code{ext} is not
+#' specified explicitly, it is assumed to be the last argument passed to the function.
+#' This format allows for 'lazy' construction of the basename of the file (sans extension)
+#' given all arguments that are not the first nor the last.s
+#' @return character. Path.
+#' @export
+get_path_lazily <-
+  function(dir = NULL, ..., ext = NULL) {
+    dots <- list(...)
+    if (is.null(ext)) {
+      ext <- rev(unlist(dots))[1]
+      dots <- dots[-c(length(dots))]
+    }
+    file <- paste(unlist(dots), collapse = "", sep = "")
+    file.path(dir, paste0(file, ".", ext))
+  }
+
+#' Sort a named list
+#' @description Sort a named list.
+#' @details None.
+#' @param x list.
+#' @return list.
+#' @export
+sort_named_list <- function(x = NULL) {
+  x[order(names(x))]
+}
+
+#' \code{do.call()} with package namespace
+#'
+#' @description Allows a package to explicitly included in \code{do.call()}
+#' @details None.
+#' @source \url{https://stackoverflow.com/questions/10022436/do-call-in-combination-with}.
+#' @export
+do_call_with <- function(what, args, ...) {
+  if (is.character(what)) {
+    fn <- strsplit(what, "::")[[1]]
+    what <- if (length(fn) == 1) {
+      get(fn[[1]], envir = parent.frame(), mode = "function")
+    } else {
+      get(fn[[2]], envir = asNamespace(fn[[1]]), mode = "function")
+    }
+  }
+
+  do.call(what, as.list(args), ...)
+}
+
+
+# .test <- function(filter = NULL, pkg = ".", ...) {
+#   test(pkg = pkg, filter = filter, ...)
+# }
+
+# TODO: Implement proper message/warning/error wrappers.
+#' \code{warning} + \code{sprintf}
+#'
+#' @description Implements \code{warning} and \code{sprintf} such that the specified
+#' environment (of a function) is properly shown in the message.
+#' @details None.
+#' @source \url{https://stackoverflow.com/questions/9596918/r-warning-wrapper-raise-to-parent-function}.
+#' @export
+warningf <- function(..., n = 1L){
+  parent_call <- sys.call(sys.nframe() - n)
+  warning(paste("In", parent_call, ":", sprintf(...)), call. = FALSE)
+}
+

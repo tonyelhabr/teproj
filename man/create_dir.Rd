@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_dir.R
 \name{create_dir}
 \alias{create_dir}
-\title{Create a directory.}
+\title{Create a directory}
 \usage{
 create_dir(dir = paste0(getwd(), "/"), overwrite = FALSE, backup = TRUE,
   create = TRUE, ...)
@@ -10,11 +10,11 @@ create_dir(dir = paste0(getwd(), "/"), overwrite = FALSE, backup = TRUE,
 \arguments{
 \item{dir}{character. Folder name (with a trailing slash).}
 
-\item{overwrite}{boolean.}
+\item{overwrite}{logical.}
 
-\item{backup}{boolean.}
+\item{backup}{logical.}
 
-\item{create}{boolean.}
+\item{create}{logical.}
 
 \item{...}{dots. Not currently used.}
 }
@@ -26,4 +26,6 @@ Creates the directory if it does not exist.
 }
 \details{
 Used by other functions in this package.
+Note that this function is probably more complex than it really should be.
+Re-factoring it should be considered.
 }

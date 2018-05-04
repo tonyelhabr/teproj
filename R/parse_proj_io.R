@@ -1,83 +1,71 @@
 
 
+
 get_valid_exts <- function(action = c("input", "output")) {
   requireNamespace("rio")
   action <- match.arg(action)
   rgx_pattern_0 <-  "rio|(\\.)|_"
-  rgx_pattern_suffix <- switch(action, input = "import", output = "export")
+  rgx_pattern_suffix <-
+    switch(action, input = "import", output = "export")
   # browser()
   rgx_pattern <- paste0(rgx_pattern_0, "|", rgx_pattern_suffix)
-  if(action == "input") {
-    output <- gsub(rgx_pattern, "", as.character(utils::methods(.import)))
+  if (action == "input") {
+    output <-
+      gsub(rgx_pattern, "", as.character(utils::methods(.import)))
   } else if (action == "output") {
-    output <- gsub(rgx_pattern, "", as.character(utils::methods(.export)))
+    output <-
+      gsub(rgx_pattern, "", as.character(utils::methods(.export)))
     output <- c(output, "png")
   }
   output
 }
 
 # See: https://stackoverflow.com/questions/2192316/extract-a-regular-expression-match-in-r-version-2-10.
-remove_rgx <- function(char, rgx) {
+remove_rgx <- function(char = NULL, rgx = NULL) {
   regmatches(char, regexpr(rgx, char))
 }
 
 print_parse_proj_io_msg <-
-  function(action,
-           var,
-           line_idx,
-           line,
-           file,
-           ext,
-           path) {
-    if (getOption("teproj.print.msg"))
-      message(
-        "Found ",
+  function(action = NULL,
+           var = NULL,
+           line_idx = NULL,
+           line = NULL,
+           file = NULL,
+           ext = NULL,
+           path = NULL) {
+    message(
+      sprintf(
+        "Found %s variable %s on line %s %s in script %s.",
         action,
-        " variable ",
         var,
-        " on line ",
-        line_idx,
-        " ",
+        as.character(line_idx),
         line,
-        " in script ",
-        file,
-        # "(",
-        # path,
-        # ")",
-        "."
+        file
       )
-    # message(sprintf("Found %s variable %s on line %.0f in script %s.", action, var, line_idx, file))
+    )
   }
 
 compile_project_io_data <-
-  function(action,
-           var,
-           line_idx,
-           line,
-           file,
-           ext,
-           path,
-           accuracy,
-           comment) {
-    # if (getOptions("teproj.print.msg")) {
-    #   if (file == "")
-    #     message("Could not identify a file.")
-    #   if (var == "")
-    #     message("Could not identify a variable.")
-    # }
-    d <-
-      tibble::tibble(
-        io = action,
-        var = var,
-        file = file,
-        ext = ext,
-        line = line,
-        line_idx = line_idx,
-        path = path,
-        accuracy = accuracy,
-        comment = comment
-      )
-    d
+  function(action = NULL,
+           var = NULL,
+           line_idx = NULL,
+           line = NULL,
+           file = NULL,
+           ext = NULL,
+           path = NULL,
+           accuracy = NULL,
+           comment = NULL) {
+    tibble::tibble(
+      io = action,
+      var = var,
+      file = file,
+      ext = ext,
+      line = line,
+      line_idx = line_idx,
+      path = path,
+      accuracy = accuracy,
+      comment = comment
+    )
   }
 
 
@@ -98,12 +86,12 @@ compile_project_io_data <-
 #' @param rgx_file_io character. Alias to \code{pattern} parameter for \code{list.files()}.
 #' Used ONLY if \code{paths} is missing and \code{dir} is not.
 #' @param rgx_input character. Regular expression to match for input functions
-#' @param rgx_output Chracter. Regular expression to match for output functions.
-#' @return data.frame
+#' @param rgx_output character. Regular expression to match for output functions.
+#' @return data.frame.
 #' @importFrom tibble tibble as_tibble
 #' @importFrom utils methods
 #' @import rio
-#' @export
+# #' @export
 parse_proj_io <-
   function(paths,
            dir,
@@ -125,9 +113,9 @@ parse_proj_io <-
 
     files_exist <-
       check_files_exist(paths = paths,
-                         dir = dir,
-                         pattern = rgx_file_io,
-                         ...)
+                        dir = dir,
+                        pattern = rgx_file_io,
+                        ...)
     if (!files_exist$exist) {
       return(invisible())
     } else {
@@ -142,7 +130,7 @@ parse_proj_io <-
 
     while (path_idx <= length(paths)) {
       path <- paths[path_idx]
-      # TODO:utils::getParseData(parse(path)) here.
+      # TODO: Try using utils::getParseData(parse(path)) here.
       # browser()
 
       conn <- file(path, open = "r")
@@ -188,7 +176,6 @@ parse_proj_io <-
         }
 
         if (match) {
-
           # browser()
           line_parsed <- gsub(rgx_parse, "", line_trimmed)
           line_parsed <- gsub("(,|\\)).*", "", line_parsed)
@@ -200,9 +187,11 @@ parse_proj_io <-
 
           exts_valid <- get_valid_exts(action)
           # browser()
-          exts_valid_collapsed <- paste(paste0("(", exts_valid, ")"), collapse = "|")
+          exts_valid_collapsed <-
+            paste(paste0("(", exts_valid, ")"), collapse = "|")
           ext <- remove_rgx(line_parsed, exts_valid_collapsed)
-          if(length(ext) == 0) ext <- ""
+          if (length(ext) == 0)
+            ext <- ""
 
           if (var_basename == "") {
             # browser()
@@ -233,11 +222,11 @@ parse_proj_io <-
               # than the export_ext*() functions.
               file <- remove_rgx(var_basename, '\\".*\\"')
               file <- gsub('\\"', "", file)
-              if(length(file) == 0) file <- ""
+              if (length(file) == 0)
+                file <- ""
               var_basename <- gsub('\\".*\\"', "", var_basename)
               accuracy <- "low"
               if (ext == "") {
-
                 # file <- ""
                 comment <-
                   "Difficulty parsing var, file, and ext."
@@ -258,14 +247,14 @@ parse_proj_io <-
 
           d <-
             compile_project_io_data(action,
-                                     var,
-                                     line_idx,
-                                     line_trimmed,
-                                     file,
-                                     ext,
-                                     path,
-                                     accuracy,
-                                     comment)
+                                    var,
+                                    line_idx,
+                                    line_trimmed,
+                                    file,
+                                    ext,
+                                    path,
+                                    accuracy,
+                                    comment)
           tibble::tibble(
             io = action,
             # var = var,
@@ -278,17 +267,17 @@ parse_proj_io <-
             comment = comment
           )
           print_parse_proj_io_msg(action,
-                                   var,
-                                   line_idx,
-                                   line,
-                                   file,
-                                   ext,
-                                   path)
+                                  var,
+                                  line_idx,
+                                  line,
+                                  file,
+                                  ext,
+                                  path)
           # browser()
-          if (!exists("out", inherits = FALSE)) {
-            out <- d
+          if (!exists("ret", inherits = FALSE)) {
+            ret <- d
           } else {
-            out <- rbind(out, d)
+            ret <- rbind(ret, d)
           }
         }
         line_idx <- line_idx + 1
@@ -296,8 +285,8 @@ parse_proj_io <-
       close(conn)
       path_idx <- path_idx + 1
     }
-    if (!exists("out", inherits = FALSE)) {
+    if (!exists("ret", inherits = FALSE)) {
       return(invisible())
     }
-    invisible(as_tibble(out))
+    invisible(as_tibble(ret))
   }

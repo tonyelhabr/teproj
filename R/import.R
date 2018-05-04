@@ -1,4 +1,27 @@
 
+import_readr_or_rio <-
+  function(path = NULL, ext =ext, ...) {
+    ret <- try({
+      fun_readr <- paste0("read_", ext)
+      do_call_with(fun_readr, list(file = path))
+    }, silent = TRUE)
+
+    if(inherits(ret, "try-error")) {
+      ret <- rio::import(path, ...)
+      if(!inherits(ret, "try-error")) {
+        print_nonreadr_msg("rio")
+      }
+
+      ret <- try(tibble::as_tibble(ret), silent = TRUE)
+
+      if(inherits(ret, "try-error")) {
+        print_tibblefail_msg()
+      }
+    }
+
+    invisible(ret)
+  }
+
 # # See https://stackoverflow.com/questions/15811305/how-can-i-have-this-deparse-function-working.
 # g = function(x) {
 #   x.try <- try(x, silent = TRUE)
@@ -6,7 +29,7 @@
 #   else deparse(substitute(x))
 # }
 #
-# # test it out
+# # test it ret
 # if (exists("test")) rm(test)
 #
 # g(test) # "test"
@@ -23,15 +46,30 @@
 # z <- try(import_ext(iris, ext = "csv"))
 # z
 
-
-
 #' Import an object
 #'
-#' @description Reads in an object from a path.
-#' @details None.
+#' @description Reads in data given a file, directory, and extension, or a full path directly.
+#' @details This function is intended to be a direct counterpart to the similarly
+#' named export function. It should be used in a NSE manner. However, this may not be what the user wants.
+#' (The NSE aspect is perhaps more appropriate for exporting, where choices about file name
+#' may be determined from the object name.)
+#' \code{import_path()} may be a suitable alternative.
+#'
+#' Note that the user may not typically be concerned with the \code{import} and
+#' \code{return} parameters. Nonetheless, these are provided in order to facilitate usage
+#' with scripts run using "meta"-parameters that determine what data to import.
+#'
+#' Internally, a distinct method (\code{session::restore.session})
+#' is used for the RData-type file extension in order
+#' to allow for importing of packages.
+#'
+#' Many supplementary functions, using the format \code{import_ext_*()} are provided
+#' for convenience. (e.g. \code{import_ext_csv()} instead of \code{import_ext(..., ext = 'csv').}
+#'
 #' @inheritParams export_ext
-#' @param import boolean. Indicates whether to actually carry out function.
-#' @param ... dots. Parameters to pass on to internally used import function.
+#' @param import logical. Indicates whether to actually execute function.
+#' @param ... dots. Arguments to pass dircetly to internally used import function.
+#' @return object.
 #' @export
 #' @importFrom rio import
 #' @importFrom session restore.session
@@ -51,9 +89,9 @@ import_ext <-
       return(invisible())
     }
 
-    basename_try <- try(file, silent = TRUE)
-    if (!inherits(basename_try, "try-error") & is.character(basename_try)) {
-      file <- basename_try
+    file_try <- try(file, silent = TRUE)
+    if (!inherits(file_try, "try-error") & is.character(file_try)) {
+      file <- file_try
     } else {
       file <- deparse(substitute(file))
     }
@@ -63,10 +101,10 @@ import_ext <-
       return(invisible())
     }
 
-    path <- get_path(dir, file, ext, path)
+    path <- get_path_safely(dir, file, ext, path)
 
     if(!file.exists(path)) {
-      if(getOption("teproj.print.wrn")) warning("Cannot find file at ", path, ".")
+      print_filenotexist_msg(path)
       return(invisible(path))
     }
 
@@ -76,29 +114,58 @@ import_ext <-
 
     if(grepl("rda", tolower(ext))) {
       # x <- ls(parent.frame())
-      out <- suppressWarnings(utils::capture.output(session::restore.session(path)))
+      ret <- suppressWarnings(utils::capture.output(session::restore.session(path)))
     } else {
-
-      out <- try({
-        fun_readr <- paste0("read_", ext)
-        do_call_with(fun_readr, list(file = path))
-      }, silent = TRUE)
-
-      if(inherits(out, "try-error")) {
-        out <- rio::import(path, ...)
-        if(!inherits(out, "try-error")) {
-          print_nonreadr_msg("rio")
-        }
-
-        out <- try(tibble::as_tibble(out), silent = TRUE)
-
-        if(inherits(out, "try-error")) {
-          if(getOption("teproj.print.msg")) message("Could not convert data imported to tibble.")
-        }
-      }
+      ret <- import_readr_or_rio(path = path, ext = ext)
     }
 
-    invisible(out)
+    invisible(ret)
+  }
+
+#' Import an object
+#'
+#' @description Reads in data given a full path.
+#' @details Works similarly to \code{import_ext} internally, but may be considered simpler.
+#' @inheritParams import_ext
+#' @return object.
+#' @export
+#' @importFrom tools file_ext
+import_path <-
+  function(path = NULL, import = TRUE, return = TRUE, ...) {
+
+    if (!import & !return) {
+      print_argfalse_msg("import")
+      return(invisible())
+    }
+
+    if(!file.exists(path)) {
+      print_filenotexist_msg(path)
+      return(invisible(path))
+    }
+
+    if(!import & return) {
+      return(invisible(path))
+    }
+
+    stopifnot(!is.null(path))
+    ext <- tools::file_ext(path)
+    ret <- import_readr_or_rio(path = path, ext = ext)
+    invisible(ret)
+  }
+
+#' Import an object
+#'
+#' @description Reads in data given a full path and 'cleans' the names.
+#' @details Calls \code{import_path} internally.
+#' @inheritParams import_ext
+#' @return object.
+#' @export
+#' @importFrom janitor clean_names
+import_path_cleanly <-
+  function(path = NULL, ...) {
+    ret <- import_path(path = path, ...)
+    ret <- try({janitor::clean_names(ret)}, silent = TRUE)
+    invisible(ret)
   }
 
 #' @export

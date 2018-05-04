@@ -33,22 +33,22 @@ render_proj_io(path_input, dir_input, ..., dir_output = file.path(getwd()),
 
 \item{ext_output}{character. File extension of output.}
 
-\item{render}{boolean. Indiciates whether or not to actually carry out function.}
+\item{render}{logical. Indiciates whether or not to actually carry ret function.}
 
 \item{render_params}{list. Parameters to pass directly to \code{params} argument of \code{rmarkdown::render()}}
 
-\item{return}{boolean. Relevant ONLY if \code{render == FALSE}.
+\item{return}{logical. Relevant ONLY if \code{render == FALSE}.
 Set to \code{TRUE} in order to preview what would be rendered.}
 
-\item{overwrite}{boolean. Indicates whether or not to overwrite any existing file with the same name. Not currently used.}
+\item{overwrite}{logical. Indicates whether or not to overwrite any existing file with the same name. Not currently used.}
 
-\item{quiet}{boolean. Direct argument for \code{rmarkdown::render()}.}
+\item{quiet}{logical. Direct argument for \code{rmarkdown::render()}.}
 
-\item{backup}{boolean. Indicates whether or not to create e a backup.}
+\item{backup}{logical. Indicates whether or not to create e a backup.}
 
 \item{backup_suffix}{character. Suffix to append to file for backup file.}
 
-\item{keep_rmd}{boolean. Assuming specified output is not ".Rmd", indicates whether to call \code{knitr::spin} to keep "intermediate" results.}
+\item{keep_rmd}{logical. Assuming specified output is not ".Rmd", indicates whether to call \code{knitr::spin} to keep "intermediate" results.}
 }
 \value{
 data.frame. Information regarding what was rendered.

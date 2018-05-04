@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_example.R
 \name{create_example}
 \alias{create_example}
-\title{Create an example project/file.}
+\title{Create an example project/file}
 \usage{
 create_example(style = "personal", template = "analysis",
   dir = "teproj_test", ..., overwrite = FALSE)
@@ -25,5 +25,6 @@ character. directory path.
 Creates an example project or file.
 }
 \details{
-TODO.
+TODO. It is intended that this function can be used to automatically
+create a project directory based on this package's `inst/` files.
 }

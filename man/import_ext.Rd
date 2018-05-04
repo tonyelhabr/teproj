@@ -34,16 +34,34 @@ import_ext_rds(...)
 
 \item{path}{character. Concatenation of \code{file}, \code{dir}, and \code{ext},}
 
-\item{import}{boolean. Indicates whether to actually carry out function.}
+\item{import}{logical. Indicates whether to actually execute function.}
 
-\item{return}{boolean.  Relevant ONLY if \code{export == FALSE}.
+\item{return}{logical. Relevant ONLY if \code{export == FALSE}.
 Set to \code{TRUE} in order to preview what would be rendered.}
 
-\item{...}{dots. Parameters to pass on to internally used import function.}
+\item{...}{dots. Arguments to pass dircetly to internally used import function.}
+}
+\value{
+object.
 }
 \description{
-Reads in an object from a path.
+Reads in data given a file, directory, and extension, or a full path directly.
 }
 \details{
-None.
+This function is intended to be a direct counterpart to the similarly
+named export function. It should be used in a NSE manner. However, this may not be what the user wants.
+(The NSE aspect is perhaps more appropriate for exporting, where choices about file name
+may be determined from the object name.)
+\code{import_path()} may be a suitable alternative.
+
+Note that the user may not typically be concerned with the \code{import} and
+\code{return} parameters. Nonetheless, these are provided in order to facilitate usage
+with scripts run using "meta"-parameters that determine what data to import.
+
+Internally, a distinct method (\code{session::restore.session})
+is used for the RData-type file extension in order
+to allow for importing of packages.
+
+Many supplementary functions, using the format \code{import_ext_*()} are provided
+for convenience. (e.g. \code{import_ext_csv()} instead of \code{import_ext(..., ext = 'csv').}
 }

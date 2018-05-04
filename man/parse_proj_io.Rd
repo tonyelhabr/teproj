@@ -20,10 +20,10 @@ Used ONLY if \code{paths} is missing and \code{dir} is not.}
 
 \item{rgx_input}{character. Regular expression to match for input functions}
 
-\item{rgx_output}{Chracter. Regular expression to match for output functions.}
+\item{rgx_output}{character. Regular expression to match for output functions.}
 }
 \value{
-data.frame
+data.frame.
 }
 \description{
 Parses project diretory to identify input andoutput variables, basenames, etc.

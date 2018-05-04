@@ -11,10 +11,10 @@
 \alias{export_ext_png}
 \alias{export_gg}
 \alias{export_viz}
-\title{Save to a path}
+\title{Export an object}
 \usage{
 export_ext(x = NULL, file = deparse(substitute(x)), dir = getwd(),
-  ext = NULL, path = file.path(dir, paste0(file, ".", ext)),
+  ext = guess_ext(x), path = file.path(dir, paste0(file, ".", ext)),
   overwrite = TRUE, backup = FALSE, path_backup = NULL, export = TRUE,
   return = TRUE, ...)
 
@@ -47,28 +47,48 @@ export_viz(...)
 
 \item{path}{character. Concatenation of \code{file}, \code{dir}, and \code{ext},}
 
-\item{overwrite}{boolean.}
+\item{overwrite}{logical.}
 
-\item{backup}{boolean.}
+\item{backup}{logical.}
 
 \item{path_backup}{like \code{path},}
 
-\item{export}{boolean. Indicates whether to actually carry out action. Intended to be used as a "catch all".}
+\item{export}{logical. Indicates whether to actually carry ret action. Intended to be used as a "catch all".}
 
-\item{return}{boolean.  Relevant ONLY if \code{export == FALSE}.
+\item{return}{logical. Relevant ONLY if \code{export == FALSE}.
 Set to \code{TRUE} in order to preview what would be rendered.}
 
-\item{...}{dots. Parameters to pass on to internally used export function.
-Important for explicitly specifying non-default \code{ggplot2::ggsave()}.}
+\item{...}{dots. Parameters to pass directly to the internally used export function.
+Important for explicitly specifying non-default \code{ggplot2::ggsave()} parameters,
+as well as specifying worksheets, etc. for an Excel-based export method.}
 }
 \value{
-character. Filepath.
+character. Path.
 }
 \description{
-Saves an object to a path.
+Saves data given a directory, file name, and extension, or a full path directly.
 }
 \details{
 Object to save must be a data.frame (or matrix) for most formats.
+
+This function is intended to be used in a NSE manner, where the file name
+is derived from the name of the object passed to the function (via \code{deparse(substitute(x))}).
+\code{export_path()} may be a suitable alternative if the user wants to specify
+the path name directly, although such an action can also be done with this function.
+
+Note that the user may not typically be concerned several arguments, including
+\code{overwrite}, \code{backup}, \code{path_backup}, \code{export}, and \code{return}.
+Nonetheless, these are provided in order to facilitate usage
+with scripts run using "meta"-parameters that determine what data to export, whether or not
+to overwrite, etc.
+
+Internally, a distinct method (\code{session::save.session})
+is used for the RData-type file extension in order
+to allow for importing of packages. Also, \code{ggplot2} objects are treated in
+a special manner.
+
+Many supplementary functions, using the format \code{export_ext_*()} are provided
+for convenience. (e.g. \code{export_ext_csv()} instead of \code{export_ext(..., ext = 'csv').}
 }
 \examples{
 \dontrun{

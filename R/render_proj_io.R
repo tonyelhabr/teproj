@@ -17,15 +17,15 @@
 #' @param rgx_input_exclude character. Regular expression to use to filter for \code{list.files()} output. (Somewhat redundant.)
 #' @param rgx_output_trim character. Used ONLY if \code{basename_output} is missing. Describes how input file names should be "trimmed" to make the output file name appear "cleaner".
 #' @param ext_output character. File extension of output.
-#' @param render boolean. Indiciates whether or not to actually carry out function.
+#' @param render logical. Indiciates whether or not to actually carry ret function.
 #' @param render_params list. Parameters to pass directly to \code{params} argument of \code{rmarkdown::render()}
-#' @param return boolean. Relevant ONLY if \code{render == FALSE}.
+#' @param return logical. Relevant ONLY if \code{render == FALSE}.
 #' Set to \code{TRUE} in order to preview what would be rendered.
-#' @param overwrite boolean. Indicates whether or not to overwrite any existing file with the same name. Not currently used.
-#' @param quiet boolean. Direct argument for \code{rmarkdown::render()}.
-#' @param backup boolean. Indicates whether or not to create e a backup.
+#' @param overwrite logical. Indicates whether or not to overwrite any existing file with the same name. Not currently used.
+#' @param quiet logical. Direct argument for \code{rmarkdown::render()}.
+#' @param backup logical. Indicates whether or not to create e a backup.
 #' @param backup_suffix character. Suffix to append to file for backup file.
-#' @param keep_rmd boolean. Assuming specified output is not ".Rmd", indicates whether to call \code{knitr::spin} to keep "intermediate" results.
+#' @param keep_rmd logical. Assuming specified output is not ".Rmd", indicates whether to call \code{knitr::spin} to keep "intermediate" results.
 #' @return data.frame. Information regarding what was rendered.
 #' @export
 #' @importFrom tibble tibble
@@ -133,7 +133,7 @@ render_proj_io <-
 
     ext_output <- match.arg(ext_output)
     path_output <-
-      get_path(dir_output, basename_output, ext_output, path = NULL)
+      get_path_safely(dir_output, basename_output, ext_output, path = NULL)
     path_output <- normalize_path(path_output, mustWork = FALSE)
 
     path_output_backup <-

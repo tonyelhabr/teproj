@@ -2,13 +2,9 @@
 % Please edit documentation in R/pkg_opts.R
 \name{get_pkg_opts_renamed}
 \alias{get_pkg_opts_renamed}
-\alias{get_pkg_opts_verbose}
 \title{View package options}
 \usage{
 get_pkg_opts_renamed(type = c("print", "render", "ggsave"),
-  pkg_opts_prefix = "teproj")
-
-get_pkg_opts_verbose(type = c("print", "render", "ggsave"),
   pkg_opts_prefix = "teproj")
 }
 \arguments{

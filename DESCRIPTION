@@ -3,7 +3,7 @@ Type: Package
 Title: Tony's Personal Package
 Version: 0.0.1.0000
 Author: Tony ElHabr <anthonyelhabr@gmail.com>
-Maintainer: Tony ElHabr <anthonyelhabr@gmail.com>
+Authors@R: person("Tony", "ElHabr", email = "anthonyelhabr@gmail.com", role = c("aut", "cre"))
 Description: A package for Tony's projects.
 License: MIT + file LICENSE
 Encoding: UTF-8

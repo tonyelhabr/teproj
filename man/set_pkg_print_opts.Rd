@@ -10,9 +10,6 @@ set_pkg_print_opts(msg = getOption("teproj.print.msg"),
 \arguments{
 \item{msg, wrn, err}{booleans. Indiciates whether to show messages, warnings, and errors for package functions.}
 }
-\value{
-Nothing.
-}
 \description{
 Sets options for relevant \code{teproj} functions.
 }

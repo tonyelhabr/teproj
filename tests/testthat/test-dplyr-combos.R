@@ -1,6 +1,7 @@
 
 context("dplyr-combos")
 require("datasets")
+# testthat::test_file("tests/testthat/test-dplyr-combos.R")
 
 test_that("dplyr-combos", {
   actual <- pull_distinctly(mtcars, carb)

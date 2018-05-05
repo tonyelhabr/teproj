@@ -134,10 +134,11 @@ summarise_stats_at <-
       value <- NULL
       # ret <- tidyr::gather(ret, stat, value)
       if (!is.null(cols_grp)) {
+        cols_gath_chr <- setdiff(names(ret), cols_grp)
         ret <-
-          suppressWarnings(tidyr::gather(ret, stat, value, -c(cols_grp_chr)))
+          suppressWarnings(tidyr::gather(ret, stat, value, !!!rlang::syms(cols_gath_chr), convert = TRUE))
       } else {
-        ret <- suppressWarnings(tidyr::gather(ret, stat, value))
+        ret <- suppressWarnings(tidyr::gather(ret, stat, value, convert = TRUE))
       }
       ret <- tibble::as_tibble(ret)
     }

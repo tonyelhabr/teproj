@@ -128,3 +128,15 @@ warningf <- function(..., n = 1L){
   warning(paste("In", parent_call, ":", sprintf(...)), call. = FALSE)
 }
 
+#' Remove rownames from data.frame
+#'
+#' @param data data frame
+#' @return data.frame
+#' @export
+#' @source \url{https://github.com/tidyverse/broom/blob/master/R/utilities.R}.
+unrowname <- function(data = NULL) {
+  stopifnot(!is.null(data), is.data.frame(data))
+  rownames(x) <- NULL
+  x
+}
+

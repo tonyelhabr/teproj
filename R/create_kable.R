@@ -20,7 +20,7 @@ format_total <- function(x = NULL, digits = 0, nsmall = 1, big.mark = ",") {
 #' @return kable object.
 #' @export
 #' @importFrom knitr kable
-#' @importFRom kableExtra kable_styling add_footnote
+#' @importFrom kableExtra kable_styling add_footnote
 create_kable <-
   function(data = NULL,
            n_show = 20L,

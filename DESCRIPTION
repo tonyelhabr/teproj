@@ -16,9 +16,13 @@ Imports:
     rio,
     tibble,
     janitor,
-    tools,
     knitr,
     kableExtra,
     rmarkdown,
+    dplyr,
+    rlang,
+    tidyr,
+    tools,
     session,
+    utils
 Suggests: testthat,covr

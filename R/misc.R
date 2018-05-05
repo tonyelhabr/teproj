@@ -1,4 +1,18 @@
 
+# # https://stackoverflow.com/questions/7597559/grep-using-a-character-vector-with-multiple-patterns?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+# #Returns all items in a list that are not contained in toMatch
+# #toMatch can be a single item or a list of items
+# exclude <- function (theList, toMatch){
+#   return(setdiff(theList,include(theList,toMatch)))
+# }
+#
+# #Returns all items in a list that ARE contained in toMatch
+# #toMatch can be a single item or a list of items
+# include <- function (theList, toMatch){
+#   matches <- unique (grep(paste(toMatch,collapse="|"),
+#                           theList, value=TRUE))
+#   return(matches)
+# }
 
 # Modified from https://github.com/yihui/knitr/blob/master/R/utils.R.
 # .is_windows <- function() .Platform$OS.type == "windows"

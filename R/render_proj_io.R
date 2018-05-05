@@ -86,10 +86,8 @@ render_proj_io <-
     } else {
       path_input_exist <- as.logical(lapply(path_input, file.exists))
       if(!any(path_input_exist)) {
-        if(getOption("teutils.print.wrn")) {
-          warning("Specified file(s) do not exist.")
-          return(invisible())
-        }
+        warning("Specified file(s) do not exist.", call. = FALSE)
+        return(invisible())
       }
     }
 

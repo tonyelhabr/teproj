@@ -141,7 +141,7 @@ export_common <-
       # path <- gsub(ext, "rdata", path)
       # rio::export(x, path, ...)
       ret <-
-        suppressWarnings(utils::capture.output(session::save.session(path)))
+        suppressWarnings(session::save.session(path))
       ret <- path
     } else {
       ret <- export_readr_or_rio(x = x, path = path, ext = ext, ...)
@@ -213,7 +213,6 @@ export_common <-
 #' @importFrom rio export
 #' @importFrom ggplot2 last_plot ggsave
 #' @importFrom session save.session
-#' @importFrom utils capture.output
 #' @importFrom tools file_ext
 export_ext <-
   function(x = NULL,

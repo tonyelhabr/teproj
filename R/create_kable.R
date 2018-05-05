@@ -1,4 +1,9 @@
 
+#' @source \url{https://stackoverflow.com/questions/29465941/format-number-in-r-with-both-comma-thousands-separator-and-specified-decimals}.
+format_total <- function(x = NULL, digits = 0, nsmall = 1, big.mark = ",") {
+  format(round(as.numeric(x), digits), nsmall = nsmall, big.mark = big.mark)
+}
+
 #' Create a directory
 #'
 #' @description Creates the directory if it does not exist.
@@ -43,7 +48,7 @@ create_kable <-
 
     if (show_footnote) {
       ret <-
-        kableExtra::add_footnote(ret, c(sprintf("# of total rows: %.0f", n_rows)), notation = "number")
+        kableExtra::add_footnote(ret, c(sprintf("# of total rows: %s", format_total(n_rows))), notation = "number")
     }
     invisible(ret)
   }

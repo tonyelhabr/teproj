@@ -4,11 +4,21 @@ Title: Tony's Personal Package
 Version: 0.0.1.1
 Author: Tony ElHabr <anthonyelhabr@gmail.com>
 Authors@R: person("Tony", "ElHabr", email = "anthonyelhabr@gmail.com", role = c("aut", "cre"))
-Description: This is a package for Tony's personal projects. It may be considered
+Description: This is a package with functions for Tony's projects. It may be considered
     sufficiently generalizable to be used by others too.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
-Imports: ggplot2,readr,utils,session,rio,tibble,janitor,tools,knitr,kableExtra,rmarkdown
+Imports: 
+    ggplot2,
+    readr,
+    rio,
+    tibble,
+    janitor,
+    tools,
+    knitr,
+    kableExtra,
+    rmarkdown,
+    session,
 Suggests: testthat,covr

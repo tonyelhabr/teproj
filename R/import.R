@@ -74,7 +74,6 @@ import_readr_or_rio <-
 #' @export
 #' @importFrom rio import
 #' @importFrom session restore.session
-#' @importFrom utils capture.output
 #' @importFrom tibble as_tibble
 import_ext <-
   function(file,
@@ -115,7 +114,7 @@ import_ext <-
 
     if(grepl("rda", tolower(ext))) {
       # x <- ls(parent.frame())
-      ret <- suppressWarnings(utils::capture.output(session::restore.session(path)))
+      ret <- suppressWarnings(session::restore.session(path))
     } else {
       ret <- import_readr_or_rio(path = path, ext = ext)
     }

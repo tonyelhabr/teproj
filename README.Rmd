@@ -1,6 +1,17 @@
 ---
 output: github_document
 ---
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
+ 
+---
+ 
+[![minimal R version](https://img.shields.io/badge/R%3E%3D-3.4.1-6666ff.svg)](https://cran.r-project.org/)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/teproj)](https://cran.r-project.org/package=teproj)
+[![packageversion](https://img.shields.io/badge/Package%20version-0.0.1.1-orange.svg?style=flat-square)](commits/master)
+ 
+---
+ 
+[![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
@@ -34,6 +45,7 @@ hexSticker::sticker(
 )
 logo <- magick::image_read(path_logo)
 magick::image_write(magick::image_scale(logo, "120"), path = path_logo)
+badgecreatr::badgeplacer(status = "wip", githubaccount = "tonyelhabr", githubrepo = "teproj")
 ```
 
 # teproj <img src="man/figures/logo.png" align="right"/>
@@ -47,6 +59,13 @@ This package contains functions that I use often in projects.
 `devtools::install_github("tonyelhabr/teproj")`.
 
 ## Notes
+
+Here is a list of all functions in the package.
+
+```{r echo = FALSE}
+library("teproj")
+ls("package:teproj")
+```
 
 ### Inspiration
 
@@ -64,13 +83,13 @@ use in projects (e.g. `render_proj_io()` could be added.
 (I don't necessarily recommend using these "other" functions, however, because they 
 are tailored towards my use cases.)
 
-```{r include = FALSE }
-# sprintf("Code coverage: %f", covr::package_coverage())
+```{r include = FALSE, eval = FALSE}
+# print(covr::package_coverage())
 ```
 
-### Syntax [^fn_readme]
+### Syntax [^readme]
 
-[^fn_readme]:
+[^readme]:
 The `fundManageR` package inspired some of the format of this section.
 See its [README file](https://github.com/abresler/fundManageR/blob/master/readme.Rmd).
 
@@ -90,7 +109,9 @@ The `units`, `width`, and `height` are set to package option values
 (see `options("teproj.ggsave.units"`, etc.)
 if they are not all specified explicitly together.
 
-+ `*_proj_io()` functions - "Meta" functions for an RStudio project.
+__NOTE:__ The following are no longer exported.
+
++ ~~`*_proj_io()`~~ functions - "Meta" functions for an RStudio project.
 `parse_proj_io()` attempts to create a `tibble` with
 information regarding the input/output files in each script in an RStudio project.
 The output could be used in a number of ways, such as in a node-dependency graph
@@ -99,29 +120,15 @@ visualizing how the project's files relate to one another.
 formatted with Roxygen2 style comments to .Rmd files. This is intended to be used
 by users (like me) who prefer the "feel" of an R script when working with data that will
 eventually be presented in a .Rmd file/report and don't want to work directly with
-a .Rmd file. [^fn_r2rmd] __NOTE:__ These functions are fairly experimental and
-should not be relied upon for anything that should be reliable.
+a .Rmd file. [^r2rmd] __NOTE:__ These functions are fairly experimental and
+should not be relied upon for anything that should be reliable.~~
 
-+ `set_pkg_*_opts()` functions - Functions to facilitate setting this package's options
++ ~~`set_pkg_*_opts()`~~ functions - Functions to facilitate setting this package's options
 (This is preferable to calling `options()` directly,
 which requires knowing exactly what the name of the option is).
 
-[^fn_r2rmd]:
+[^r2rmd]:
 See [this blog post](http://brooksandrew.github.io/simpleblog/articles/render-reports-directly-from-R-scripts/) for more discussion.
-
-Here is a list of all functions in the package.
-
-```{r echo = FALSE}
-library("teproj")
-# ls_vars_all <- ls("package:teproj")
-# ls_vars_ext_start <- grep("^import|^export", ls_vars_all, value = TRUE)
-# ls_vars_ext_main <- grep("ext$", ls_vars_ext_start, value = TRUE)
-# ls_vars_other <- setdiff(ls_vars_all, ls_vars_ext_start)
-# ?teproj::`teproj-package`
-# print(sort(c(ls_vars_io_main, ls_vars_other)))
-ls("package:teproj")
-```
-
 
 ## Examples
 

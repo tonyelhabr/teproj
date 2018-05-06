@@ -19,10 +19,9 @@ Imports:
     knitr,
     kableExtra,
     rmarkdown,
-    dplyr,
-    rlang,
-    tidyr,
     tools,
     session,
     utils
 Suggests: testthat,covr
+Depends:
+    R (>= 3.4.1)

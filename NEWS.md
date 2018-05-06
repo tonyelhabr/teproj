@@ -11,7 +11,6 @@ favors this syntax for non-API functions.)
 
 + Added some new functions, include `import_path()` and `export_path()`.
 + Exported functions that were previously internal only, such as `do_call_with()` and `warningf()`.
-+ Cleaned up the internal of existing functions to redunce redundancy.
++ Cleaned up the internal of existing functions to reduce redundancy.
 + Removed the package options for printing messages and `ggplot2` defaults
 because I determined that they were superfluous.
-+ 

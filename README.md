@@ -1,4 +1,14 @@
 
+[![Project Status: WIP ? Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
+
+------------------------------------------------------------------------
+
+[![minimal R version](https://img.shields.io/badge/R%3E%3D-3.4.1-6666ff.svg)](https://cran.r-project.org/) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/teproj)](https://cran.r-project.org/package=teproj) [![packageversion](https://img.shields.io/badge/Package%20version-0.0.1.1-orange.svg?style=flat-square)](commits/master)
+
+------------------------------------------------------------------------
+
+[![Last-changedate](https://img.shields.io/badge/last%20change-2018--05--07-yellowgreen.svg)](/commits/master)
+
 teproj <img src="man/figures/logo.png" align="right"/>
 ======================================================
 
@@ -14,6 +24,19 @@ This package contains functions that I use often in projects.
 Notes
 -----
 
+Here is a list of all functions in the package.
+
+    #>  [1] "create_dir"          "create_kable"        "create_kable_html"  
+    #>  [4] "create_kable_md"     "do_call_with"        "export_ext"         
+    #>  [7] "export_ext_csv"      "export_ext_png"      "export_ext_rda"     
+    #> [10] "export_ext_rdata"    "export_ext_RData"    "export_ext_rds"     
+    #> [13] "export_ext_xlsx"     "export_gg"           "export_path"        
+    #> [16] "get_path_lazily"     "get_path_safely"     "import_ext"         
+    #> [19] "import_ext_csv"      "import_ext_rda"      "import_ext_rdata"   
+    #> [22] "import_ext_RData"    "import_ext_rds"      "import_ext_xlsx"    
+    #> [25] "import_path"         "import_path_cleanly" "render_proj_io"     
+    #> [28] "set_pkg_render_opts" "sort_named_list"     "warningf"
+
 ### Inspiration
 
 The original purpose of this package was to provide a convenient interface to the `readr` and `rio` functions for importing and exporting data to various file formats. Because I often found myself using the variable name as the name of the file, I figured it would be nice to implement "lazy" methods for doing so. Under the hood, this packages's functions use "Non-Standared Evaluation" (NSE) (using techniques that may or may not be up to date with the latest `tidyverse` methods of NSE 😄).
@@ -26,21 +49,11 @@ Additionally, while implementing these `import`/`export` functions, I realized a
 
 -   `export_ext*()` functions - Counterpart to the `import_ext_*()` functions. Notably, exporting of plots is supported. However, the support is not robust-- it is intended only for use with `ggplot2` plots, and only to the `png` file format. The `units`, `width`, and `height` are set to package option values (see `options("teproj.ggsave.units"`, etc.) if they are not all specified explicitly together.
 
--   `*_proj_io()` functions - "Meta" functions for an RStudio project. `parse_proj_io()` attempts to create a `tibble` with information regarding the input/output files in each script in an RStudio project. The output could be used in a number of ways, such as in a node-dependency graph visualizing how the project's files relate to one another. `render_proj_io()` (a wrapper for `rmarkdwon::render()`) converts .R scripts formatted with Roxygen2 style comments to .Rmd files. This is intended to be used by users (like me) who prefer the "feel" of an R script when working with data that will eventually be presented in a .Rmd file/report and don't want to work directly with a .Rmd file. [2] **NOTE:** These functions are fairly experimental and should not be relied upon for anything that should be reliable.
+**NOTE:** The following are no longer exported.
 
--   `set_pkg_*_opts()` functions - Functions to facilitate setting this package's options (This is preferable to calling `options()` directly, which requires knowing exactly what the name of the option is).
+-   ~~`*_proj_io()`~~ functions - "Meta" functions for an RStudio project. `parse_proj_io()` attempts to create a `tibble` with information regarding the input/output files in each script in an RStudio project. The output could be used in a number of ways, such as in a node-dependency graph visualizing how the project's files relate to one another. `render_proj_io()` (a wrapper for `rmarkdwon::render()`) converts .R scripts formatted with Roxygen2 style comments to .Rmd files. This is intended to be used by users (like me) who prefer the "feel" of an R script when working with data that will eventually be presented in a .Rmd file/report and don't want to work directly with a .Rmd file. [2] **NOTE:** These functions are fairly experimental and should not be relied upon for anything that should be reliable.~~
 
-Here is a list of all functions in the package.
-
-    #>  [1] "create_dir"          "do_call_with"        "export_ext"         
-    #>  [4] "export_ext_csv"      "export_ext_png"      "export_ext_rda"     
-    #>  [7] "export_ext_rdata"    "export_ext_RData"    "export_ext_rds"     
-    #> [10] "export_ext_xlsx"     "export_gg"           "export_path"        
-    #> [13] "get_path_lazily"     "get_path_safely"     "import_ext"         
-    #> [16] "import_ext_csv"      "import_ext_rda"      "import_ext_rdata"   
-    #> [19] "import_ext_RData"    "import_ext_rds"      "import_ext_xlsx"    
-    #> [22] "import_path"         "import_path_cleanly" "render_proj_io"     
-    #> [25] "set_pkg_render_opts" "sort_named_list"     "warningf"
+-   ~~`set_pkg_*_opts()`~~ functions - Functions to facilitate setting this package's options (This is preferable to calling `options()` directly, which requires knowing exactly what the name of the option is).
 
 Examples
 --------

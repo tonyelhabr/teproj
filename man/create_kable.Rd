@@ -7,8 +7,8 @@
 \title{Create a directory}
 \usage{
 create_kable(data = NULL, n_show = 20L, show_footnote = ifelse(nrow(data)
-  > n_show, TRUE, FALSE), format = "html", ..., full_width = FALSE,
-  position = "center")
+  > n_show, TRUE, FALSE), n_footnote = nrow(data), format = "html", ...,
+  full_width = FALSE, position = "center")
 
 create_kable_html(..., format = "html")
 
@@ -20,6 +20,10 @@ create_kable_md(..., format = "markdown")
 \item{n_show}{integer. Number of rows to show in output.}
 
 \item{show_footnote}{logical. Whether to show total number of rows if \code{data} is truncated.}
+
+\item{n_footnote}{integer. Number of rows to show in footnote. Only relevant if \code{show_footnote = TRUE}.
+This is mostly useful if \code{data} is truncated before being passed to this function,
+yet the user still wants to show an untruncated number by setting this value explicitly.}
 
 \item{format}{character. Passed directly to same \code{knitr::kable()} argument.}
 

@@ -1,6 +1,6 @@
 
 #' @source \url{https://stackoverflow.com/questions/29465941/format-number-in-r-with-both-comma-thousands-separator-and-specified-decimals}.
-format_total <- function(x = NULL, digits = 0, nsmall = 1, big.mark = ",") {
+format_total <- function(x = NULL, digits = 0, nsmall = 0, big.mark = ",") {
   format(round(as.numeric(x), digits), nsmall = nsmall, big.mark = big.mark)
 }
 
@@ -13,6 +13,9 @@ format_total <- function(x = NULL, digits = 0, nsmall = 1, big.mark = ",") {
 #' @param data data.frame.
 #' @param n_show integer. Number of rows to show in output.
 #' @param show_footnote logical. Whether to show total number of rows if \code{data} is truncated.
+#' @param n_footnote integer. Number of rows to show in footnote. Only relevant if \code{show_footnote = TRUE}.
+#' This is mostly useful if \code{data} is truncated before being passed to this function,
+#' yet the user still wants to show an untruncated number by setting this value explicitly.
 #' @param format character. Passed directly to same \code{knitr::kable()} argument.
 #' @param full_width logical. Passed directly to same \code{kableExtra::kable_styling()} argument.
 #' @param position character. Passed directly to same \code{kableExtra::kable_styling()} argument.
@@ -25,6 +28,7 @@ create_kable <-
   function(data = NULL,
            n_show = 20L,
            show_footnote = ifelse(nrow(data) > n_show, TRUE, FALSE),
+           n_footnote = nrow(data),
            format = "html",
            ...,
            full_width = FALSE,
@@ -33,8 +37,8 @@ create_kable <-
     # browser()
     stopifnot(!is.null(data), is.data.frame(data))
 
-    n_rows <- nrow(data)
-    n_show <- ifelse(n_show > n_rows, n_rows, n_show)
+    n_footnote <- nrow(data)
+    n_show <- ifelse(n_show > n_footnote, n_footnote, n_show)
     if (show_footnote) {
       data <- data[1:n_show,]
     }
@@ -48,7 +52,7 @@ create_kable <-
 
     if (show_footnote) {
       ret <-
-        kableExtra::add_footnote(ret, c(sprintf("# of total rows: %s", format_total(n_rows))), notation = "number")
+        kableExtra::add_footnote(ret, c(sprintf("# of total rows: %s", format_total(n_footnote))), notation = "number")
     }
     invisible(ret)
   }

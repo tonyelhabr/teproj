@@ -34,10 +34,8 @@ create_kable <-
            full_width = FALSE,
            position = "center") {
 
-    # browser()
     stopifnot(!is.null(data), is.data.frame(data))
 
-    # n_show <- ifelse(n_show > n_footnote, n_footnote, n_show)
     if (show_footnote) {
       data <- data[1:n_show,]
     }

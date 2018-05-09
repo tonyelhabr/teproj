@@ -4,7 +4,7 @@
 \alias{create_kable}
 \alias{create_kable_html}
 \alias{create_kable_md}
-\title{Create a directory}
+\title{Create a \code{knitr::kable} object}
 \usage{
 create_kable(data = NULL, n_show = 20L, show_footnote = ifelse(nrow(data)
   > n_show, TRUE, FALSE), n_footnote = nrow(data), format = "html", ...,
@@ -37,10 +37,8 @@ yet the user still wants to show an untruncated number by setting this value exp
 kable object.
 }
 \description{
-Creates the directory if it does not exist.
+Creates a \code{knitr::kable} object.
 }
 \details{
-Used by other functions in this package.
-Note that this function is probably more complex than it really should be.
-Re-factoring it should be considered.
+None.
 }

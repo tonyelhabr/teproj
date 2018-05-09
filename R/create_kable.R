@@ -4,12 +4,10 @@ format_total <- function(x = NULL, digits = 0, nsmall = 0, big.mark = ",") {
   format(round(as.numeric(x), digits), nsmall = nsmall, big.mark = big.mark)
 }
 
-#' Create a directory
+#' Create a \code{knitr::kable} object
 #'
-#' @description Creates the directory if it does not exist.
-#' @details Used by other functions in this package.
-#' Note that this function is probably more complex than it really should be.
-#' Re-factoring it should be considered.
+#' @description Creates a \code{knitr::kable} object.
+#' @details None.
 #' @param data data.frame.
 #' @param n_show integer. Number of rows to show in output.
 #' @param show_footnote logical. Whether to show total number of rows if \code{data} is truncated.
@@ -34,13 +32,15 @@ create_kable <-
            full_width = FALSE,
            position = "center") {
 
-    stopifnot(!is.null(data), is.data.frame(data))
+    stopifnot(is.data.frame(data))
 
-    if (show_footnote) {
-      data <- data[1:n_show,]
+    # NOTE: This ensures that `n_footnote` is evaluated priort to the filter of the input data.
+    ret <- data
+    if (show_footnote & (n_show < nrow(data))) {
+      ret <- ret[1:n_show,]
     }
 
-    ret <- knitr::kable(data, format = format, escape = FALSE)
+    ret <- knitr::kable(ret, format = format, escape = FALSE)
 
     if (format == "html") {
       ret <-
@@ -67,4 +67,52 @@ create_kable_md <-
   function(..., format = "markdown") {
     create_kable(..., format = format)
   }
+
+# TODO: Make sure rows are unique!
+# #' Create a \code{knitr::kable} object
+# #'
+# #' @description Creates a \code{knitr::kable} kable object.
+# #' This function is designed to allow the user to add specific rows
+# #' to the output from \code{create_kable()} by specifying a column and a regular expression
+# #' with which to filter the column.
+# #' @details Defaults which are probably desired by the user are specified.
+# #' @inheritParams create_kable
+# #' @param col character. Name of column in \code{data} to which to apply string detection.
+# #' @param rgx character. Regular expression used to filter \code{data} (based on values in \code{col_rgx}
+# #' @export
+# create_kable_filt_at <-
+#   function(data = NULL,
+#            col = NULL,
+#            rgx = NULL,
+#            n_show = 20L,
+#            show_footnote = TRUE,
+#            n_footnote = nrow(data),
+#            ...) {
+#
+#     stopifnot(is.data.frame(data))
+#     stopifnot(is.character(col), col %in% names(data))
+#     stopifnot(is.character(rgx))
+#     # data <- filter(data, grepl(rgx, !!rlang::sym(col)))
+#
+#     data_filt <- data
+#     if(nrow(data_filt) > n_show) {
+#       data_filt <- data_filt[1:n_show, ]
+#     }
+#
+#     col_select <- data[,col]
+#     idx_select <- grepl(rgx, col_select)
+#     data_match <- data[idx_select, ]
+#
+#     nrow_match <- nrow(data_match)
+#     n_kable <- n_show + nrow_match
+#     data_kable <- rbind(data_filt, data_match)
+#
+#     ret <-
+#       create_kable(data_kable,
+#                    n_show = n_kable,
+#                    show_footnote = show_footnote,
+#                    n_footnote = n_footnote,
+#                    ...)
+#     ret
+#   }
 

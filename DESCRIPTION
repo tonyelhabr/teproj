@@ -1,7 +1,7 @@
 Package: teproj
 Type: Package
 Title: Tony's Personal Package
-Version: 0.0.1.1
+Version: 0.0.1.2
 Author: Tony ElHabr <anthonyelhabr@gmail.com>
 Authors@R: person("Tony", "ElHabr", email = "anthonyelhabr@gmail.com", role = c("aut", "cre"))
 Description: This is a package with functions for Tony's projects. It may be considered

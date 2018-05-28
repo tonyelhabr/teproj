@@ -1,0 +1,37 @@
+---
+params: 
+    title: ""
+title: "`r params$title`"
+author: ""
+output:
+  word_document:
+    reference_docx: template-te.docx
+---
+
+```{r setup, include = FALSE}
+# rmarkdown::render(file.path("R", "01-main.Rmd"))
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+knitr::opts_chunk$set(
+  echo = TRUE,
+  cache = FALSE,
+  include = TRUE,
+  fig.align = "center",
+  fig.width = 6,
+  fig.height = 6,
+  # out.width = 6,
+  # out.height = 6,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r config, include = FALSE}
+library("tidyverse")
+
+config <-
+  list(
+    path_data = file.path("data", "data.csv")
+  )
+```
+
+## Introduction

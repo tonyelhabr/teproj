@@ -45,13 +45,14 @@ create_kable <-
     if (format == "html") {
       ret <-
         kableExtra::kable_styling(ret, full_width = full_width, position = position)
-    }
 
-    if (show_footnote) {
-      ret <-
-        kableExtra::add_footnote(ret, c(sprintf("# of total rows: %s", format_total(n_footnote))), notation = "number")
+      if (show_footnote) {
+        ret <-
+          kableExtra::add_footnote(ret, c(sprintf("# of total rows: %s", format_total(n_footnote))), notation = "number")
+      }
+      return(invisible(ret))
     }
-    invisible(ret)
+    ret
   }
 
 #' @rdname create_kable

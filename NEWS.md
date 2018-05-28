@@ -14,3 +14,9 @@ favors this syntax for non-API functions.)
 + Cleaned up the internal of existing functions to reduce redundancy.
 + Removed the package options for printing messages and `ggplot2` defaults
 because I determined that they were superfluous.
+
+# teproj 0.0.1.2
+
++ Made return from `create_kable()` not invisible for non-html formats.
+(It is returned as invisible for html in order to avoid showing it in the Viewer pane.
++ Added template `te`.

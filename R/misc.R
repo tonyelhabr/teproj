@@ -136,7 +136,7 @@ warningf <- function(..., n = 1L){
 #' @source \url{https://github.com/tidyverse/broom/blob/master/R/utilities.R}.
 unrowname <- function(data = NULL) {
   stopifnot(!is.null(data), is.data.frame(data))
-  rownames(x) <- NULL
-  x
+  rownames(data) <- NULL
+  data
 }
 

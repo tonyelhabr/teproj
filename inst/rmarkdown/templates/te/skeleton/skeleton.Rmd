@@ -3,9 +3,7 @@ params:
     title: ""
 title: "`r params$title`"
 author: ""
-output:
-  word_document:
-    reference_docx: template-te.docx
+output: teproj::word_document_te
 ---
 
 ```{r setup, include = FALSE}

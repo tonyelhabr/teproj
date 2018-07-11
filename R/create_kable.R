@@ -50,7 +50,6 @@ create_kable <-
         ret <-
           kableExtra::add_footnote(ret, c(sprintf("# of total rows: %s", format_total(n_footnote))), notation = "number")
       }
-      return(invisible(ret))
     }
     ret
   }

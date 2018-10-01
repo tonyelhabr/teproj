@@ -1,22 +1,22 @@
 
-#' @source \url{https://stackoverflow.com/questions/29465941/format-number-in-r-with-both-comma-thousands-separator-and-specified-decimals}.
+#' @source <https://stackoverflow.com/questions/29465941/format-number-in-r-with-both-comma-thousands-separator-and-specified-decimals>.
 .format_total <- function(x = NULL, digits = 0, nsmall = 0, big.mark = ",") {
   format(round(as.numeric(x), digits), nsmall = nsmall, big.mark = big.mark)
 }
 
-#' Create a \code{knitr::kable} object
+#' Create a `knitr::kable` object
 #'
-#' @description Creates a \code{knitr::kable} object.
+#' @description Creates a `knitr::kable` object.
 #' @details None.
 #' @param data data.frame.
 #' @param n_show integer. Number of rows to show in output.
-#' @param show_footnote logical. Whether to show total number of rows if \code{data} is truncated.
-#' @param n_footnote integer. Number of rows to show in footnote. Only relevant if \code{show_footnote = TRUE}.
-#' This is mostly useful if \code{data} is truncated before being passed to this function,
+#' @param show_footnote logical. Whether to show total number of rows if `data` is truncated.
+#' @param n_footnote integer. Number of rows to show in footnote. Only relevant if `show_footnote = TRUE`.
+#' This is mostly useful if `data` is truncated before being passed to this function,
 #' yet the user still wants to show an untruncated number by setting this value explicitly.
-#' @param format character. Passed directly to same \code{knitr::kable()} argument.
-#' @param full_width logical. Passed directly to same \code{kableExtra::kable_styling()} argument.
-#' @param position character. Passed directly to same \code{kableExtra::kable_styling()} argument.
+#' @param format character. Passed directly to same `knitr::kable()` argument.
+#' @param full_width logical. Passed directly to same `kableExtra::kable_styling()` argument.
+#' @param position character. Passed directly to same `kableExtra::kable_styling()` argument.
 #' @param ... dots. Not currently used.
 #' @return kable object.
 #' @export

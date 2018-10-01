@@ -2,8 +2,8 @@
 
 #' View package options
 #'
-#' @description View options for relevant \code{teproj} functions.
-#' @details Particularly useful for the \code{render_pojr_io()} function.
+#' @description View options for relevant `teproj` functions.
+#' @details Particularly useful for the `render_pojr_io()` function.
 #' @param type character. Specification of which package options to extract (i.e. "print", "render", or "ggsave").
 #' @param pkg_opts_prefix character. "teproj".
 #' @return list (of named characters). Renamed package options.
@@ -25,8 +25,8 @@ get_pkg_opts_verbose <- function(type = c("print", "render", "ggsave"), pkg_opts
 
 #' Control package options
 #'
-#' @description Sets options for relevant \code{teproj} functions.
-#' @details Intended to be used as a wrapper to \code{options(...)}.
+#' @description Sets options for relevant `teproj` functions.
+#' @details Intended to be used as a wrapper to `options(...)`.
 #' @param msg,wrn,err booleans. Indiciates whether to show messages, warnings, and errors for package functions.
 set_pkg_print_opts <- function(msg = getOption("teproj.print.msg"),
                                wrn = getOption("teproj.print.wrn"),
@@ -38,10 +38,10 @@ set_pkg_print_opts <- function(msg = getOption("teproj.print.msg"),
 
 #' Control package options
 #'
-#' @description Sets options for \code{teproj::render_proj_io}.
-#' @details Intended to be used as a wrapper to \code{options(...)}.
+#' @description Sets options for `teproj::render_proj_io`.
+#' @details Intended to be used as a wrapper to `options(...)`.
 #' @param echo,cache,results,fig.align,fig.show,fig.width,fig.height,warning,message
-#' Arguments passed to the \code{knitr_opts$set()} arguments of their same namesake.
+#' Arguments passed to the `knitr_opts$set()` arguments of their same namesake.
 #' @export
 set_pkg_render_opts <-
   function(echo = getOption("teproj.render.echo"),
@@ -70,10 +70,10 @@ set_pkg_render_opts <-
 
 #' Control package options
 #'
-#' @description Sets options for saving a \code{ggplot2} plot with \code{teproj::export()}.
-#' @details Intended to be used as a wrapper to \code{options(...)}.
-#' @param units character. \code{ggsave()} parameters.
-#' @param width,height numerics. \code{ggsave()} parameters.
+#' @description Sets options for saving a `ggplot2` plot with `teproj::export()`.
+#' @details Intended to be used as a wrapper to `options(...)`.
+#' @param units character. `ggsave()` parameters.
+#' @param width,height numerics. `ggsave()` parameters.
 set_pkg_ggssave_opts <- function(units = getOption("teproj.ggsave.units"),
                                  width = getOption("teproj.ggsave.width"),
                                  height = getOption("teproj.ggsave.height")) {

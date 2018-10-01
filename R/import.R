@@ -30,18 +30,18 @@
 #' named export function. It should be used in a NSE manner. However, this may not be what the user wants.
 #' (The NSE aspect is perhaps more appropriate for exporting, where choices about file name
 #' may be determined from the object name.)
-#' \code{import_path()} may be a suitable alternative.
+#' `import_path()` may be a suitable alternative.
 #'
-#' Note that the user may not typically be concerned with the \code{import} and
-#' \code{return} parameters. Nonetheless, these are provided in order to facilitate usage
+#' Note that the user may not typically be concerned with the `import` and
+#' `return` parameters. Nonetheless, these are provided in order to facilitate usage
 #' with scripts run using "meta"-parameters that determine what data to import.
 #'
-#' Internally, a distinct method (\code{session::restore.session})
+#' Internally, a distinct method (`session::restore.session`)
 #' is used for the RData-type file extension in order
 #' to allow for importing of packages.
 #'
-#' Many supplementary functions, using the format \code{import_ext_*()} are provided
-#' for convenience. (e.g. \code{import_ext_csv()} instead of \code{import_ext(..., ext = 'csv').}
+#' Many supplementary functions, using the format `import_ext_*()` are provided
+#' for convenience. (e.g. `import_ext_csv()` instead of `import_ext(..., ext = 'csv').`
 #'
 #' @inheritParams export_ext
 #' @param import logical. Indicates whether to actually execute function.
@@ -102,7 +102,7 @@ import_ext <-
 #' Import an object
 #'
 #' @description Reads in data given a full path.
-#' @details Works similarly to \code{import_ext()} internally, but may be considered simpler.
+#' @details Works similarly to `import_ext()` internally, but may be considered simpler.
 #' @inheritParams import_ext
 #' @return object.
 #' @export
@@ -133,7 +133,7 @@ import_path <-
 #' Import an object
 #'
 #' @description Reads in data given a full path and 'cleans' the names.
-#' @details Calls \code{import_path} internally.
+#' @details Calls `import_path` internally.
 #' @inheritParams import_ext
 #' @return object.
 #' @export

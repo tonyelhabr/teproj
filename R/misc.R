@@ -34,7 +34,7 @@ normalize_path <- function(path = NULL, winslash = "/", mustWork = NA) {
 #' Construct a file path
 #'
 #' @description Construct a file path given a directory, file, and extension.
-#' @details This function is notable because it has a \code{path} argument
+#' @details This function is notable because it has a `path` argument
 #' that can be used as a quick "out".
 #' This helps with argument checking with package functions.
 #' @inheritParams export_ext
@@ -55,13 +55,13 @@ get_path_safely <-
 #' Construct a file path
 #'
 #' @description Constructs a file path given a directory as the first input and an extension as the last input.
-#' @details Assumes that the last arguments is the path extension. If \code{ext} is not
+#' @details Assumes that the last arguments is the path extension. If `ext` is not
 #' specified explicitly, it is assumed to be the last argument passed to the function.
 #' This format allows for 'lazy' construction of the basename of the file (sans extension)
 #' given all arguments that are not the first nor the last.
 #' @inheritParams export_ext
 #' @param ... dots. Arguments parssed to construct name of file path without the directory nor
-#' the extension. Uses \code{paste()} to collapse all arguments between \code{dir} and \code{ext}.
+#' the extension. Uses `paste()` to collapse all arguments between `dir` and `ext`.
 #' @return character. Path.
 #' @export
 get_path_lazily <-
@@ -85,16 +85,16 @@ sort_named_list <- function(x) {
   x[order(names(x))]
 }
 
-#' \code{do.call()} with package namespace
+#' `do.call()` with package namespace
 #'
-#' @description Allows a package to explicitly included in \code{do.call()}
-#' @details It's probably better to just use \code{purrr::invoke()}, since it
+#' @description Allows a package to explicitly included in `do.call()`
+#' @details It's probably better to just use `purrr::invoke()`, since it
 #' does the same thing that this function was crated to do.
 #' @param what character. package name and function specified in explicit
-#' namespace notation (i.e. \code{package::function}).
-#' @param args list. Arguments passed to function parsed from \code{what}.
-#' @param ... dots. Arguments passed to \code{do.call()}.
-#' @source \url{https://stackoverflow.com/questions/10022436/do-call-in-combination-with}.
+#' namespace notation (i.e. `package::function`).
+#' @param args list. Arguments passed to function parsed from `what`.
+#' @param ... dots. Arguments passed to `do.call()`.
+#' @source <https://stackoverflow.com/questions/10022436/do-call-in-combination-with>.
 #' @export
 do_call_with <- function(what, args, ...) {
   if (is.character(what)) {
@@ -115,14 +115,14 @@ do_call_with <- function(what, args, ...) {
 # }
 
 # TODO: Implement proper message/warning/error wrappers.
-#' \code{warning()} + \code{sprintf()}
+#' `warning()` + `sprintf()`
 #'
-#' @description Implements \code{warning()} and \code{sprintf()} such that the specified
+#' @description Implements `warning()` and `sprintf()` such that the specified
 #' environment (of a function) is properly shown in the message.
 #' @details None.
-#' @param ... dots. Arguments pased to \code{sprintf()}.
+#' @param ... dots. Arguments pased to `sprintf()`.
 #' @param n integer. Number of calling environment frame.
-#' @source \url{https://stackoverflow.com/questions/9596918/r-warning-wrapper-raise-to-parent-function}.
+#' @source <https://stackoverflow.com/questions/9596918/r-warning-wrapper-raise-to-parent-function>.
 #' @export
 warningf <- function(..., n = 1L){
   parent_call <- sys.call(sys.nframe() - n)
@@ -134,7 +134,7 @@ warningf <- function(..., n = 1L){
 #' @param data data frame
 #' @return data.frame
 #' @export
-#' @source \url{https://github.com/tidyverse/broom/blob/master/R/utilities.R}.
+#' @source <https://github.com/tidyverse/broom/blob/master/R/utilities.R>.
 unrowname <- function(data = NULL) {
   stopifnot(!is.null(data), is.data.frame(data))
   rownames(data) <- NULL

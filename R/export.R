@@ -163,37 +163,37 @@
 #' @details Object to save must be a data.frame (or matrix) for most formats.
 #'
 #' This function is intended to be used in a NSE manner, where the file name
-#' is derived from the name of the object passed to the function (via \code{deparse(substitute(x))}).
-#' \code{export_path()} may be a suitable alternative if the user wants to specify
+#' is derived from the name of the object passed to the function (via `deparse(substitute(x))`).
+#' `export_path()` may be a suitable alternative if the user wants to specify
 #' the path name directly, although such an action can also be done with this function.
 #'
 #' Note that the user may not typically be concerned several arguments, including
-#' \code{overwrite}, \code{backup}, \code{path_backup}, \code{export}, and \code{return}.
+#' `overwrite`, `backup`, `path_backup`, `export`, and `return`.
 #' Nonetheless, these are provided in order to facilitate usage
 #' with scripts run using "meta"-parameters that determine what data to export, whether or not
 #' to overwrite, etc.
 #'
-#' Internally, a distinct method (\code{session::save.session})
+#' Internally, a distinct method (`session::save.session`)
 #' is used for the RData-type file extension in order
-#' to allow for importing of packages. Also, \code{ggplot2} objects are treated in
+#' to allow for importing of packages. Also, `ggplot2` objects are treated in
 #' a special manner.
 #'
-#' Many supplementary functions, using the format \code{export_ext_*()} are provided
-#' for convenience. (e.g. \code{export_ext_csv()} instead of \code{export_ext(..., ext = 'csv').}
+#' Many supplementary functions, using the format `export_ext_*()` are provided
+#' for convenience. (e.g. `export_ext_csv()` instead of `export_ext(..., ext = 'csv').`
 #'
 #' @inheritParams create_dir
 #' @param x data.frame (or matrix) for most formats.
 #' @param file character. Bare file (i.e. without folderor extension),
 #' @param ext character. Bare extension (i.e. without a dot). Must be one of valid formats.
-#' @param path character. Concatenation of \code{file}, \code{dir}, and \code{ext},
+#' @param path character. Concatenation of `file`, `dir`, and `ext`,
 #' @param overwrite logical.
 #' @param backup logical.
-#' @param path_backup like \code{path},
+#' @param path_backup like `path`,
 #' @param export logical. Indicates whether to actually carry res action. Intended to be used as a "catch all".
-#' @param return logical. Relevant ONLY if \code{export == FALSE}.
-#' Set to \code{TRUE} in order to preview what would be rendered.
+#' @param return logical. Relevant ONLY if `export == FALSE`.
+#' Set to `TRUE` in order to preview what would be rendered.
 #' @param ... dots. Parameters to pass directly to the internally used export function.
-#' Important for explicitly specifying non-default \code{ggplot2::ggsave()} parameters,
+#' Important for explicitly specifying non-default `ggplot2::ggsave()` parameters,
 #' as well as specifying worksheets, etc. for an Excel-based export method.
 #' @return character. Path.
 #' @examples
@@ -259,16 +259,16 @@ export_ext <-
 #' Export an object
 #'
 #' @description Saves data given a full path.
-#' @details This function works similarly to \code{export_ext()} internally, but the
+#' @details This function works similarly to `export_ext()` internally, but the
 #' order of the arguments are presented in a different order because it is assumed
-#' that \code{path} will be supplied. This not the assumption with the \code{export_ext()} function.
-#' If for some reason \code{path} is not provided, the \code{dir},
-#' \code{file}, and \code{ext} defaults are used.
+#' that `path` will be supplied. This not the assumption with the `export_ext()` function.
+#' If for some reason `path` is not provided, the `dir`,
+#' `file`, and `ext` defaults are used.
 #'
-#' Note that the difference between \code{export_path()} and \code{export_ext()}
-#' is not as significant as it is for \code{import_path()} and \code{import_ext()}.
+#' Note that the difference between `export_path()` and `export_ext()`
+#' is not as significant as it is for `import_path()` and `import_ext()`.
 #'
-#' Also, \code{export_path()} does not have an analogue to \code{import_path_cleanly()}.
+#' Also, `export_path()` does not have an analogue to `import_path_cleanly()`.
 #'
 #' @inheritParams export_ext
 #' @return object.

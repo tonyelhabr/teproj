@@ -1,6 +1,6 @@
 
 #' @source \url{https://stackoverflow.com/questions/29465941/format-number-in-r-with-both-comma-thousands-separator-and-specified-decimals}.
-format_total <- function(x = NULL, digits = 0, nsmall = 0, big.mark = ",") {
+.format_total <- function(x = NULL, digits = 0, nsmall = 0, big.mark = ",") {
   format(round(as.numeric(x), digits), nsmall = nsmall, big.mark = big.mark)
 }
 
@@ -23,7 +23,7 @@ format_total <- function(x = NULL, digits = 0, nsmall = 0, big.mark = ",") {
 #' @importFrom knitr kable
 #' @importFrom kableExtra kable_styling add_footnote
 create_kable <-
-  function(data = NULL,
+  function(data,
            n_show = 20L,
            show_footnote = ifelse(nrow(data) > n_show, TRUE, FALSE),
            n_footnote = nrow(data),
@@ -35,23 +35,23 @@ create_kable <-
     stopifnot(is.data.frame(data))
 
     # NOTE: This ensures that `n_footnote` is evaluated priort to the filter of the input data.
-    ret <- data
+    res <- data
     if (show_footnote & (n_show < nrow(data))) {
-      ret <- ret[1:n_show,]
+      res <- res[1:n_show,]
     }
 
-    ret <- knitr::kable(ret, format = format, escape = FALSE)
+    res <- knitr::kable(res, format = format, escape = FALSE)
 
     if (format == "html") {
-      ret <-
-        kableExtra::kable_styling(ret, full_width = full_width, position = position)
+      res <-
+        kableExtra::kable_styling(res, full_width = full_width, position = position)
 
       if (show_footnote) {
-        ret <-
-          kableExtra::add_footnote(ret, c(sprintf("# of total rows: %s", format_total(n_footnote))), notation = "number")
+        res <-
+          kableExtra::add_footnote(res, c(sprintf("# of total rows: %s", .format_total(n_footnote))), notation = "number")
       }
     }
-    ret
+    res
   }
 
 #' @rdname create_kable
@@ -107,12 +107,12 @@ create_kable_md <-
 #     n_kable <- n_show + nrow_match
 #     data_kable <- rbind(data_filt, data_match)
 #
-#     ret <-
+#     res <-
 #       create_kable(data_kable,
 #                    n_show = n_kable,
 #                    show_footnote = show_footnote,
 #                    n_footnote = n_footnote,
 #                    ...)
-#     ret
+#     res
 #   }
 

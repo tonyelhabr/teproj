@@ -2,7 +2,7 @@
 
 #' Custom Word document template
 #'
-#' @description None.
+#' @description Export an Rmarkdown file to a Word document using a custom template.
 #' @details All of the default arguments are the same as those from the original
 #' \code{rmarkdown::word_document()}. The \code{_te} version uses a personally
 #' customized Word document. The \code{_rstudio} version is the document
@@ -42,11 +42,33 @@ word_document_te <-
     )
   }
 
-#' @param ... dots. ARguments passed to \code{word_dcoument_te()}.
+#' @param ... dots. Arguments passed to \code{word_dcoument_te()}.
 #' @rdname word_document
 #' @export
 word_document_rstudio <-
   function(...,
            reference_docx = system.file("templates", "rstudio", "template-default.docx", package = "teproj")) {
     word_document_te(..., reference_docx = reference_docx)
+  }
+
+.add_template <-
+  function(template, ..., package = "teproj") {
+    if (!requireNamespace("usethis", quietly = TRUE)) {
+      stop("Must have `{usethis}` package installed.", call. = FALSE)
+    }
+    usethis::use_template(template = template, ..., package = package)
+  }
+
+#' Custom .Rprofile file
+#'
+#' @description Add a \code{.Rprofile} file to the project.
+#' @details Calls \code{usethis::use_template()}.
+#' @param template chracter. Default value is provided.
+#' @param ... dots. Arguments passed to \code{usethis::use_template()}.
+#' @rdname add_r_profile
+#' @export
+#' @seealso \url{https://github.com/r-lib/usethis/blob/master/R/template.R}.
+add_r_profile <-
+  function(..., template = ".Rprofile") {
+    .add_template(template = template, ...)
   }

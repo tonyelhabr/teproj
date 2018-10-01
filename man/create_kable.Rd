@@ -6,8 +6,8 @@
 \alias{create_kable_md}
 \title{Create a \code{knitr::kable} object}
 \usage{
-create_kable(data = NULL, n_show = 20L, show_footnote = ifelse(nrow(data)
-  > n_show, TRUE, FALSE), n_footnote = nrow(data), format = "html", ...,
+create_kable(data, n_show = 20L, show_footnote = ifelse(nrow(data) > n_show,
+  TRUE, FALSE), n_footnote = nrow(data), format = "html", ...,
   full_width = FALSE, position = "center")
 
 create_kable_html(..., format = "html")

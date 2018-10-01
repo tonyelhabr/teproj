@@ -54,10 +54,10 @@ additional details.}
 
 \item{pandoc_args}{Additional command line options to pass to pandoc}
 
-\item{...}{dots. ARguments passed to \code{word_dcoument_te()}.}
+\item{...}{dots. Arguments passed to \code{word_dcoument_te()}.}
 }
 \description{
-None.
+Export an Rmarkdown file to a Word document using a custom template.
 }
 \details{
 All of the default arguments are the same as those from the original

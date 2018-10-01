@@ -1,14 +1,14 @@
 
-get_path_backup_safely <-
+.get_path_backup_safely <-
   function(path = NULL,
            path_backup = NULL,
            backup = FALSE) {
     if(!backup) {
-      # print_argfalse_msg("overwrite")
+      # .print_argfalse_msg("overwrite")
       return(invisible())
     }
     if(is.null(path_backup) & is.null(path)) {
-      print_isnull_msg()
+      .print_isnull_msg()
       return(invisible())
     } else if (is.null(path_backup) & !is.null(path)) {
       ext <- tools::file_ext(path)
@@ -26,53 +26,53 @@ get_path_backup_safely <-
     invisible(path_backup)
   }
 
-create_backup <-
+.create_backup <-
   function(path = NULL,
            path_backup = NULL,
            backup = NULL,
            overwrite = FALSE) {
     if (!backup) {
-      # print_argfalse_msg("backup")
+      # .print_argfalse_msg("backup")
       return(invisible())
     }
 
     path_backup <-
-      get_path_backup_safely(path = path,
+      .get_path_backup_safely(path = path,
                              path_backup = path_backup,
                              backup = backup)
     if (file.exists(path_backup) & !overwrite) {
-      print_argfalse_msg("overwrite")
+      .print_argfalse_msg("overwrite")
       return(invisible())
     }
 
     file.copy(from = path, to = path_backup)
-    print_export_msg(path_backup)
+    .print_export_msg(path_backup)
     invisible(path_backup)
   }
 
 
-guess_ext <-
+.guess_ext <-
   function(x = NULL, ...) {
     if (is.null(x)) {
-      ret <- try({
+      res <- try({
         ggplot2::last_plot()
       }, silent = TRUE)
-      print_guess_msg()
-      if (is.null(ret)) {
-        print_isnull_msg()
+      .print_guess_msg()
+      if (is.null(res)) {
+        .print_isnull_msg()
         return(invisible(NULL))
       }
     } else if (ggplot2::is.ggplot(x)) {
-      print_autoexport_msg(".png")
-      ret <- "png"
+      .print_autoexport_msg(".png")
+      res <- "png"
     } else if (is.data.frame(x)) {
-      print_autoexport_msg(".csv")
-      ret <- "csv"
+      .print_autoexport_msg(".csv")
+      res <- "csv"
     }
-    ret
+    res
   }
 
-export_ggplot <-
+.export_ggplot <-
   function(x = NULL, path = NULL, ...) {
     ggplot2::ggsave(filename = path,
                     plot = x,
@@ -80,7 +80,7 @@ export_ggplot <-
     invisible(path)
   }
 
-export_readr_or_rio <-
+.export_readr_or_rio <-
   function(x = NULL,
            path = NULL,
            ext = NULL,
@@ -88,21 +88,21 @@ export_readr_or_rio <-
 
     fun_readr <- sprintf("readr::write_%s", ext)
     # browser()
-    ret <- try({
+    res <- try({
       do_call_with(fun_readr, list(x = x, path = path, ...))
     }, silent = TRUE)
 
-    if (inherits(ret, "try-error")) {
-      ret <- rio::export(x, path, ...)
-      if (!inherits(ret, "try-error")) {
-        print_nonreadr_msg("rio")
+    if (inherits(res, "try-error")) {
+      res <- rio::export(x, path, ...)
+      if (!inherits(res, "try-error")) {
+        .print_nonreadr_msg("rio")
       }
     }
 
     invisible(path)
   }
 
-export_common <-
+.export_xxx <-
   function(x = NULL,
            path = NULL,
            ext = NULL,
@@ -117,7 +117,7 @@ export_common <-
     }
 
     if (file.exists(path) & !overwrite) {
-      print_argfalse_msg("overwrite")
+      .print_argfalse_msg("overwrite")
       return(invisible())
     }
 
@@ -129,31 +129,31 @@ export_common <-
     create_dir(dir, overwrite = FALSE, backup = backup)
 
     if (ext %in% c("png")) {
-      print_nonreadr_msg("ggplot2")
+      .print_nonreadr_msg("ggplot2")
 
       if (is.null(x)) {
         x <- ggplot2::last_plot()
       }
-      ret <- export_ggplot(x = x, path = path, ...)
+      res <- .export_ggplot(x = x, path = path, ...)
 
     } else if (grepl("rda", tolower(ext))) {
       # x <- ls(parent.frame())
       # path <- gsub(ext, "rdata", path)
       # rio::export(x, path, ...)
-      ret <-
+      res <-
         suppressWarnings(utils::capture.output(session::save.session(path)))
-      ret <- path
+      res <- path
     } else {
-      ret <- export_readr_or_rio(x = x, path = path, ext = ext, ...)
+      res <- .export_readr_or_rio(x = x, path = path, ext = ext, ...)
 
     }
-    print_export_msg(ret)
+    .print_export_msg(res)
     path_backup <-
-      create_backup(path = path,
+      .create_backup(path = path,
                     path_backup = path_backup,
                     backup = backup,
                     overwrite = overwrite)
-    invisible(ret)
+    invisible(res)
   }
 
 
@@ -189,7 +189,7 @@ export_common <-
 #' @param overwrite logical.
 #' @param backup logical.
 #' @param path_backup like \code{path},
-#' @param export logical. Indicates whether to actually carry ret action. Intended to be used as a "catch all".
+#' @param export logical. Indicates whether to actually carry res action. Intended to be used as a "catch all".
 #' @param return logical. Relevant ONLY if \code{export == FALSE}.
 #' Set to \code{TRUE} in order to preview what would be rendered.
 #' @param ... dots. Parameters to pass directly to the internally used export function.
@@ -219,7 +219,7 @@ export_ext <-
   function(x = NULL,
            file = deparse(substitute(x)),
            dir = getwd(),
-           ext = guess_ext(x),
+           ext = .guess_ext(x),
            path = file.path(dir, paste0(file, ".", ext)),
            overwrite = TRUE,
            backup = FALSE,
@@ -229,20 +229,20 @@ export_ext <-
            ...) {
     # browser()
     if (!export & !return) {
-      print_argfalse_msg("export")
+      .print_argfalse_msg("export")
       return(invisible())
     }
 
     if (is.null(x) & is.null(ext)) {
-      print_isnull_msg()
+      .print_isnull_msg()
       return(invisible())
     }
 
     path <-
       get_path_safely(dir = dir, file = file, ext = ext, path = path)
 
-    ret <-
-      export_common(
+    res <-
+      .export_xxx(
         x = x,
         path = path,
         ext = ext,
@@ -253,7 +253,7 @@ export_ext <-
         return = return,
         ...
         )
-    invisible(ret)
+    invisible(res)
   }
 
 #' Export an object
@@ -284,21 +284,21 @@ export_path <-
            return = TRUE,
            dir = getwd(),
            file = deparse(substitute(x)),
-           ext = guess_ext(x),
+           ext = .guess_ext(x),
            ...) {
 
     if (!export & !return) {
-      print_argfalse_msg("export")
+      .print_argfalse_msg("export")
       return(invisible())
     }
 
     if (is.null(x)) {
-      print_isnull_msg()
+      .print_isnull_msg()
       return(invisible())
     }
 
     # if (is.null(ext)) {
-    #   print_isnull_msg()
+    #   .print_isnull_msg()
     #   return(invisible())
     # }
 
@@ -312,12 +312,12 @@ export_path <-
     }
 
     if (file.exists(path) & !overwrite) {
-      print_argfalse_msg("overwrite")
+      .print_argfalse_msg("overwrite")
       return(invisible())
     }
 
-    ret <-
-      export_common(
+    res <-
+      .export_xxx(
         x = x,
         path = path,
         ext = ext,
@@ -328,7 +328,7 @@ export_path <-
         return = return,
         ...
       )
-    invisible(ret)
+    invisible(res)
   }
 
 #' @export
@@ -338,17 +338,8 @@ export_ext_csv <- function(...)
 
 #' @export
 #' @rdname export_ext
-export_ext_xlsx <- function(...)
-  export_ext(ext = "xlsx", ...)
-
-#' @export
-#' @rdname export_ext
 export_ext_rdata <- function(...)
   export_ext(ext = "RData", ...)
-
-#' @export
-#' @rdname export_ext
-export_ext_RData <- export_ext_rdata
 
 #' @export
 #' @rdname export_ext
@@ -366,8 +357,5 @@ export_ext_png <- function(...)
 
 #' @export
 #' @rdname export_ext
-# export_viz <- export_ext_png
-export_gg <- function(...) {
-  # print_dpc_msg("export_ext_png")
-  export_ext(ext = "png", ...)
-}
+export_gg <- export_ext_png
+

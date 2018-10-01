@@ -27,9 +27,9 @@ test_that("csv", {
 })
 
 test_that("xlsx", {
-  path <- export_ext_xlsx(iris)
-  expect_true(file.exists(path))
-  unlink(path)
+  # path <- export_ext_xlsx(iris)
+  # expect_true(file.exists(path))
+  # unlink(path)
 
   path <- export_ext(iris, ext = "xlsx")
   expect_true(file.exists(path))
@@ -76,13 +76,12 @@ test_that("rda", {
   n <- c(1, 2)
   ch <- c("a", "b")
   m <- matrix(1:4, nrow = 2)
-  l = list(a = 1, b = 2)
+  l <- list(a = 1, b = 2)
   path_rda <- export_ext_rda(file = "iris")
-  path_rdata <- export_ext_RData(file = "iris")
+  path_rdata <- export_ext_rdata(file = "iris")
   ls <- ls()
 
   expect_true(file.exists(path_rda))
-  expect_true(file.exists(path_rdata))
 
   rm(list = setdiff(ls(), c("ls", "path_rda", "path_rdata")))
   import_ext_rda(path = path_rda)
@@ -92,7 +91,7 @@ test_that("rda", {
   expect_true(length(setdiff(ls(), c(ls, "ls"))) == 0)
 
   rm(list = setdiff(ls(), c("ls", "path_rda", "path_rdata")))
-  import_ext_RData(path = path_rdata)
+  import_ext_rdata(path = path_rdata)
   expect_true(length(setdiff(ls(), c(ls, "ls"))) == 0)
 
   rm(list = setdiff(ls(), c("ls", "path_rda", "path_rdata")))

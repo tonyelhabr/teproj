@@ -1,51 +1,27 @@
 
-import_readr_or_rio <-
+.import_readr_or_rio <-
   function(path = NULL, ext =ext, ...) {
 
     fun_readr <- sprintf("readr::read_%s", ext)
-    ret <- try({
+    res <- try({
       do_call_with(fun_readr, list(file = path))
     }, silent = TRUE)
 
-    if(inherits(ret, "try-error")) {
-      ret <- rio::import(path, ...)
-      if(!inherits(ret, "try-error")) {
-        print_nonreadr_msg("rio")
+    if(inherits(res, "try-error")) {
+      res <- rio::import(path, ...)
+      if(!inherits(res, "try-error")) {
+        .print_nonreadr_msg("rio")
       }
 
-      ret <- try(tibble::as_tibble(ret), silent = TRUE)
+      res <- try(tibble::as_tibble(res), silent = TRUE)
 
-      if(inherits(ret, "try-error")) {
-        print_tibblefail_msg()
+      if(inherits(res, "try-error")) {
+        .print_tibblefail_msg()
       }
     }
 
-    invisible(ret)
+    invisible(res)
   }
-
-# # See https://stackoverflow.com/questions/15811305/how-can-i-have-this-deparse-function-working.
-# g = function(x) {
-#   x.try <- try(x, silent = TRUE)
-#   if (!inherits(x.try, "try-error") & is.character(x.try)) x.try
-#   else deparse(substitute(x))
-# }
-#
-# # test it ret
-# if (exists("test")) rm(test)
-#
-# g(test) # "test"
-# g("test") # "test"
-#
-# test <- "xyz"
-# g(test) # "xyz"
-# g("test") # "test"
-#
-# test <- 3
-# g(test) # "test"
-# g("test") # "test"
-
-# z <- try(import_ext(iris, ext = "csv"))
-# z
 
 #' Import an object
 #'
@@ -86,7 +62,7 @@ import_ext <-
            ...) {
     # browser()
     if (!import & !return) {
-      print_argfalse_msg("import")
+      .print_argfalse_msg("import")
       return(invisible())
     }
 
@@ -98,14 +74,14 @@ import_ext <-
     }
 
     if(missing(file) & missing(ext)) {
-      print_ismiss_msg()
+      .print_ismiss_msg()
       return(invisible())
     }
 
     path <- get_path_safely(dir, file, ext, path)
 
     if(!file.exists(path)) {
-      print_filenotexist_msg(path)
+      .print_filenotexist_msg(path)
       return(invisible(path))
     }
 
@@ -115,12 +91,12 @@ import_ext <-
 
     if(grepl("rda", tolower(ext))) {
       # x <- ls(parent.frame())
-      ret <- suppressWarnings(utils::capture.output(session::restore.session(path)))
+      res <- suppressWarnings(utils::capture.output(session::restore.session(path)))
     } else {
-      ret <- import_readr_or_rio(path = path, ext = ext)
+      res <- .import_readr_or_rio(path = path, ext = ext)
     }
 
-    invisible(ret)
+    invisible(res)
   }
 
 #' Import an object
@@ -135,12 +111,12 @@ import_path <-
   function(path = NULL, import = TRUE, return = TRUE, ...) {
 
     if (!import & !return) {
-      print_argfalse_msg("import")
+      .print_argfalse_msg("import")
       return(invisible())
     }
 
     if(!file.exists(path)) {
-      print_filenotexist_msg(path)
+      .print_filenotexist_msg(path)
       return(invisible(path))
     }
 
@@ -150,8 +126,8 @@ import_path <-
 
     stopifnot(!is.null(path))
     ext <- tools::file_ext(path)
-    ret <- import_readr_or_rio(path = path, ext = ext)
-    invisible(ret)
+    res <- .import_readr_or_rio(path = path, ext = ext)
+    invisible(res)
   }
 
 #' Import an object
@@ -164,9 +140,9 @@ import_path <-
 #' @importFrom janitor clean_names
 import_path_cleanly <-
   function(path = NULL, ...) {
-    ret <- import_path(path = path, ...)
-    ret <- try({janitor::clean_names(ret)}, silent = TRUE)
-    invisible(ret)
+    res <- import_path(path = path, ...)
+    res <- try({janitor::clean_names(res)}, silent = TRUE)
+    invisible(res)
   }
 
 #' @export
@@ -180,10 +156,6 @@ import_ext_xlsx <- function(...) import_ext(ext = "xlsx", ...)
 #' @export
 #' @rdname import_ext
 import_ext_rdata <- function(...) import_ext(ext = "RData", ...)
-
-#' @export
-#' @rdname import_ext
-import_ext_RData <- import_ext_rdata
 
 #' @export
 #' @rdname import_ext

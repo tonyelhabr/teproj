@@ -81,14 +81,15 @@ get_path_lazily <-
 #' @param x list.
 #' @return list.
 #' @export
-sort_named_list <- function(x = NULL) {
+sort_named_list <- function(x) {
   x[order(names(x))]
 }
 
 #' \code{do.call()} with package namespace
 #'
 #' @description Allows a package to explicitly included in \code{do.call()}
-#' @details None.
+#' @details It's probably better to just use \code{purrr::invoke()}, since it
+#' does the same thing that this function was crated to do.
 #' @param what character. package name and function specified in explicit
 #' namespace notation (i.e. \code{package::function}).
 #' @param args list. Arguments passed to function parsed from \code{what}.

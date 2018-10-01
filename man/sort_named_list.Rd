@@ -4,7 +4,7 @@
 \alias{sort_named_list}
 \title{Sort a named list}
 \usage{
-sort_named_list(x = NULL)
+sort_named_list(x)
 }
 \arguments{
 \item{x}{list.}

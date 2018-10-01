@@ -8,7 +8,7 @@
 #   paste0(strwrap(msg, width = 80), sep = "", collapse = "\n")
 # }
 
-pkg_render_opts <- list(
+.PKG_RENDER_OPTS <- list(
   teproj.render.echo = FALSE,
   teproj.render.cache = FALSE,
   teproj.render.results = "hide",
@@ -16,8 +16,8 @@ pkg_render_opts <- list(
   teproj.render.fig.show = "hide",
   teproj.render.fig.width = 10,
   teproj.render.fig.height = 10,
-  # teproj.render.ret.width = 10,
-  # teproj.render.ret.height = 10,
+  # teproj.render.res.width = 10,
+  # teproj.render.res.height = 10,
   teproj.render.warning = FALSE,
   teproj.render.message = FALSE
 )
@@ -35,14 +35,14 @@ pkg_render_opts <- list(
 #   teproj.print.err = TRUE
 # )
 
-# pkg_default_opts <-
-#   c(pkg_print_opts, pkg_ggsave_opts, pkg_render_opts)
-pkg_default_opts <- c(pkg_render_opts)
+# .PKG_DEFAULT_OPTS <-
+#   c(pkg_print_opts, pkg_ggsave_opts, .PKG_RENDER_OPTS)
+.PKG_DEFAULT_OPTS <- c(.PKG_RENDER_OPTS)
 
 .onLoad <- function(libname, pkgname) {
   op <- options()
-  toset <- !(names(pkg_default_opts) %in% names(op))
+  toset <- !(names(.PKG_DEFAULT_OPTS) %in% names(op))
   if (any(toset))
-    options(pkg_default_opts[toset])
+    options(.PKG_DEFAULT_OPTS[toset])
   invisible()
 }

@@ -5,7 +5,6 @@
 \alias{import_ext_csv}
 \alias{import_ext_xlsx}
 \alias{import_ext_rdata}
-\alias{import_ext_RData}
 \alias{import_ext_rda}
 \alias{import_ext_rds}
 \title{Import an object}
@@ -18,8 +17,6 @@ import_ext_csv(...)
 import_ext_xlsx(...)
 
 import_ext_rdata(...)
-
-import_ext_RData(...)
 
 import_ext_rda(...)
 

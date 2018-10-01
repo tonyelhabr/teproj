@@ -18,12 +18,12 @@ create_dir <- function(dir = paste0(getwd(), "/"),
                        create = TRUE,
                        ...) {
   if (!create) {
-    print_argfalse_msg("create")
+    .print_argfalse_msg("create")
     return(invisible())
   }
 
   if (is.null(dir)) {
-    print_isnull_msg()
+    .print_isnull_msg()
     return(invisible())
   }
 
@@ -42,8 +42,7 @@ create_dir <- function(dir = paste0(getwd(), "/"),
     if (overwrite) {
       # unlink(list.files(dir, full.names = TRUE), recursive = TRUE, force = TRUE)
       dir.create(dir, recursive = TRUE, showWarnings = FALSE)
-      message(sprintf("Overwriting %s (because `overwrite == TRUE`)."),
-              dir)
+      message(sprintf("Overwriting %s (because `overwrite == TRUE`)."), dir)
     }
   } else {
     dir.create(dir, recursive = TRUE, showWarnings = FALSE)

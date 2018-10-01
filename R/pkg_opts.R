@@ -11,9 +11,9 @@ get_pkg_opts_renamed <- function(type = c("print", "render", "ggsave"), pkg_opts
   type <- match.arg(type)
   opts <- get_pkg_opts_verbose(type, pkg_opts_prefix)
   rgx <- paste0(pkg_opts_prefix, "\\.", type, "\\.")
-  ret <- opts
-  names(ret) <- gsub(rgx, "", names(opts))
-  ret
+  res <- opts
+  names(res) <- gsub(rgx, "", names(opts))
+  res
 }
 
 get_pkg_opts_verbose <- function(type = c("print", "render", "ggsave"), pkg_opts_prefix = "teproj") {
@@ -51,8 +51,8 @@ set_pkg_render_opts <-
            fig.show = getOption("teproj.render.fig.show"),
            fig.width = getOption("teproj.render.fig.width"),
            fig.height = getOption("teproj.render.fig.height"),
-           # ret.width = getOption("teproj.render.ret.width"),
-           # ret.height = getOption("teproj.render.ret.height"),
+           # res.width = getOption("teproj.render.res.width"),
+           # res.height = getOption("teproj.render.res.height"),
            warning = getOption("teproj.render.warning"),
            message = getOption("teproj.render.message")) {
     options(teproj.render.echo = echo)
@@ -62,8 +62,8 @@ set_pkg_render_opts <-
     options(teproj.render.fig.show = fig.show)
     options(teproj.render.fig.width = fig.width)
     options(teproj.render.fig.height = fig.height)
-    # options(teproj.render.ret.width = ret.width)
-    # options(teproj.render.ret.height = ret.height)
+    # options(teproj.render.res.width = res.width)
+    # options(teproj.render.res.height = res.height)
     options(teproj.render.warning = warning)
     options(teproj.render.message = message)
   }

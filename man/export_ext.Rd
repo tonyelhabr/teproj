@@ -3,9 +3,7 @@
 \name{export_ext}
 \alias{export_ext}
 \alias{export_ext_csv}
-\alias{export_ext_xlsx}
 \alias{export_ext_rdata}
-\alias{export_ext_RData}
 \alias{export_ext_rda}
 \alias{export_ext_rds}
 \alias{export_ext_png}
@@ -13,17 +11,13 @@
 \title{Export an object}
 \usage{
 export_ext(x = NULL, file = deparse(substitute(x)), dir = getwd(),
-  ext = guess_ext(x), path = file.path(dir, paste0(file, ".", ext)),
+  ext = .guess_ext(x), path = file.path(dir, paste0(file, ".", ext)),
   overwrite = TRUE, backup = FALSE, path_backup = NULL, export = TRUE,
   return = TRUE, ...)
 
 export_ext_csv(...)
 
-export_ext_xlsx(...)
-
 export_ext_rdata(...)
-
-export_ext_RData(...)
 
 export_ext_rda(...)
 
@@ -50,7 +44,7 @@ export_gg(...)
 
 \item{path_backup}{like \code{path},}
 
-\item{export}{logical. Indicates whether to actually carry ret action. Intended to be used as a "catch all".}
+\item{export}{logical. Indicates whether to actually carry res action. Intended to be used as a "catch all".}
 
 \item{return}{logical. Relevant ONLY if \code{export == FALSE}.
 Set to \code{TRUE} in order to preview what would be rendered.}

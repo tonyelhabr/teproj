@@ -1,16 +1,15 @@
 
 
-# NOTE: This function is to be used only internally by some functions in this package.
-check_files_exist <- function(paths, dir, pattern, ...) {
+.check_files_exist <- function(paths, dir, pattern, ...) {
   # Debugging...
   # path = "."
 
   # Assumption...
   exist <- FALSE
-  ret <- ""
+  res <- ""
   # browser()
   if(missing(paths) & missing(dir)) {
-    print_ismiss_msg()
+    .print_ismiss_msg()
 
   } else if (missing(paths) & !missing(dir)) {
     # TODO: For some reason include.dirs = FALSE does not produce expected output?
@@ -44,10 +43,10 @@ check_files_exist <- function(paths, dir, pattern, ...) {
     #     include.dirs = FALSE
     #   )
     if(length(paths) == 0) {
-      print_nofile_msg()
+      .print_nofile_msg()
     } else {
       exist <- TRUE
-      ret <- paths
+      res <- paths
     }
   } else {
     paths_exist <- as.logical(lapply(paths, file.exists))
@@ -55,8 +54,8 @@ check_files_exist <- function(paths, dir, pattern, ...) {
       warning("Specified files do not exist.")
     } else {
       exist <- TRUE
-      ret <- paths
+      res <- paths
     }
   }
-  list(exist = exist, paths = ret)
+  list(exist = exist, paths = res)
 }

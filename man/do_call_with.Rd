@@ -21,5 +21,6 @@ namespace notation (i.e. \code{package::function}).}
 Allows a package to explicitly included in \code{do.call()}
 }
 \details{
-None.
+It's probably better to just use \code{purrr::invoke()}, since it
+does the same thing that this function was crated to do.
 }

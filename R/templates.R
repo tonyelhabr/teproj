@@ -55,7 +55,10 @@ word_document_rstudio <-
 #'
 #' @description Add a {template} file to the project.
 #' @details Calls `usethis::use_template()`. Really only would need to use
-#' `system.file()`, `file.copy()`, etc. if there are no variables to be filled in the template file. (See the `data` argument of `usethis::use_template()`.
+#' `system.file()`, `file.copy()`, etc. if there are no variables to be filled in the template file.
+#' (See the `data` argument of `usethis::use_template()`.
+#' Nonetheless, `usethis::use_template()`'s additional functionality (e.g.
+#' prompting the user about overwriting files) is useful.
 #' @param template character. Name of template file. Default value is provided.
 #' @param save_as character. Location/name of file to save. Default is provided.
 #' @param package character. Name of package. Default is name of this package.
@@ -67,11 +70,11 @@ word_document_rstudio <-
     if (!requireNamespace("usethis", quietly = TRUE)) {
       stop("Must have `{usethis}` package installed.", call. = FALSE)
     }
-    if (!requireNamespace("whisker", quietly = TRUE)) {
-      stop("Must have `{whisker}` package installed.", call. = FALSE)
-    }
-    dir_save <- dirname(save_as)
-    create_dir(dir_save)
+    # if (!requireNamespace("whisker", quietly = TRUE)) {
+    #   stop("Must have `{whisker}` package installed.", call. = FALSE)
+    # }
+    dir <- dirname(save_as)
+    create_dir(dir)
 
     # # NOTE: Not working...???
     # usethis::use_template(template = template, package = package)
@@ -109,15 +112,20 @@ word_document_rstudio <-
     # # NOTE: Not working...???
     # template_contents <- whisker::whisker.render(template_content_raw)
     # So doing this instead...
-    #  Main action in `whisker::whisker.render()`.
-    tmpl <- whisker:::parseTemplate(template_contents_raw)
-    tmpl_parse <- tmpl(list())
+    # Main action in `whisker::whisker.render()`.
+    # .parseTemplate <- utils::getFromNamespace("whisker", "parseTemplate")
+    # tmpl <- .parseTemplate(template_contents_raw)
+    # tmpl_parse <- tmpl(list())
+    # Actually, if no data to pass to `tampl()`, then just skip this.
 
+    tmpl_parse <- template_contents_raw
     # Back to `usethis::render_template()`.
     template_contents <- strsplit(tmpl_parse, "\n")[[1]]
 
     # Back to `usethis::use_template()`.
-    new <- usethis:::write_over(save_as, template_contents)
+    # Use `getFromNamespace()` to avoid R CMD CHECK note about non-exported function.
+    .write_over <- utils::getFromNamespace("write_over", "usethis")
+    new <- .write_over(save_as, template_contents)
 
     # Skipping some of the other lines in `usethis::use_template()`.
     invisible(new)
@@ -141,3 +149,31 @@ use_task_schedule <-
            ...) {
     .use_template(template = template, save_as = save_as)
   }
+
+#' @rdname use_template
+#' @export
+use_r_buildignore <-
+  function(template = ".Rbuildignore",
+           save_as = template,
+           ...) {
+    .use_template(template = template, save_as = save_as)
+  }
+
+#' @rdname use_template
+#' @export
+use_gitignore <-
+  function(template = ".gitignore",
+           save_as = template,
+           ...) {
+    .use_template(template = template, save_as = save_as)
+  }
+
+#' @rdname use_template
+#' @export
+use_config_yml <-
+  function(template = "config.yml",
+           save_as = template,
+           ...) {
+    .use_template(template = template, save_as = save_as)
+  }
+

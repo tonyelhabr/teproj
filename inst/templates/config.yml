@@ -1,0 +1,8 @@
+default:
+  export_data: true
+  dir_data: "data"
+  export_viz: true
+  dir_viz: "figs"
+  path_data: !expr list.files(path = file.path("data"), pattern = "\\.csv$", full.names = TRUE)
+ 
+production:

@@ -4,6 +4,9 @@
 \alias{.use_template}
 \alias{use_r_profile}
 \alias{use_task_schedule}
+\alias{use_r_buildignore}
+\alias{use_gitignore}
+\alias{use_config_yml}
 \title{Custom template file}
 \usage{
 .use_template(template, save_as = template, package = "teproj", ...)
@@ -12,6 +15,12 @@ use_r_profile(template = ".Rprofile", save_as = template, ...)
 
 use_task_schedule(template = "schedule-task.R", save_as = file.path("R",
   template), ...)
+
+use_r_buildignore(template = ".Rbuildignore", save_as = template, ...)
+
+use_gitignore(template = ".gitignore", save_as = template, ...)
+
+use_config_yml(template = "config.yml", save_as = template, ...)
 }
 \arguments{
 \item{template}{character. Name of template file. Default value is provided.}
@@ -27,7 +36,10 @@ Add a {template} file to the project.
 }
 \details{
 Calls \code{usethis::use_template()}. Really only would need to use
-\code{system.file()}, \code{file.copy()}, etc. if there are no variables to be filled in the template file. (See the \code{data} argument of \code{usethis::use_template()}.
+\code{system.file()}, \code{file.copy()}, etc. if there are no variables to be filled in the template file.
+(See the \code{data} argument of \code{usethis::use_template()}.
+Nonetheless, \code{usethis::use_template()}'s additional functionality (e.g.
+prompting the user about overwriting files) is useful.
 }
 \seealso{
 \url{https://github.com/r-lib/usethis/blob/master/R/template.R}.

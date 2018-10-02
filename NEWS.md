@@ -1,4 +1,27 @@
 
+# teproj 0.0.0.9000
+
+The following functions are no longer exported/included in this package.
+
++ __`*_proj_io()`__ functions - "Meta" functions for an RStudio project.
+`parse_proj_io()` attempts to create a `tibble` with
+information regarding the input/output files in each script in an RStudio project.
+The output could be used in a number of ways, such as in a node-dependency graph
+visualizing how the project's files relate to one another.
+`render_proj_io()` (a wrapper for `rmarkdwon::render()`) converts .R scripts
+formatted with Roxygen2 style comments to .Rmd files. This is intended to be used
+by users (like me) who prefer the "feel" of an R script when working with data that will
+eventually be presented in a .Rmd file/report and don't want to work directly with
+a .Rmd file. [^r2rmd] __NOTE:__
+
+
+[^r2rmd]:
+See [this blog post](http://brooksandrew.github.io/simpleblog/articles/render-reports-directly-from-R-scripts/) for more discussion.
+
++ __`set_pkg_*_opts()`__ functions - Functions to facilitate setting this package's options
+(This is preferable to calling `options()` directly,
+which requires knowing exactly what the name of the option is).
+
 # teproj 0.0.1.0
 
 + Added a `NEWS.md` file to track changes to the package.
@@ -13,13 +36,13 @@ favors this syntax for non-API functions.)
 + Exported functions that were previously internal only, such as `do_call_with()` and `warningf()`.
 + Cleaned up the internal of existing functions to reduce redundancy.
 + Removed the package options for printing messages and `ggplot2` defaults
-because I determined that they were superfluous.
+because I decided that they are superfluous.
 
 # teproj 0.0.1.2
 
 + Made return from `create_kable()` not invisible for non-html formats.
 (It is returned as invisible for html in order to avoid showing it in the Viewer pane.
-+ Added template `te`.
++ Added Word document template `te`.
 
 # teproj 0.0.1.3
 

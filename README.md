@@ -1,14 +1,6 @@
 
 [![Project Status: WIP ? Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
 
-------------------------------------------------------------------------
-
-[![minimal R version](https://img.shields.io/badge/R%3E%3D-3.4.1-6666ff.svg)](https://cran.r-project.org/) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/teproj)](https://cran.r-project.org/package=teproj) [![packageversion](https://img.shields.io/badge/Package%20version-0.0.1.1-orange.svg?style=flat-square)](commits/master)
-
-------------------------------------------------------------------------
-
-[![Last-changedate](https://img.shields.io/badge/last%20change-2018--05--07-yellowgreen.svg)](/commits/master)
-
 teproj <img src="man/figures/logo.png" align="right"/>
 ======================================================
 
@@ -26,26 +18,32 @@ Notes
 
 Here is a list of all functions in the package.
 
-    #>  [1] "create_dir"          "create_kable"        "create_kable_html"  
-    #>  [4] "create_kable_md"     "do_call_with"        "export_ext"         
-    #>  [7] "export_ext_csv"      "export_ext_png"      "export_ext_rda"     
-    #> [10] "export_ext_rdata"    "export_ext_RData"    "export_ext_rds"     
-    #> [13] "export_ext_xlsx"     "export_gg"           "export_path"        
-    #> [16] "get_path_lazily"     "get_path_safely"     "import_ext"         
-    #> [19] "import_ext_csv"      "import_ext_rda"      "import_ext_rdata"   
-    #> [22] "import_ext_RData"    "import_ext_rds"      "import_ext_xlsx"    
-    #> [25] "import_path"         "import_path_cleanly" "render_proj_io"     
-    #> [28] "set_pkg_render_opts" "sort_named_list"     "warningf"
+    #>  [1] "create_dir"            "create_kable"         
+    #>  [3] "create_kable_html"     "create_kable_md"      
+    #>  [5] "do_call_with"          "export_ext"           
+    #>  [7] "export_ext_csv"        "export_ext_png"       
+    #>  [9] "export_ext_rda"        "export_ext_rdata"     
+    #> [11] "export_ext_rds"        "export_gg"            
+    #> [13] "export_path"           "get_path_lazily"      
+    #> [15] "get_path_safely"       "import_ext"           
+    #> [17] "import_ext_csv"        "import_ext_rda"       
+    #> [19] "import_ext_rdata"      "import_ext_rds"       
+    #> [21] "import_ext_xlsx"       "import_path"          
+    #> [23] "import_path_cleanly"   "set_pkg_render_opts"  
+    #> [25] "sort_named_list"       "unrowname"            
+    #> [27] "use_r_profile"         "use_task_schedule"    
+    #> [29] "warningf"              "word_document_rstudio"
+    #> [31] "word_document_te"
 
 ### Inspiration
 
-The original purpose of this package was to provide a convenient interface to the `readr` and `rio` functions for importing and exporting data to various file formats. Because I often found myself using the variable name as the name of the file, I figured it would be nice to implement "lazy" methods for doing so. Under the hood, this packages's functions use "Non-Standared Evaluation" (NSE) (using techniques that may or may not be up to date with the latest `tidyverse` methods of NSE 😄).
+The original purpose of this package was to provide a convenient interface to the `{readr}` and `{rio}` functions for importing and exporting data to various file formats. Because I often found myself using the variable name as the name of the file, I figured it would be nice to implement "lazy" methods for doing so. Under the hood, this packages's functions use "Non-Standared Evaluation" (NSE) (using techniques that may or may not be up to date with the latest `{tidyverse}` methods of NSE 😄).
 
 Additionally, while implementing these `import`/`export` functions, I realized a couple of other functions that I often use in projects (e.g. `render_proj_io()` could be added. (I don't necessarily recommend using these "other" functions, however, because they are tailored towards my use cases.)
 
 ### Syntax [1]
 
--   `import_ext*()` functions - Implement `rio`-like interface (note the use of the verb "import") for reading data from files. The main function is `import_ext()`, which requires that the file extension be specified with the `ext` paramater. Shorcuts for the extensions that I find myself using most often are implemented via the syntax `import_ext_[ext]()` (e.g. `import_ext_csv()`). Under the hood, preference is given to `readr` methods if they exist and can be recognized. (This is because it reads in `data.frame`s as `tibble`s by default. Otherwise, an attempt is made to use a `rio` method (with subsequent coercion to a `tibble`).
+-   `import_ext*()` functions - Implement `{rio}`-like interface (note the use of the verb "import") for reading data from files. The main function is `import_ext()`, which requires that the file extension be specified with the `ext` paramater. Shorcuts for the extensions that I find myself using most often are implemented via the syntax `import_ext_[ext]()` (e.g. `import_ext_csv()`). Under the hood, preference is given to `{readr}` methods if they exist and can be recognized. (This is because it reads in `data.frame`s as `tibble`s by default. Otherwise, an attempt is made to use a `{rio}` method (with subsequent coercion to a `tibble`).
 
 -   `export_ext*()` functions - Counterpart to the `import_ext_*()` functions. Notably, exporting of plots is supported. However, the support is not robust-- it is intended only for use with `ggplot2` plots, and only to the `png` file format. The `units`, `width`, and `height` are set to package option values (see `options("teproj.ggsave.units"`, etc.) if they are not all specified explicitly together.
 

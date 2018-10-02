@@ -3,16 +3,6 @@ output: github_document
 ---
 [![Project Status: WIP ? Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
  
----
- 
-[![minimal R version](https://img.shields.io/badge/R%3E%3D-3.4.1-6666ff.svg)](https://cran.r-project.org/)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/teproj)](https://cran.r-project.org/package=teproj)
-[![packageversion](https://img.shields.io/badge/Package%20version-0.0.1.1-orange.svg?style=flat-square)](commits/master)
- 
----
- 
-[![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)
-
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -70,12 +60,12 @@ ls("package:teproj")
 ### Inspiration
 
 The original purpose of this package was to provide a convenient interface
-to the `readr` and `rio` functions for importing and exporting data to various file formats.
+to the `{readr}` and `{rio}` functions for importing and exporting data to various file formats.
 Because I often found myself using the variable name as the name of the file,
 I figured it would be nice to implement "lazy" methods for doing so.
 Under the hood, this packages's functions use "Non-Standared Evaluation" (NSE)
 (using techniques that may or may
-not be up to date with the latest `tidyverse` methods of NSE `r emo::ji("smile")`).
+not be up to date with the latest `{tidyverse}` methods of NSE `r emo::ji("smile")`).
 
 Additionally, while implementing these `import`/`export` functions,
 I realized a couple of other functions that I often
@@ -93,14 +83,14 @@ are tailored towards my use cases.)
 The `fundManageR` package inspired some of the format of this section.
 See its [README file](https://github.com/abresler/fundManageR/blob/master/readme.Rmd).
 
-+ `import_ext*()` functions - Implement `rio`-like interface (note the use
++ `import_ext*()` functions - Implement `{rio}`-like interface (note the use
 of the verb "import") for reading data from files.
 The main function is `import_ext()`, which requires that the file extension be specified with
 the `ext` paramater. Shorcuts for the extensions that I find myself using most often
 are implemented via the syntax `import_ext_[ext]()` (e.g. `import_ext_csv()`).
-Under the hood, preference is given to `readr` methods if they exist and can be recognized.
+Under the hood, preference is given to `{readr}` methods if they exist and can be recognized.
 (This is because it reads in `data.frame`s as `tibble`s by default.
-Otherwise, an attempt is made to use a `rio` method (with subsequent coercion to a `tibble`).
+Otherwise, an attempt is made to use a `{rio}` method (with subsequent coercion to a `tibble`).
 
 + `export_ext*()` functions - Counterpart to the `import_ext_*()` functions.
 Notably, exporting of plots is supported. However, the support is not robust--

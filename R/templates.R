@@ -54,30 +54,90 @@ word_document_rstudio <-
 #' Custom template file
 #'
 #' @description Add a {template} file to the project.
-#' @details Calls `usethis::use_template()`.
-#' @param template chracter. Default value is provided.
+#' @details Calls `usethis::use_template()`. Really only would need to use
+#' `system.file()`, `file.copy()`, etc. if there are no variables to be filled in the template file. (See the `data` argument of `usethis::use_template()`.
+#' @param template character. Name of template file. Default value is provided.
+#' @param save_as character. Location/name of file to save. Default is provided.
+#' @param package character. Name of package. Default is name of this package.
 #' @param ... dots. Arguments passed to `usethis::use_template()`.
-#' @rdname add_template
-#' @export
+#' @rdname use_template
 #' @seealso <https://github.com/r-lib/usethis/blob/master/R/template.R>.
-add_template <-
-  function(template, ..., package = "teproj") {
+.use_template <-
+  function(template, save_as = template, package = "teproj", ...) {
     if (!requireNamespace("usethis", quietly = TRUE)) {
       stop("Must have `{usethis}` package installed.", call. = FALSE)
     }
-    usethis::use_template(template = template, ..., package = package)
+    if (!requireNamespace("whisker", quietly = TRUE)) {
+      stop("Must have `{whisker}` package installed.", call. = FALSE)
+    }
+    dir_save <- dirname(save_as)
+    create_dir(dir_save)
+
+    # # NOTE: Not working...???
+    # usethis::use_template(template = template, package = package)
+
+    # So recreating the functionality of the
+    # `usethis::use_template()` and the `whisker::render.plot()` functions
+    # (the latter of which is called by the former).
+
+    # First line in `usethis::use_template()`.
+    # # NOTE: Not working...???
+    # template_contents <-
+    #   usethis:::render_template(
+    #     template = ".Rprofile",
+    #     package = "teproj"
+    #   )
+
+    # First line in `usethis::render_template()`.
+    # (called in `usethis::use_template()`).
+    # template_path <-
+    #   usethis:::find_template(
+    #     template = ".Rprofile",
+    #     package = "teproj"
+    #   )
+    # Or just do this...
+    template_path <-
+      base::system.file(
+        "templates",
+        template,
+        package = package
+      )
+
+    # Second line in `usethis::render_template()` (broken down into parts).
+    template_contents_raw <-
+      readLines(template_path, encoding = "UTF-8")
+    # # NOTE: Not working...???
+    # template_contents <- whisker::whisker.render(template_content_raw)
+    # So doing this instead...
+    #  Main action in `whisker::whisker.render()`.
+    tmpl <- whisker:::parseTemplate(template_contents_raw)
+    tmpl_parse <- tmpl(list())
+
+    # Back to `usethis::render_template()`.
+    template_contents <- strsplit(tmpl_parse, "\n")[[1]]
+
+    # Back to `usethis::use_template()`.
+    new <- usethis:::write_over(save_as, template_contents)
+
+    # Skipping some of the other lines in `usethis::use_template()`.
+    invisible(new)
+
   }
 
-#' @rdname add_template
+#' @rdname use_template
 #' @export
-add_r_profile <-
-  function(template = ".Rprofile", ...) {
-    add_template(template = template, ...)
+use_r_profile <-
+  function(template = ".Rprofile",
+           save_as = template,
+           ...) {
+    .use_template(template = template, save_as = save_as)
   }
 
-#' @rdname add_template
+#' @rdname use_template
 #' @export
-add_task_schedule <-
-  function(..., template = "schedule-task.R") {
-    add_template(template = template, ...)
+use_task_schedule <-
+  function(template = "schedule-task.R",
+           save_as = file.path("R", template),
+           ...) {
+    .use_template(template = template, save_as = save_as)
   }

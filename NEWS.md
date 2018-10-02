@@ -20,3 +20,9 @@ because I determined that they were superfluous.
 + Made return from `create_kable()` not invisible for non-html formats.
 (It is returned as invisible for html in order to avoid showing it in the Viewer pane.
 + Added template `te`.
+
+# teproj 0.0.1.3
+
++ Added `use_*()` functions.
++ Prefixed all non-exported functions with `.`.
++ Removed badges from README file.

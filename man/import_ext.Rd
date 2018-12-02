@@ -10,7 +10,7 @@
 \title{Import an object}
 \usage{
 import_ext(file, dir = getwd(), ext, path = file.path(dir, paste0(file, ".",
-  ext)), import = TRUE, return = TRUE, ...)
+  ext)), ..., import = TRUE, return = TRUE)
 
 import_ext_csv(...)
 
@@ -31,12 +31,12 @@ import_ext_rds(...)
 
 \item{path}{character. Concatenation of \code{file}, \code{dir}, and \code{ext},}
 
+\item{...}{dots. Arguments to pass dircetly to internally used import function.}
+
 \item{import}{logical. Indicates whether to actually execute function.}
 
 \item{return}{logical. Relevant ONLY if \code{export == FALSE}.
 Set to \code{TRUE} in order to preview what would be rendered.}
-
-\item{...}{dots. Arguments to pass dircetly to internally used import function.}
 }
 \value{
 object.

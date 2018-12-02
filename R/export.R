@@ -1,4 +1,19 @@
 
+.print_export_msg <- function(path) {
+  message(sprintf("Saving as %s.", path))
+}
+
+.print_guessggplot_msg <- function() {
+  parent.call <- sys.call(sys.nframe() - 1L)
+  message("Guessing that `x` is the most recent ggplot2 plot.")
+}
+
+
+.print_autoexport_msg <- function(ext = NULL) {
+  parent.call <- sys.call(sys.nframe() - 1L)
+  message(sprintf("Exporting as `%s`.", ext))
+}
+
 .get_path_backup_safely <-
   function(path = NULL,
            path_backup = NULL,
@@ -11,7 +26,7 @@
       .print_isnull_msg()
       return(invisible())
     } else if (is.null(path_backup) & !is.null(path)) {
-      ext <- tools::file_ext(path)
+      ext <- .file_ext(path)
       path_noext <- tools::file_path_sans_ext(path)
       path_backup <- file.path(paste0(
         path_noext,
@@ -51,45 +66,56 @@
   }
 
 
+# #' @details A straight "copy-paste" of the `.file_ext()` function.
+# #' @seealso `.file_ext`
+.file_ext <-
+  function (x)  {
+    pos <- regexpr("\\.([[:alnum:]]+)$", x)
+    ifelse(pos > -1L, substring(x, pos + 1L), "")
+  }
+
 .guess_ext <-
-  function(x = NULL, ...) {
+  function(x = NULL, path = NULL, ...) {
     if (is.null(x)) {
       res <- try({
         ggplot2::last_plot()
       }, silent = TRUE)
-      .print_guess_msg()
+      .print_guessggplot_msg()
       if (is.null(res)) {
         .print_isnull_msg()
         return(invisible(NULL))
       }
+    } else if(!is.null(path)) {
+      res <- .file_ext(path)
     } else if (ggplot2::is.ggplot(x)) {
-      .print_autoexport_msg(".png")
       res <- "png"
     } else if (is.data.frame(x)) {
-      .print_autoexport_msg(".csv")
       res <- "csv"
     }
-    res
+    .print_autoexport_msg(res)
+    invisible(res)
   }
 
 .export_ggplot <-
   function(x = NULL, path = NULL, ...) {
-    ggplot2::ggsave(filename = path,
+    ggplot2::ggsave(
+      filename = path,
                     plot = x,
-                    ...)
+                    ...
+      )
     invisible(path)
   }
 
 .export_readr_or_rio <-
-  function(x = NULL,
-           path = NULL,
-           ext = NULL,
+  function(x,
+           path,
+           ext,
            ...) {
 
     fun_readr <- sprintf("readr::write_%s", ext)
     # browser()
     res <- try({
-      do_call_with(fun_readr, list(x = x, path = path, ...))
+      .do_call_with(fun_readr, list(x = x, path = path, ...))
     }, silent = TRUE)
 
     if (inherits(res, "try-error")) {
@@ -102,7 +128,7 @@
     invisible(path)
   }
 
-.export_xxx <-
+.export_ext <-
   function(x = NULL,
            path = NULL,
            ext = NULL,
@@ -155,7 +181,6 @@
                     overwrite = overwrite)
     invisible(res)
   }
-
 
 #' Export an object
 #'
@@ -214,7 +239,6 @@
 #' @importFrom ggplot2 last_plot ggsave
 #' @importFrom session save.session
 #' @importFrom utils capture.output
-#' @importFrom tools file_ext
 export_ext <-
   function(x = NULL,
            file = deparse(substitute(x)),
@@ -239,10 +263,10 @@ export_ext <-
     }
 
     path <-
-      get_path_safely(dir = dir, file = file, ext = ext, path = path)
+      .get_path_safely(dir = dir, file = file, ext = ext, path = path)
 
     res <-
-      .export_xxx(
+      .export_ext(
         x = x,
         path = path,
         ext = ext,
@@ -273,7 +297,6 @@ export_ext <-
 #' @inheritParams export_ext
 #' @return object.
 #' @export
-#' @importFrom tools file_ext
 export_path <-
   function(x = NULL,
            path = NULL,
@@ -284,7 +307,7 @@ export_path <-
            return = TRUE,
            dir = getwd(),
            file = deparse(substitute(x)),
-           ext = .guess_ext(x),
+           ext = .guess_ext(x, path),
            ...) {
 
     if (!export & !return) {
@@ -304,7 +327,7 @@ export_path <-
 
     if(is.null(path)) {
       path <-
-        get_path_safely(dir = dir, file = file, ext = ext, path = path)
+        .get_path_safely(dir = dir, file = file, ext = ext, path = path)
     }
 
     if (!export & return) {
@@ -317,7 +340,7 @@ export_path <-
     }
 
     res <-
-      .export_xxx(
+      .export_ext(
         x = x,
         path = path,
         ext = ext,

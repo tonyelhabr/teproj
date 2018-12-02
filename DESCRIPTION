@@ -1,7 +1,7 @@
 Type: Package
 Package: teproj
 Title: Tony's Personal Package
-Version: 0.0.1.2
+Version: 0.0.1.4
 Authors@R: 
     person(given = "Tony",
            family = "ElHabr",

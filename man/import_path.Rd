@@ -4,17 +4,17 @@
 \alias{import_path}
 \title{Import an object}
 \usage{
-import_path(path = NULL, import = TRUE, return = TRUE, ...)
+import_path(path, ..., import = TRUE, return = TRUE)
 }
 \arguments{
 \item{path}{character. Concatenation of \code{file}, \code{dir}, and \code{ext},}
+
+\item{...}{dots. Arguments to pass dircetly to internally used import function.}
 
 \item{import}{logical. Indicates whether to actually execute function.}
 
 \item{return}{logical. Relevant ONLY if \code{export == FALSE}.
 Set to \code{TRUE} in order to preview what would be rendered.}
-
-\item{...}{dots. Arguments to pass dircetly to internally used import function.}
 }
 \value{
 object.

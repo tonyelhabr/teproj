@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Project Status: Inactive – The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
@@ -14,41 +14,15 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r eval = FALSE, echo = FALSE}
-viz_void <- ggplot2::ggplot() + ggplot2::theme_void()
-
-dir_logo <- file.path("man", "figures")
-if(!exists(dir_logo)) {
-  dir.create(dir_logo, recursive = TRUE)
-}
-path_logo <- file.path(dir_logo, paste0("logo.png"))
-hexSticker::sticker(
-  subplot = viz_void,
-  package = "teproj",
-  filename = path_logo,
-  p_y = 1.0,
-  p_color = "black",
-  # p_family = "sans",
-  p_size = 40,
-  h_size = 1.5,
-  h_color = "black",
-  h_fill = "yellow"
-)
-logo <- magick::image_read(path_logo)
-magick::image_write(magick::image_scale(logo, "120"), path = path_logo)
-# badgecreatr::badgeplacer(status = "active", githubaccount = "tonyelhabr", githubrepo = "teproj")
-badgecreatr::projectstatusbadge(status = "active")
-```
-
 # teproj <img src="man/figures/logo.png" align="right"/>
 
 ##  Introduction
 
 This package contains functions that I use often in projects.
 
-### Installation
+## Installation
 
-`devtools::install_github("tonyelhabr/teproj")`.
+`remotes::install_github("tonyelhabr/teproj")`.
 
 ## Notes
 
@@ -59,7 +33,7 @@ library("teproj")
 ls("package:teproj")
 ```
 
-### Inspiration
+## Inspiration
 
 The original purpose of this package was to provide a convenient interface
 to the `{readr}` and `{rio}` functions for importing and exporting data to various file formats.
@@ -71,15 +45,17 @@ not be up to date with the latest `{tidyverse}` methods of NSE `r emo::ji("smile
 
 Additionally, while implementing these `import`/`export` functions,
 I realized a couple of other functions that I often
-use in projects (e.g. `render_proj_io()` could be added.
+use in projects could be added.
 (I don't necessarily recommend using these "other" functions, however, because they 
 are tailored towards my use cases.)
 
-```{r include = FALSE, eval = FALSE}
-# print(covr::package_coverage())
+
+```{r covrg, include = FALSE, eval = FALSE}
+covrg <- covr::package_coverage()
+print(covrg)
 ```
 
-### Syntax [^readme]
+## Syntax
 
 + __`import_ext*()`__ functions - Implement `{rio}`-like interface (note the use
 of the verb "import") for reading data from files.
@@ -93,11 +69,4 @@ Otherwise, an attempt is made to use a `{rio}` method (with subsequent coercion 
 + __`export_ext*()`__ functions - Counterpart to the `import_ext_*()` functions.
 Notably, exporting of plots is supported. However, the support is not robust--
 it is intended only for use with `ggplot2` plots, and only to the `png` file format.
-The `units`, `width`, and `height` are set to package option values
-(see `options("teproj.ggsave.units"`, etc.)
-if they are not all specified explicitly together.
-
-## Examples
-
-TODO!
 

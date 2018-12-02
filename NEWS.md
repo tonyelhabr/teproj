@@ -49,3 +49,18 @@ because I decided that they are superfluous.
 + Added `use_*()` functions.
 + Prefixed all non-exported functions with `.`.
 + Removed badges from README file.
+
+# teproj 0.0.1.4
+
++ Un-exporting some of the "never used" functions (and prefixing them with ".")
++ Fixed "bug" with `export_path()` where it would try to export `data.frame` to csv
+even if a path is specified.
++ Considering this to (maybe) be the final release.
+    + Considering creating new packages `{teio}` and `{teauto}` to handle
+    files and common project functions. Doing this will allow development
+    with improved personal R skills without having to worry about revising old
+    conventions used in this package. (Perhaps this might be viewed similarly
+    to how `{dplyr}` was created to improve upon `{plyr}`.)
+    With this in mind, this package should be viewed as a "success" in learning
+    about package development and creating functions that are very useful (to me).
+    

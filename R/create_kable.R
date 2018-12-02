@@ -44,11 +44,19 @@ create_kable <-
 
     if (format == "html") {
       res <-
-        kableExtra::kable_styling(res, full_width = full_width, position = position)
+        kableExtra::kable_styling(
+          res,
+          full_width = full_width,
+          position = position
+        )
 
       if (show_footnote) {
         res <-
-          kableExtra::add_footnote(res, c(sprintf("# of total rows: %s", .format_total(n_footnote))), notation = "number")
+          kableExtra::add_footnote(
+            res,
+            c(sprintf("# of total rows: %s", .format_total(n_footnote))),
+            notation = "number"
+          )
       }
     }
     res
@@ -67,52 +75,3 @@ create_kable_md <-
   function(..., format = "markdown") {
     create_kable(..., format = format)
   }
-
-# TODO: Make sure rows are unique!
-# #' Create a \code{knitr::kable} object
-# #'
-# #' @description Creates a \code{knitr::kable} kable object.
-# #' This function is designed to allow the user to add specific rows
-# #' to the output from \code{create_kable()} by specifying a column and a regular expression
-# #' with which to filter the column.
-# #' @details Defaults which are probably desired by the user are specified.
-# #' @inheritParams create_kable
-# #' @param col character. Name of column in \code{data} to which to apply string detection.
-# #' @param rgx character. Regular expression used to filter \code{data} (based on values in \code{col_rgx}
-# #' @export
-# create_kable_filt_at <-
-#   function(data = NULL,
-#            col = NULL,
-#            rgx = NULL,
-#            n_show = 20L,
-#            show_footnote = TRUE,
-#            n_footnote = nrow(data),
-#            ...) {
-#
-#     stopifnot(is.data.frame(data))
-#     stopifnot(is.character(col), col %in% names(data))
-#     stopifnot(is.character(rgx))
-#     # data <- filter(data, grepl(rgx, !!rlang::sym(col)))
-#
-#     data_filt <- data
-#     if(nrow(data_filt) > n_show) {
-#       data_filt <- data_filt[1:n_show, ]
-#     }
-#
-#     col_select <- data[,col]
-#     idx_select <- grepl(rgx, col_select)
-#     data_match <- data[idx_select, ]
-#
-#     nrow_match <- nrow(data_match)
-#     n_kable <- n_show + nrow_match
-#     data_kable <- rbind(data_filt, data_match)
-#
-#     res <-
-#       create_kable(data_kable,
-#                    n_show = n_kable,
-#                    show_footnote = show_footnote,
-#                    n_footnote = n_footnote,
-#                    ...)
-#     res
-#   }
-

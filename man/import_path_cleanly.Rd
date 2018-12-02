@@ -4,7 +4,7 @@
 \alias{import_path_cleanly}
 \title{Import an object}
 \usage{
-import_path_cleanly(path = NULL, ...)
+import_path_cleanly(path, ...)
 }
 \arguments{
 \item{path}{character. Concatenation of \code{file}, \code{dir}, and \code{ext},}
@@ -18,5 +18,5 @@ object.
 Reads in data given a full path and 'cleans' the names.
 }
 \details{
-Calls \code{import_path} internally.
+Calls \code{import_path()} internally.
 }

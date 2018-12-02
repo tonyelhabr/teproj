@@ -26,10 +26,10 @@
 # NOTE: Not sure why, but need to set mustWork = FALSE) explicitly, otherwise
 # warnings appear. (This behavior is not observed when calling normalizePath directly.
 # Howver, normalizePath() specifies `winslash = "\\"` by default, which is annoying.)
-normalize_path <- function(path = NULL, winslash = "/", mustWork = NA) {
-  if (!is.null(path))
-    normalizePath(path, winslash = winslash, mustWork = mustWork)
-}
+# normalize_path <- function(path = NULL, winslash = "/", mustWork = NA) {
+#   if (!is.null(path))
+#     normalizePath(path, winslash = winslash, mustWork = mustWork)
+# }
 
 #' Construct a file path
 #'
@@ -39,11 +39,11 @@ normalize_path <- function(path = NULL, winslash = "/", mustWork = NA) {
 #' This helps with argument checking with package functions.
 #' @inheritParams export_ext
 #' @return character. Path.
-#' @export
-get_path_safely <-
-  function(dir = NULL,
-           file = NULL,
-           ext = NULL,
+#' @keywords internal
+.get_path_safely <-
+  function(dir,
+           file,
+           ext,
            path = NULL) {
     if (is.null(path)) {
       path <- file.path(dir, paste0(file, ".", ext))
@@ -63,8 +63,8 @@ get_path_safely <-
 #' @param ... dots. Arguments parssed to construct name of file path without the directory nor
 #' the extension. Uses `paste()` to collapse all arguments between `dir` and `ext`.
 #' @return character. Path.
-#' @export
-get_path_lazily <-
+#' @keywords internal
+.get_path_lazily <-
   function(dir = NULL, ..., ext = NULL) {
     dots <- list(...)
     if (is.null(ext)) {
@@ -80,8 +80,8 @@ get_path_lazily <-
 #' @details None.
 #' @param x list.
 #' @return list.
-#' @export
-sort_named_list <- function(x) {
+#' @keywords internal
+.sort_named_list <- function(x) {
   x[order(names(x))]
 }
 
@@ -95,8 +95,8 @@ sort_named_list <- function(x) {
 #' @param args list. Arguments passed to function parsed from `what`.
 #' @param ... dots. Arguments passed to `do.call()`.
 #' @source <https://stackoverflow.com/questions/10022436/do-call-in-combination-with>.
-#' @export
-do_call_with <- function(what, args, ...) {
+#' @keywords internal
+.do_call_with <- function(what, args, ...) {
   if (is.character(what)) {
     fn <- strsplit(what, "::")[[1]]
     what <- if (length(fn) == 1) {
@@ -123,8 +123,8 @@ do_call_with <- function(what, args, ...) {
 #' @param ... dots. Arguments pased to `sprintf()`.
 #' @param n integer. Number of calling environment frame.
 #' @source <https://stackoverflow.com/questions/9596918/r-warning-wrapper-raise-to-parent-function>.
-#' @export
-warningf <- function(..., n = 1L){
+#' @keywords internal
+.warningf <- function(..., n = 1L){
   parent_call <- sys.call(sys.nframe() - n)
   warning(paste("In", parent_call, ":", sprintf(...)), call. = FALSE)
 }
@@ -133,9 +133,9 @@ warningf <- function(..., n = 1L){
 #'
 #' @param data data frame
 #' @return data.frame
-#' @export
 #' @source <https://github.com/tidyverse/broom/blob/master/R/utilities.R>.
-unrowname <- function(data = NULL) {
+#' @keywords internal
+.unrowname <- function(data = NULL) {
   stopifnot(!is.null(data), is.data.frame(data))
   rownames(data) <- NULL
   data

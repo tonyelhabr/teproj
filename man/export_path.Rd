@@ -6,7 +6,7 @@
 \usage{
 export_path(x = NULL, path = NULL, overwrite = TRUE, backup = FALSE,
   path_backup = NULL, export = TRUE, return = TRUE, dir = getwd(),
-  file = deparse(substitute(x)), ext = .guess_ext(x), ...)
+  file = deparse(substitute(x)), ext = .guess_ext(x, path), ...)
 }
 \arguments{
 \item{x}{data.frame (or matrix) for most formats.}

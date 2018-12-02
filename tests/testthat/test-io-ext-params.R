@@ -6,17 +6,19 @@ require("tibble")
 
 test_that("import NSE", {
 
-  idx_1 <- 1
-  idx_2 <- 3
+  idx_1 <- 1.1
+  idx_2 <- 3.0
   idxs <- c(idx_1:idx_2)
   df <- data.frame(one = idxs, two = letters[idxs], stringsAsFactors = FALSE)
   df2 <- tibble::as_tibble(df)
   path <- export_ext_csv(df)
   expect_true(file.exists(path))
-  expected <- df
+  expected <- df2
+  # expected$one <- as.integer(expected$one)
   rm("df")
 
   actual <- import_ext_csv(df)
+  # actual$one <- as.integer(actual$one)
   # expect_equal(actual, expected)
   expect_equivalent(actual, expected)
   # expected <- df2

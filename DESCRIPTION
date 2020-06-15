@@ -1,7 +1,7 @@
 Type: Package
 Package: teproj
 Title: Tony's Personal Package
-Version: 0.0.1.4
+Version: 0.0.1.5
 Authors@R: 
     person(given = "Tony",
            family = "ElHabr",
@@ -13,7 +13,7 @@ Description: This is a package with functions for my projects.
     too.
 License: MIT + file LICENSE
 Depends:
-    R (>= 3.4.1)
+    R (>= 3.5.0)
 Imports: 
     ggplot2,
     janitor,
@@ -33,5 +33,5 @@ Suggests:
     whisker
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 7.0.2
 Roxygen: list(markdown = TRUE)

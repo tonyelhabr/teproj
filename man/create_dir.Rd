@@ -4,8 +4,13 @@
 \alias{create_dir}
 \title{Create a directory}
 \usage{
-create_dir(dir = paste0(getwd(), "/"), overwrite = FALSE, backup = TRUE,
-  create = TRUE, ...)
+create_dir(
+  dir = paste0(getwd(), "/"),
+  overwrite = FALSE,
+  backup = TRUE,
+  create = TRUE,
+  ...
+)
 }
 \arguments{
 \item{dir}{character. Folder name (with a trailing slash).}

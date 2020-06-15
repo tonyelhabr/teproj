@@ -10,10 +10,20 @@
 \alias{export_gg}
 \title{Export an object}
 \usage{
-export_ext(x = NULL, file = deparse(substitute(x)), dir = getwd(),
-  ext = .guess_ext(x), path = file.path(dir, paste0(file, ".", ext)),
-  overwrite = TRUE, backup = FALSE, path_backup = NULL, export = TRUE,
-  return = TRUE, ...)
+export_ext(
+  x = NULL,
+  file = deparse(substitute(x)),
+  dir = getwd(),
+  ext = .guess_ext(x),
+  path = file.path(dir, paste0(file, ".", ext)),
+  overwrite = TRUE,
+  backup = FALSE,
+  path_backup = NULL,
+  export = TRUE,
+  return = TRUE,
+  verbose = FALSE,
+  ...
+)
 
 export_ext_csv(...)
 
@@ -78,8 +88,8 @@ is used for the RData-type file extension in order
 to allow for importing of packages. Also, \code{ggplot2} objects are treated in
 a special manner.
 
-Many supplementary functions, using the format \code{export_ext_*()} are provided
-for convenience. (e.g. \code{export_ext_csv()} instead of \code{export_ext(..., ext = 'csv').}
+Many supplementary functions, using the format \verb{export_ext_*()} are provided
+for convenience. (e.g. \code{export_ext_csv()} instead of \verb{export_ext(..., ext = 'csv').}
 }
 \examples{
 \dontrun{

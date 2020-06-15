@@ -9,8 +9,15 @@
 \alias{import_ext_rds}
 \title{Import an object}
 \usage{
-import_ext(file, dir = getwd(), ext, path = file.path(dir, paste0(file, ".",
-  ext)), ..., import = TRUE, return = TRUE)
+import_ext(
+  file,
+  dir = getwd(),
+  ext,
+  path = file.path(dir, paste0(file, ".", ext)),
+  ...,
+  import = TRUE,
+  return = TRUE
+)
 
 import_ext_csv(...)
 
@@ -59,6 +66,6 @@ Internally, a distinct method (\code{session::restore.session})
 is used for the RData-type file extension in order
 to allow for importing of packages.
 
-Many supplementary functions, using the format \code{import_ext_*()} are provided
-for convenience. (e.g. \code{import_ext_csv()} instead of \code{import_ext(..., ext = 'csv').}
+Many supplementary functions, using the format \verb{import_ext_*()} are provided
+for convenience. (e.g. \code{import_ext_csv()} instead of \verb{import_ext(..., ext = 'csv').}
 }

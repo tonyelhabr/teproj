@@ -11,10 +11,9 @@
 
 .print_isnull_msg <-
   function(...,  msg_input = "", n = 2) {
-    # browser()
     # parent.call <- sys.call(sys.nframe() - 1L)
     msg_input <- .get_msg_input(..., msg_input = msg_input)
-    .warningf("Required input %sis NULL.", msg_input, n = n)
+    .warningf("Required input `%s`is NULL.", msg_input, n = n)
   }
 
 .print_ismiss_msg <-
@@ -47,8 +46,9 @@
 .print_dpc_msg <-
   function(f = NULL) {
     parent.call <- sys.call(sys.nframe() - 1L)
-    if (missing(f))
+    if (missing(f)) {
       f <- as.character(NULL)
+    }
     message(sprintf("This function is deprecated. Please use %s instead.", f))
   }
 
@@ -63,8 +63,9 @@
   function(..., msg_input = "") {
     parent.call <- sys.call(sys.nframe() - 1L)
     dots <- list(...)
-    if (length(dots) > 0)
+    if (length(dots) > 0) {
       msg_input <- gsub(",$", " ", paste(names(dots), collapse = ","))
+    }
     message(sprintf("Ingoring parameters: %s.", msg_input))
   }
 
@@ -74,7 +75,8 @@
            msg_input = "",
            n = 2) {
     dots <- list(...)
-    if (length(dots) > 0)
+    if (length(dots) > 0) {
       msg_input <- gsub(",$", " ", paste(dots, collapse = ","))
+    }
     message(sprintf("Using {%s} function instead of `{readr}` function.", pkg))
   }

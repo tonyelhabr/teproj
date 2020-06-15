@@ -1,36 +1,4 @@
 
-# # https://stackoverflow.com/questions/7597559/grep-using-a-character-vector-with-multiple-patterns?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-# #Returns all items in a list that are not contained in toMatch
-# #toMatch can be a single item or a list of items
-# exclude <- function (theList, toMatch){
-#   return(setdiff(theList,include(theList,toMatch)))
-# }
-#
-# #Returns all items in a list that ARE contained in toMatch
-# #toMatch can be a single item or a list of items
-# include <- function (theList, toMatch){
-#   matches <- unique (grep(paste(toMatch,collapse="|"),
-#                           theList, value=TRUE))
-#   return(matches)
-# }
-
-# Modified from https://github.com/yihui/knitr/blob/master/R/utils.R.
-# .is_windows <- function() .Platform$OS.type == "windows"
-# .is_abs_path <- function(x) {
-#   if (.is_windows())
-#     grepl(':', x, fixed = TRUE) || grepl('^\\\\', x) else grepl('^[/~]', x)
-# }
-
-# NOTE: This is used by *_proj_io() functions.
-# Modified from https://github.com/rstudio/rmarkdown/blob/81c209271e06266115e08263dbcde5d007e4d77c/R/includes.R
-# NOTE: Not sure why, but need to set mustWork = FALSE) explicitly, otherwise
-# warnings appear. (This behavior is not observed when calling normalizePath directly.
-# Howver, normalizePath() specifies `winslash = "\\"` by default, which is annoying.)
-# normalize_path <- function(path = NULL, winslash = "/", mustWork = NA) {
-#   if (!is.null(path))
-#     normalizePath(path, winslash = winslash, mustWork = mustWork)
-# }
-
 #' Construct a file path
 #'
 #' @description Construct a file path given a directory, file, and extension.

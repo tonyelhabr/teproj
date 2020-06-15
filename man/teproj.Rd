@@ -3,7 +3,6 @@
 \docType{package}
 \name{teproj}
 \alias{teproj}
-\alias{teproj-package}
 \title{teproj}
 \description{
 This is Tony's package for projects.

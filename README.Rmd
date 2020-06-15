@@ -9,12 +9,12 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   message = FALSE,
   warning = FALSE,
-  comment = "#>",
-  fig.path = "man/README/README-"
+  comment = '#>',
+  fig.path = 'man/README/README-'
 )
 ```
 
-# teproj <img src="man/figures/logo.png" align="right"/>
+# teproj <img src='man/figures/logo.png' align='right'/>
 
 ##  Introduction
 
@@ -22,15 +22,15 @@ This package contains functions that I use often in projects.
 
 ## Installation
 
-`remotes::install_github("tonyelhabr/teproj")`.
+`remotes::install_github('tonyelhabr/teproj')`.
 
 ## Notes
 
 Here is a list of all functions in the package.
 
 ```{r echo = FALSE}
-library("teproj")
-ls("package:teproj")
+library(teproj)
+ls('package:teproj')
 ```
 
 ## Inspiration
@@ -38,15 +38,15 @@ ls("package:teproj")
 The original purpose of this package was to provide a convenient interface
 to the `{readr}` and `{rio}` functions for importing and exporting data to various file formats.
 Because I often found myself using the variable name as the name of the file,
-I figured it would be nice to implement "lazy" methods for doing so.
-Under the hood, this packages's functions use "Non-Standared Evaluation" (NSE)
+I figured it would be nice to implement 'lazy' methods for doing so.
+Under the hood, this packages's functions use 'Non-Standared Evaluation' (NSE)
 (using techniques that may or may
-not be up to date with the latest `{tidyverse}` methods of NSE `r emo::ji("smile")`).
+not be up to date with the latest `{tidyverse}` methods of NSE `r emo::ji('smile')`).
 
 Additionally, while implementing these `import`/`export` functions,
 I realized a couple of other functions that I often
 use in projects could be added.
-(I don't necessarily recommend using these "other" functions, however, because they 
+(I don't necessarily recommend using these 'other' functions, however, because they 
 are tailored towards my use cases.)
 
 
@@ -58,7 +58,7 @@ print(covrg)
 ## Syntax
 
 + __`import_ext*()`__ functions - Implement `{rio}`-like interface (note the use
-of the verb "import") for reading data from files.
+of the verb 'import') for reading data from files.
 The main function is `import_ext()`, which requires that the file extension be specified with
 the `ext` paramater. Shorcuts for the extensions that I find myself using most often
 are implemented via the syntax `import_ext_[ext]()` (e.g. `import_ext_csv()`).

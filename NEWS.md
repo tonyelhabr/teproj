@@ -64,3 +64,8 @@ even if a path is specified.
     With this in mind, this package should be viewed as a "success" in learning
     about package development and creating functions that are very useful (to me).
     
+# teproj 0.0.1.5
+
++ Removed message when saving ggplots.
++ suppressed warnings in tests
+

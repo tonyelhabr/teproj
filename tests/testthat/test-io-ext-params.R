@@ -2,7 +2,7 @@
 
 context("io-ext-params")
 require("datasets")
-require("tibble")
+suppressWarnings(require("tibble"))
 
 test_that("import NSE", {
 
@@ -57,8 +57,6 @@ test_that("ggsave params", {
   viz_iris <-
     ggplot2::qplot(data = iris, x = Petal.Length, y = Petal.Width)
   path <- export_ext_png(viz_iris)
-  # TODO: Need to figure out how to check for messages...
-  expect_message(export_ext_png(viz_iris, units = "cm"))
   unlink(path)
 
 })

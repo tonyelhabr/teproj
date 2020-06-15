@@ -13,8 +13,11 @@
 
 use_r_profile(template = ".Rprofile", save_as = template, ...)
 
-use_task_schedule(template = "schedule-task.R", save_as = file.path("R",
-  template), ...)
+use_task_schedule(
+  template = "schedule-task.R",
+  save_as = file.path("R", template),
+  ...
+)
 
 use_r_buildignore(template = ".Rbuildignore", save_as = template, ...)
 

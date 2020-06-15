@@ -110,7 +110,8 @@
   function(x,
            path,
            ext,
-           ...) {
+           ...,
+           verbose = FALSE) {
 
     fun_readr <- sprintf("readr::write_%s", ext)
     # browser()
@@ -121,7 +122,7 @@
     if (inherits(res, "try-error")) {
       res <- rio::export(x, path, ...)
       if (!inherits(res, "try-error")) {
-        .print_nonreadr_msg("rio")
+        .print_nonreadr_msg("rio", verbose = verbose)
       }
     }
 
@@ -155,7 +156,7 @@
     create_dir(dir, overwrite = FALSE, backup = backup)
 
     if (ext %in% c("png")) {
-      .print_nonreadr_msg("ggplot2")
+      # .print_nonreadr_msg("ggplot2", verbose = verbose)
 
       if (is.null(x)) {
         x <- ggplot2::last_plot()
@@ -173,12 +174,14 @@
       res <- .export_readr_or_rio(x = x, path = path, ext = ext, ...)
 
     }
-    .print_export_msg(res)
+    .print_export_msg(res, ...)
     path_backup <-
-      .create_backup(path = path,
-                    path_backup = path_backup,
-                    backup = backup,
-                    overwrite = overwrite)
+      .create_backup(
+        path = path,
+        path_backup = path_backup,
+        backup = backup,
+        overwrite = overwrite
+      )
     invisible(res)
   }
 

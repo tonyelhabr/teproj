@@ -3,7 +3,7 @@
 
 context("io-path")
 require("datasets")
-require("janitor")
+suppressWarnings(require("janitor"))
 
 test_that("csv", {
 
@@ -31,7 +31,7 @@ test_that("csv", {
   unlink(path)
 })
 
-require("ggplot2")
+suppressWarnings(require("ggplot2"))
 test_that("png", {
 
   viz_iris <-
